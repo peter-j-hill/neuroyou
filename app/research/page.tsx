@@ -44,7 +44,7 @@ export default async function ResearchPage() {
                 </h2>
                 {paper.body && (
                   <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
-                    {paper.body.slice(0, 220)}…
+                    {paper.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220)}…
                   </p>
                 )}
               </div>

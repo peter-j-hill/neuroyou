@@ -43,9 +43,9 @@ export default async function BlogPage() {
                   {post.title}
                 </h2>
                 {post.body && (
-                  <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl"
-                    dangerouslySetInnerHTML={{ __html: post.body.replace(/<[^>]*>/g, '').slice(0, 220) + '…' }}
-                  />
+                  <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
+                    {post.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220)}…
+                  </p>
                 )}
               </div>
               <span className="text-[var(--blue)] text-sm shrink-0 mt-1">→</span>
