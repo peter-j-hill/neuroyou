@@ -44,16 +44,27 @@ export default function RichEditor({ content, onChange }: Props) {
     const form = new FormData()
     form.append('file', file)
 
-    const res = await fetch('/api/upload-image', { method: 'POST', body: form })
-    const data = await res.json()
+    try {
+      const res = await fetch('/api/upload-image', { method: 'POST', body: form })
+      const text = await res.text()
+      let data: { url?: string; error?: string }
+      try {
+        data = JSON.parse(text)
+      } catch {
+        alert('Upload failed: server returned unexpected response.\n\n' + text.slice(0, 200))
+        e.target.value = ''
+        return
+      }
 
-    if (data.url) {
-      editor.chain().focus().setImage({ src: data.url }).run()
-    } else {
-      alert('Upload failed: ' + (data.error ?? 'unknown error'))
+      if (data.url) {
+        editor.chain().focus().setImage({ src: data.url }).run()
+      } else {
+        alert('Upload failed: ' + (data.error ?? 'unknown error') + '\n\nStatus: ' + res.status)
+      }
+    } catch (err) {
+      alert('Upload failed: ' + String(err))
     }
 
-    // Reset so same file can be re-selected
     e.target.value = ''
   }
 
