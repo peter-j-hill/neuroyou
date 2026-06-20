@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9f8f6;
+  --foreground: #1a1a18;
+  --muted: #6b6b65;
+  --border: #e2e0da;
+  --accent: #2d4a3e;
+  --accent-light: #e8ede9;
 }
 
 @theme inline {
@@ -12,15 +16,43 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.font-sans {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Prose for long-form content */
+.prose {
+  max-width: 68ch;
+}
+
+.prose p {
+  margin-bottom: 1.4em;
+  color: var(--foreground);
+}
+
+.prose h2 {
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  font-size: 1.35rem;
+  color: var(--foreground);
+}
+
+.prose h3 {
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+  font-size: 1.1rem;
+  color: var(--foreground);
 }
