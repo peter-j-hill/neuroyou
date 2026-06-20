@@ -134,8 +134,8 @@ h1, h2, h3, h4, h5, h6 {
 input[type="email"],
 input[type="password"],
 input[type="text"] {
-  background: var(--graphite);
-  border: 1px solid #1A1D24;
+  background: #1A2035;
+  border: 1px solid #2E3348;
   color: var(--white);
   font-family: var(--font-inter), sans-serif;
   font-weight: 300;
@@ -150,7 +150,7 @@ input[type="text"]:focus {
 }
 
 input::placeholder {
-  color: #374151;
+  color: #6B7280;
 }
 
 /* Scrollbar */
