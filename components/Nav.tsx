@@ -44,7 +44,8 @@ export default function Nav() {
         {/* Nav links */}
         <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
           <Link href="/exercises" className={isActive('/exercises')}>Exercises</Link>
-          <Link href="/blog" className={isActive('/blog')}>Research</Link>
+          <Link href="/research" className={isActive('/research')}>Research</Link>
+          <Link href="/blog" className={isActive('/blog')}>Blog</Link>
           <Link href="/neutralize" className={`${isActive('/neutralize')} text-[var(--blue)]`}>Neutralize</Link>
 
           {user ? (

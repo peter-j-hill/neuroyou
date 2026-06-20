@@ -13,7 +13,8 @@ export default function Footer() {
         <nav className="flex gap-6 text-[0.65rem] tracking-widest uppercase text-[var(--muted)]">
           <Link href="/start-here" className="hover:text-[var(--white)] transition-colors">Start Here</Link>
           <Link href="/exercises" className="hover:text-[var(--white)] transition-colors">Exercises</Link>
-          <Link href="/blog" className="hover:text-[var(--white)] transition-colors">Research</Link>
+          <Link href="/research" className="hover:text-[var(--white)] transition-colors">Research</Link>
+          <Link href="/blog" className="hover:text-[var(--white)] transition-colors">Blog</Link>
           <Link href="/neutralize" className="hover:text-[var(--blue)] transition-colors text-[var(--blue)]">Neutralize</Link>
         </nav>
         <p className="text-[0.6rem] tracking-wider text-[var(--muted)]">

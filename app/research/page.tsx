@@ -3,49 +3,49 @@ import Link from 'next/link'
 
 export const revalidate = 60
 
-export default async function BlogPage() {
+export default async function ResearchPage() {
   const supabase = await createClient()
-  const { data: posts } = await supabase
+  const { data: papers } = await supabase
     .from('blog_posts')
     .select('id, title, published_at, body')
-    .eq('type', 'blog')
+    .eq('type', 'research')
     .order('published_at', { ascending: false })
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-20">
       <p className="label mb-10">
         <span className="node mr-3" />
-        Blog / Articles
+        Research / White Papers
       </p>
       <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
-        Blog
+        Research
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-xl leading-relaxed">
-        Shorter, more conversational pieces. Practical observations, applications,
-        and ideas from the NeuroYou lab.
+        The scientific and theoretical foundations of the NeuroYou framework.
+        Deliberately dense — written for readers who want rigour, not reassurance.
       </p>
 
-      {posts && posts.length > 0 ? (
+      {papers && papers.length > 0 ? (
         <div className="divide-y divide-[var(--border)]">
-          {posts.map((post) => (
+          {papers.map((paper) => (
             <Link
-              key={post.id}
-              href={`/blog/${post.id}`}
+              key={paper.id}
+              href={`/research/${paper.id}`}
               className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
             >
               <div>
                 <time className="label block mb-4">
-                  {new Date(post.published_at).toLocaleDateString('en-GB', {
+                  {new Date(paper.published_at).toLocaleDateString('en-GB', {
                     day: 'numeric', month: 'long', year: 'numeric',
                   })}
                 </time>
                 <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
-                  {post.title}
+                  {paper.title}
                 </h2>
-                {post.body && (
-                  <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl"
-                    dangerouslySetInnerHTML={{ __html: post.body.replace(/<[^>]*>/g, '').slice(0, 220) + '…' }}
-                  />
+                {paper.body && (
+                  <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
+                    {paper.body.slice(0, 220)}…
+                  </p>
                 )}
               </div>
               <span className="text-[var(--blue)] text-sm shrink-0 mt-1">→</span>
@@ -54,8 +54,8 @@ export default async function BlogPage() {
         </div>
       ) : (
         <div className="py-24 text-center border border-[var(--border)]">
-          <p className="label">Articles loading</p>
-          <p className="text-xs text-[var(--muted)] mt-3 font-light">Blog content will appear here once published.</p>
+          <p className="label">Papers loading</p>
+          <p className="text-xs text-[var(--muted)] mt-3 font-light">Research content will appear here once published.</p>
         </div>
       )}
     </div>
