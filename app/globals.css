@@ -5,7 +5,7 @@
   --black:       #000000;
   --graphite:    #0B0D10;
   --blue:        #00B3FF;
-  --white:       #F2F4F8;
+  --white:       #FFFFFF;
   --magenta:     #FF2E8A;
   --violet:      #8C5CFF;
 
@@ -13,7 +13,7 @@
   --background:  var(--black);
   --surface:     var(--graphite);
   --foreground:  var(--white);
-  --muted:       #6B7280;
+  --muted:       #9CA3AF;
   --border:      #1A1D24;
   --accent:      var(--blue);
   --accent-glow: rgba(0, 179, 255, 0.15);
@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .prose p {
   margin-bottom: 1.5em;
-  color: #9CA3AF;
+  color: #E2E4E9;
   line-height: 1.75;
 }
 
