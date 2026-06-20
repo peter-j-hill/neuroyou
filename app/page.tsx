@@ -139,6 +139,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Book */}
+      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
+        <div>
+          <p className="label mb-6">
+            <span style={{ color: 'var(--violet)' }}>▸</span>
+            {' '}The book
+          </p>
+          <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
+            Reality Check
+          </h2>
+          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
+            How meditation moved from mysticism to neuroscience.
+          </p>
+          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
+            A field manual for the serious practitioner — built from thirty years of
+            first-person investigation, stripped of doctrine, and grounded in how the
+            brain actually constructs experience.
+          </p>
+          <p className="text-xs tracking-widest uppercase text-[var(--violet)] font-light">
+            In preparation — 2025
+          </p>
+        </div>
+        <div className="border border-[var(--border)] p-8" style={{ borderColor: 'rgba(140,92,255,0.3)' }}>
+          <p className="text-[0.6rem] tracking-widest uppercase font-light mb-6" style={{ color: 'var(--violet)' }}>
+            From the introduction
+          </p>
+          <p className="text-sm font-light text-[var(--white)] leading-relaxed mb-4" style={{ fontStyle: 'italic' }}>
+            &ldquo;Meditation is not a retreat from reality. It is a more careful encounter with it.
+            The techniques described in this book do not ask you to believe anything.
+            They ask you to observe — precisely, repeatedly, and without flinching.&rdquo;
+          </p>
+          <p className="text-xs text-[var(--muted)] font-light">Peter J Hill</p>
+        </div>
+      </section>
+
       {/* Free content */}
       <section className="py-24">
         <p className="label mb-10">Access points</p>
