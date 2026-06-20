@@ -38,10 +38,14 @@ export default function SignupPage() {
   if (done) {
     return (
       <div className="max-w-md mx-auto px-6 py-24">
-        <h1 className="text-2xl font-normal mb-4">Check your email</h1>
-        <p className="text-[var(--muted)] leading-relaxed">
-          We&apos;ve sent a confirmation link to <strong>{email}</strong>. Open it to
-          activate your account, then you can sign in.
+        <p className="label mb-8">
+          <span className="node mr-3" />
+          Verification
+        </p>
+        <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-6">Check your email.</h1>
+        <p className="text-sm text-[var(--muted)] font-light leading-relaxed">
+          A confirmation link has been sent to <span className="text-[var(--blue)]">{email}</span>.
+          Open it to activate your account.
         </p>
       </div>
     )
@@ -49,44 +53,42 @@ export default function SignupPage() {
 
   return (
     <div className="max-w-md mx-auto px-6 py-24">
-      <h1 className="text-2xl font-normal mb-2">Create an account</h1>
-      <p className="text-sm text-[var(--muted)] font-sans mb-10">
+      <p className="label mb-8">
+        <span className="node mr-3" />
+        Initialize account
+      </p>
+      <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-2">Create an account</h1>
+      <p className="text-xs text-[var(--muted)] font-light mb-10">
         Already have one?{' '}
-        <Link href="/login" className="text-[var(--accent)] hover:underline underline-offset-4">
+        <Link href="/login" className="text-[var(--blue)] hover:underline underline-offset-4">
           Sign in
         </Link>
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-sans text-[var(--muted)] mb-1.5">
-            Name
-          </label>
+          <label htmlFor="name" className="label block mb-2">Name</label>
           <input
             id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2.5 border border-[var(--border)] rounded-sm bg-white text-sm font-sans focus:outline-none focus:border-[var(--accent)] transition-colors"
+            className="w-full px-4 py-3 text-sm font-light rounded-none"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-sans text-[var(--muted)] mb-1.5">
-            Email
-          </label>
+          <label htmlFor="email" className="label block mb-2">Email</label>
           <input
             id="email"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2.5 border border-[var(--border)] rounded-sm bg-white text-sm font-sans focus:outline-none focus:border-[var(--accent)] transition-colors"
+            className="w-full px-4 py-3 text-sm font-light rounded-none"
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-sans text-[var(--muted)] mb-1.5">
-            Password
-          </label>
+          <label htmlFor="password" className="label block mb-2">Password</label>
           <input
             id="password"
             type="password"
@@ -94,19 +96,19 @@ export default function SignupPage() {
             minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 border border-[var(--border)] rounded-sm bg-white text-sm font-sans focus:outline-none focus:border-[var(--accent)] transition-colors"
+            className="w-full px-4 py-3 text-sm font-light rounded-none"
           />
-          <p className="text-xs text-[var(--muted)] font-sans mt-1">Minimum 8 characters</p>
+          <p className="text-[0.6rem] text-[var(--muted)] mt-1 tracking-wider">Minimum 8 characters</p>
         </div>
         {error && (
-          <p className="text-sm font-sans text-red-600">{error}</p>
+          <p className="text-xs font-light" style={{ color: 'var(--magenta)' }}>{error}</p>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-[var(--accent)] text-white text-sm font-sans rounded-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="w-full py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
         >
-          {loading ? 'Creating account…' : 'Create account'}
+          {loading ? 'Initializing…' : 'Create account'}
         </button>
       </form>
     </div>

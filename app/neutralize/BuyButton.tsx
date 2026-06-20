@@ -22,9 +22,9 @@ export default function BuyButton() {
     <button
       onClick={handleClick}
       disabled={loading}
-      className="px-8 py-3 bg-[var(--accent)] text-white text-sm font-sans rounded-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+      className="px-8 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
     >
-      {loading ? 'Preparing checkout…' : 'Enrol in Neutralize'}
+      {loading ? 'Preparing…' : 'Enrol in Neutralize'}
     </button>
   )
 }

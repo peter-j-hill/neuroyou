@@ -11,50 +11,48 @@ export default async function ExercisesPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
-      <p className="text-sm font-sans text-[var(--muted)] tracking-widest uppercase mb-4">
-        Free exercises
+    <div className="max-w-5xl mx-auto px-6 py-20">
+      <p className="label mb-10">
+        <span className="node mr-3" />
+        Free / Open access
       </p>
-      <h1 className="text-3xl font-normal mb-3">Exercises library</h1>
-      <p className="text-[var(--muted)] mb-12 max-w-xl">
+      <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
+        Exercises Library
+      </h1>
+      <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-md leading-relaxed">
         Practical techniques for working with attention, sensation, and emotional state.
-        Text and audio. No sequence — start anywhere.
+        Text and audio. No sequence — begin anywhere.
       </p>
 
       {exercises && exercises.length > 0 ? (
-        <div className="grid gap-4">
+        <div className="grid gap-px bg-[var(--border)]">
           {exercises.map((ex) => (
             <Link
               key={ex.id}
               href={`/exercises/${ex.id}`}
-              className="group block p-6 border border-[var(--border)] rounded-sm hover:border-[var(--accent)] transition-colors"
+              className="group flex items-start justify-between gap-8 p-8 bg-[var(--black)] hover:bg-[var(--graphite)] transition-colors"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  {ex.category && (
-                    <p className="text-xs font-sans text-[var(--muted)] uppercase tracking-wider mb-2">
-                      {ex.category}
-                    </p>
-                  )}
-                  <h2 className="text-base font-normal group-hover:text-[var(--accent)] transition-colors">
-                    {ex.title}
-                  </h2>
-                  {ex.body && (
-                    <p className="text-sm text-[var(--muted)] mt-2 line-clamp-2 leading-relaxed">
-                      {ex.body.slice(0, 160)}…
-                    </p>
-                  )}
-                </div>
-                <span className="text-[var(--muted)] text-lg mt-0.5 shrink-0">→</span>
+              <div>
+                {ex.category && (
+                  <p className="label mb-3">{ex.category}</p>
+                )}
+                <h2 className="text-base font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight">
+                  {ex.title}
+                </h2>
+                {ex.body && (
+                  <p className="text-xs text-[var(--muted)] mt-2 leading-relaxed font-light line-clamp-2 max-w-lg">
+                    {ex.body.slice(0, 160)}…
+                  </p>
+                )}
               </div>
+              <span className="text-[var(--blue)] text-sm shrink-0 mt-1 group-hover:text-glow-blue transition-all">→</span>
             </Link>
           ))}
         </div>
       ) : (
-        <div className="py-20 text-center border border-[var(--border)] rounded-sm">
-          <p className="text-[var(--muted)] font-sans text-sm">
-            Exercises coming soon. Check back shortly.
-          </p>
+        <div className="py-24 text-center border border-[var(--border)]">
+          <p className="label">Exercises loading</p>
+          <p className="text-xs text-[var(--muted)] mt-3 font-light">Content will appear here once published.</p>
         </div>
       )}
     </div>

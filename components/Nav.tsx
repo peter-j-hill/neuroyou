@@ -10,7 +10,6 @@ export default function Nav() {
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    // Lazy import so supabase is only initialised client-side
     import('@/lib/supabase/client').then(({ createClient }) => {
       const supabase = createClient()
       supabase.auth.getUser().then(({ data }) => setUser(data.user))
@@ -22,18 +21,32 @@ export default function Nav() {
   }, [])
 
   const isActive = (href: string) =>
-    pathname === href ? 'text-[var(--foreground)]' : 'text-[var(--muted)] hover:text-[var(--foreground)]'
+    pathname === href
+      ? 'text-[var(--white)]'
+      : 'text-[var(--muted)] hover:text-[var(--white)] transition-colors'
 
   return (
-    <header className="border-b border-[var(--border)] bg-[var(--background)]">
-      <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
-        <Link href="/" className="text-lg tracking-tight font-normal text-[var(--foreground)]">
-          NeuroYou
+    <header className="border-b border-[var(--border)] bg-[var(--black)]">
+      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex flex-col leading-none group">
+          <span
+            className="text-sm font-bold tracking-[0.15em] uppercase text-[var(--white)] group-hover:text-[var(--blue)] transition-colors"
+            style={{ fontFamily: 'var(--font-inter), Helvetica Neue, sans-serif' }}
+          >
+            NeuroYou
+          </span>
+          <span className="text-[0.55rem] tracking-[0.18em] uppercase text-[var(--muted)] mt-0.5">
+            Independent Consciousness Laboratory
+          </span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm font-sans">
+
+        {/* Nav links */}
+        <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
           <Link href="/exercises" className={isActive('/exercises')}>Exercises</Link>
           <Link href="/blog" className={isActive('/blog')}>Research</Link>
-          <Link href="/neutralize" className={isActive('/neutralize')}>Neutralize</Link>
+          <Link href="/neutralize" className={`${isActive('/neutralize')} text-[var(--blue)]`}>Neutralize</Link>
+
           {user ? (
             <Link href="/dashboard" className={`${isActive('/dashboard')} ml-2`}>Account</Link>
           ) : (
@@ -41,9 +54,9 @@ export default function Nav() {
               <Link href="/login" className={isActive('/login')}>Sign in</Link>
               <Link
                 href="/signup"
-                className="ml-2 px-4 py-1.5 bg-[var(--accent)] text-white text-sm rounded-sm hover:opacity-90 transition-opacity"
+                className="ml-2 px-4 py-1.5 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
               >
-                Get started
+                Enter
               </Link>
             </>
           )}

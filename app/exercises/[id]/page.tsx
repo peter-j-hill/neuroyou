@@ -15,35 +15,35 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
   if (!exercise) notFound()
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
-      <a href="/exercises" className="text-sm font-sans text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mb-8 inline-block">
+    <div className="max-w-5xl mx-auto px-6 py-20">
+      <a href="/exercises" className="label hover:text-[var(--white)] transition-colors mb-12 inline-flex items-center gap-2">
         ← All exercises
       </a>
 
-      {exercise.category && (
-        <p className="text-xs font-sans text-[var(--muted)] uppercase tracking-wider mb-4">
-          {exercise.category}
-        </p>
-      )}
+      <div className="grid sm:grid-cols-2 gap-16 mt-12">
+        <div>
+          {exercise.category && (
+            <p className="label mb-6">{exercise.category}</p>
+          )}
+          <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-12" style={{ letterSpacing: '-0.02em' }}>
+            {exercise.title}
+          </h1>
 
-      <h1 className="text-3xl font-normal mb-10">{exercise.title}</h1>
-
-      {exercise.audio_url && (
-        <div className="mb-10 p-6 bg-[var(--accent-light)] rounded-sm">
-          <p className="text-xs font-sans text-[var(--muted)] uppercase tracking-wider mb-3">
-            Audio version
-          </p>
-          <audio controls className="w-full" preload="none">
-            <source src={exercise.audio_url} />
-            Your browser does not support audio playback.
-          </audio>
+          {exercise.audio_url && (
+            <div className="mb-12 border border-[var(--border)] p-6 glow-blue">
+              <p className="label mb-4">Audio version</p>
+              <audio controls className="w-full" preload="none" style={{ filter: 'invert(1) hue-rotate(180deg)' }}>
+                <source src={exercise.audio_url} />
+              </audio>
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="prose">
-        {exercise.body?.split('\n\n').map((para: string, i: number) => (
-          <p key={i}>{para}</p>
-        ))}
+        <div className="prose">
+          {exercise.body?.split('\n\n').map((para: string, i: number) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
       </div>
     </div>
   )

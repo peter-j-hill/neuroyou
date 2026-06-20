@@ -2,116 +2,176 @@ import Link from 'next/link'
 
 export default function HomePage() {
   return (
-    <div className="max-w-4xl mx-auto px-6">
-      {/* Philosophy statement */}
-      <section className="pt-20 pb-16 border-b border-[var(--border)]">
-        <p className="text-sm font-sans text-[var(--muted)] mb-8 tracking-widest uppercase">
-          Consciousness Research
+    <div className="max-w-5xl mx-auto px-6">
+
+      {/* Hero */}
+      <section className="pt-28 pb-24 border-b border-[var(--border)]">
+        <p className="label mb-10">
+          <span className="node mr-3" />
+          Consciousness Research / Active
         </p>
-        <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-8 max-w-2xl">
-          Your experience of being alive is the most direct data you have.
+
+        <h1
+          className="text-5xl sm:text-7xl font-light leading-none tracking-tight mb-6 text-[var(--white)]"
+          style={{ letterSpacing: '-0.03em' }}
+        >
+          Modify your
+          <br />
+          <span className="text-[var(--blue)] text-glow-blue">perceptual</span>
+          <br />
+          architecture.
         </h1>
-        <p className="text-xl text-[var(--muted)] max-w-xl leading-relaxed mb-10">
-          NeuroYou is a practical research project into consciousness and self-discovery —
-          grounded in neuroscience, not wellness culture. The goal is presence, not performance.
+
+        <p className="text-sm font-light text-[var(--muted)] max-w-md leading-relaxed mt-8 mb-12" style={{ letterSpacing: '0.02em' }}>
+          NeuroYou is an independent laboratory for consciousness research.
+          Not spiritual. Not wellness. Systems, fields, and direct perceptual investigation.
         </p>
+
         <div className="flex flex-wrap gap-4">
           <Link
             href="/start-here"
-            className="px-6 py-3 bg-[var(--accent)] text-white text-sm font-sans rounded-sm hover:opacity-90 transition-opacity"
+            className="px-6 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
           >
-            Start here
+            Initialize
           </Link>
           <Link
             href="/exercises"
-            className="px-6 py-3 border border-[var(--border)] text-[var(--foreground)] text-sm font-sans rounded-sm hover:border-[var(--accent)] transition-colors"
+            className="px-6 py-3 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors"
           >
             Free exercises
           </Link>
         </div>
       </section>
 
-      {/* Three pillars */}
-      <section className="py-16 grid sm:grid-cols-3 gap-12 border-b border-[var(--border)]">
+      {/* Q&A punch */}
+      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16">
         <div>
-          <h2 className="text-base mb-3">Research-grounded</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            Exercises drawn from neuroscience, phenomenology, and consciousness research —
-            not habit loops or motivational frameworks.
+          <p className="label mb-6">Q:</p>
+          <p className="text-2xl font-light text-[var(--white)] leading-snug tracking-tight">
+            WHO IS THE SELF?
           </p>
         </div>
         <div>
-          <h2 className="text-base mb-3">No gamification</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            No streaks, no points, no celebratory animations. Progress here is quiet:
-            a date stamp, nothing more.
+          <p className="label mb-6">A:</p>
+          <p className="text-2xl font-bold text-[var(--blue)] text-glow-blue leading-snug tracking-tight uppercase">
+            A stabilized neural pattern<br />in a predictive system.
           </p>
-        </div>
-        <div>
-          <h2 className="text-base mb-3">Direct experience</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            The techniques work on your actual moment-to-moment sensory experience —
-            not beliefs, not breath counts, not visualisations.
+          <p className="text-xs text-[var(--muted)] mt-6 leading-relaxed font-light max-w-xs">
+            Identity is not found. It is constructed — moment to moment — by a nervous system
+            optimizing for prediction accuracy.
           </p>
         </div>
       </section>
 
-      {/* Neutralize promo */}
-      <section className="py-16 grid sm:grid-cols-2 gap-12 border-b border-[var(--border)]">
+      {/* Three axioms */}
+      <section className="py-24 border-b border-[var(--border)]">
+        <p className="label mb-12">Operating principles</p>
+        <div className="grid sm:grid-cols-3 gap-12">
+          {[
+            {
+              index: '01',
+              title: 'Systems, not stories',
+              body: 'Your experience is produced by physical systems. Understanding those systems changes what is possible.',
+            },
+            {
+              index: '02',
+              title: 'Zero gamification',
+              body: 'No streaks. No points. No badges. Completion is recorded by date — and nothing more.',
+            },
+            {
+              index: '03',
+              title: 'Direct investigation',
+              body: 'The techniques operate on actual sensory experience — not beliefs, not breath counts, not visualisations.',
+            },
+          ].map((item) => (
+            <div key={item.index}>
+              <p className="text-[var(--blue)] text-xs tracking-widest font-light mb-4">{item.index}</p>
+              <h3 className="text-sm font-medium text-[var(--white)] tracking-wide mb-3 uppercase" style={{ letterSpacing: '0.08em' }}>
+                {item.title}
+              </h3>
+              <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
+                {item.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Neutralize */}
+      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
         <div>
-          <p className="text-xs font-sans text-[var(--muted)] tracking-widest uppercase mb-4">
-            The course
+          <p className="label mb-6">
+            <span style={{ color: 'var(--magenta)' }}>▸</span>
+            {' '}The course
           </p>
-          <h2 className="text-2xl font-normal mb-4">Neutralize</h2>
-          <p className="text-[var(--muted)] leading-relaxed mb-6">
-            A fixed sequential course in emotional regulation. Designed for people whose
-            unpleasant emotions are limiting their lives — and who want a rigorous,
-            neuroscience-informed way through.
+          <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
+            Neutralize
+          </h2>
+          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
+            A fixed sequential course in emotional regulation. For people whose unpleasant
+            emotional states are limiting their lives — and who want a rigorous,
+            neuroscience-informed method through.
           </p>
           <Link
             href="/neutralize"
-            className="text-sm font-sans text-[var(--accent)] hover:underline underline-offset-4"
+            className="text-xs tracking-widest uppercase text-[var(--blue)] hover:text-glow-blue transition-colors border-b border-[var(--blue)] pb-0.5"
           >
-            Learn more →
+            View course →
           </Link>
         </div>
-        <div className="bg-[var(--accent-light)] rounded-sm p-8 flex items-center">
-          <p className="text-sm text-[var(--muted)] leading-relaxed italic">
-            "Emotional regulation doesn&apos;t mean suppression. It means learning what your
-            nervous system is actually doing — and working with it."
+        <div className="border border-[var(--border)] p-8 glow-blue">
+          <p className="label mb-4">
+            <span style={{ color: 'var(--magenta)' }}>Q:</span>
+          </p>
+          <p className="text-lg font-light text-[var(--white)] mb-6 tracking-tight">
+            WHAT IS EMOTIONAL REGULATION?
+          </p>
+          <p className="label mb-3">
+            <span style={{ color: 'var(--blue)' }}>A:</span>
+          </p>
+          <p className="text-sm font-medium text-[var(--blue)] uppercase tracking-wide leading-relaxed">
+            Modifying the nervous system&apos;s<br />
+            threat-prediction output.
+          </p>
+          <p className="text-xs text-[var(--muted)] font-light mt-4 leading-relaxed">
+            Not suppression. Not reframing. Direct intervention at the level of sensation.
           </p>
         </div>
       </section>
 
-      {/* Free content links */}
-      <section className="py-16">
-        <h2 className="text-xl font-normal mb-8">Explore the free material</h2>
-        <div className="grid sm:grid-cols-2 gap-6">
+      {/* Free content */}
+      <section className="py-24">
+        <p className="label mb-10">Access points</p>
+        <div className="grid sm:grid-cols-2 gap-4">
           <Link
             href="/exercises"
-            className="group block p-6 border border-[var(--border)] rounded-sm hover:border-[var(--accent)] transition-colors"
+            className="group block p-8 border border-[var(--border)] hover:border-[var(--blue)] hover:bg-[var(--accent-glow)] transition-all"
           >
-            <h3 className="text-base mb-2 group-hover:text-[var(--accent)] transition-colors">
-              Exercises library
+            <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
+            <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
+              Exercises Library
             </h3>
-            <p className="text-sm text-[var(--muted)]">
-              Text and audio practices. No account required to browse; create one to track
-              what you&apos;ve done.
+            <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
+              Text and audio practices. Attention, sensation, and emotional state.
+              No sequence — begin anywhere.
             </p>
           </Link>
           <Link
             href="/blog"
-            className="group block p-6 border border-[var(--border)] rounded-sm hover:border-[var(--accent)] transition-colors"
+            className="group block p-8 border border-[var(--border)] hover:border-[var(--blue)] hover:bg-[var(--accent-glow)] transition-all"
           >
-            <h3 className="text-base mb-2 group-hover:text-[var(--accent)] transition-colors">
-              Research articles
+            <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
+            <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
+              Research Articles
             </h3>
-            <p className="text-sm text-[var(--muted)]">
+            <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
               Deep reads on consciousness, perception, and the neuroscience of emotion.
+              No cosmic swirls. No chakras.
             </p>
           </Link>
         </div>
       </section>
+
     </div>
   )
 }

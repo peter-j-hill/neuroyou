@@ -1,58 +1,159 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f9f8f6;
-  --foreground: #1a1a18;
-  --muted: #6b6b65;
-  --border: #e2e0da;
-  --accent: #2d4a3e;
-  --accent-light: #e8ede9;
+  /* Core palette */
+  --black:       #000000;
+  --graphite:    #0B0D10;
+  --blue:        #00B3FF;
+  --white:       #F2F4F8;
+  --magenta:     #FF2E8A;
+  --violet:      #8C5CFF;
+
+  /* Semantic tokens */
+  --background:  var(--black);
+  --surface:     var(--graphite);
+  --foreground:  var(--white);
+  --muted:       #6B7280;
+  --border:      #1A1D24;
+  --accent:      var(--blue);
+  --accent-glow: rgba(0, 179, 255, 0.15);
+  --tension:     var(--magenta);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-display: var(--font-montserrat), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--black);
 }
 
 body {
-  background: var(--background);
+  background: var(--black);
   color: var(--foreground);
-  font-family: Georgia, 'Times New Roman', serif;
-  line-height: 1.7;
+  font-family: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-family: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--white);
 }
 
-.font-sans {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+/* Signal text — uppercase punch statements */
+.signal {
+  font-family: var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
 }
 
-/* Prose for long-form content */
+.signal-blue {
+  color: var(--blue);
+}
+
+/* Label / eyebrow */
+.label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* Prose for long-form */
 .prose {
-  max-width: 68ch;
+  max-width: 66ch;
+  font-weight: 300;
 }
 
 .prose p {
-  margin-bottom: 1.4em;
-  color: var(--foreground);
+  margin-bottom: 1.5em;
+  color: #9CA3AF;
+  line-height: 1.75;
 }
 
 .prose h2 {
-  margin-top: 2em;
-  margin-bottom: 0.6em;
-  font-size: 1.35rem;
-  color: var(--foreground);
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
 }
 
 .prose h3 {
-  margin-top: 1.6em;
-  margin-bottom: 0.4em;
-  font-size: 1.1rem;
-  color: var(--foreground);
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--white);
 }
+
+/* Blue glow utility */
+.glow-blue {
+  box-shadow: 0 0 20px rgba(0, 179, 255, 0.2), 0 0 60px rgba(0, 179, 255, 0.05);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 20px rgba(0, 179, 255, 0.6);
+}
+
+/* Hairline borders */
+.border-signal {
+  border-color: #1A1D24;
+}
+
+/* Node dot */
+.node {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 8px var(--blue);
+}
+
+/* Input fields */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  background: var(--graphite);
+  border: 1px solid #1A1D24;
+  color: var(--white);
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 300;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+input::placeholder {
+  color: #374151;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: #1A1D24; border-radius: 2px; }

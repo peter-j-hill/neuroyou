@@ -1,22 +1,22 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter, Montserrat } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
+const inter = Inter({ variable: '--font-inter', subsets: ['latin'], weight: ['300', '400', '500', '700'] })
+const montserrat = Montserrat({ variable: '--font-montserrat', subsets: ['latin'], weight: ['300', '400', '700'] })
 
 export const metadata: Metadata = {
-  title: 'NeuroYou — Consciousness Research & Practice',
+  title: 'NeuroYou — Independent Consciousness Laboratory',
   description:
-    'Practical consciousness research. Exercises, articles, and the Neutralize course — a neuroscience-grounded approach to emotional regulation.',
+    'Modify your perceptual architecture. Consciousness research, exercises, and the Neutralize course — neuroscience-grounded, zero mysticism.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.neuroyou.online'),
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
