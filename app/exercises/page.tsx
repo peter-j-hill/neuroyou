@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
-export const revalidate = 60
+export const revalidate = 0
 
 export default async function ExercisesPage() {
   const supabase = await createClient()

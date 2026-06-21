@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import BuyButton from './BuyButton'
 
-export const revalidate = 60
+export const revalidate = 0
 
 export default async function NeutralizePage() {
   const supabase = await createClient()

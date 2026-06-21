@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 60
+export const revalidate = 0
 
 export default async function ExercisePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

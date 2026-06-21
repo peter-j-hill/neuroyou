@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
-export const revalidate = 30
+export const revalidate = 0
 
 export default async function ResearchPage() {
   const supabase = await createClient()
