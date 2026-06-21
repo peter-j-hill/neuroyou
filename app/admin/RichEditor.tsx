@@ -86,7 +86,7 @@ export default function RichEditor({ content, onChange }: Props) {
         alert('Upload failed: ' + (data.error ?? 'unknown error') + '\n\nStatus: ' + res.status)
       }
     } catch (err) {
-      alert('Upload failed: ' + String(err))
+      alert('Upload failed: ' + (err instanceof Error ? err.message + '\n' + err.stack : JSON.stringify(err)))
     }
 
     e.target.value = ''

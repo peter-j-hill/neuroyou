@@ -173,7 +173,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
                   try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setCoverUploading(false); return }
                   if (data.url) setCoverImage(data.url)
                   else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
-                } catch (err) { alert('Upload error: ' + String(err)) }
+                } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message + '\n' + err.stack : JSON.stringify(err))) }
                 setCoverUploading(false)
                 e.target.value = ''
               }} />
