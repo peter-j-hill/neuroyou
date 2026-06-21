@@ -18,18 +18,6 @@ const btnClass = (active: boolean) =>
 export default function RichEditor({ content, onChange }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleLink = useCallback(() => {
-    if (!editor) return
-    const prev = editor.getAttributes('link').href as string | undefined
-    const url = window.prompt('URL', prev ?? 'https://')
-    if (url === null) return // cancelled
-    if (url === '') {
-      editor.chain().focus().unsetLink().run()
-    } else {
-      editor.chain().focus().setLink({ href: url, target: '_blank' }).run()
-    }
-  }, [editor])
-
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -42,21 +30,35 @@ export default function RichEditor({ content, onChange }: Props) {
       attributes: {
         class: 'prose outline-none min-h-[400px] focus:outline-none',
       },
-      handleKeyDown: (_view, event) => {
-        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-          event.preventDefault()
-          handleLink()
-          return true
-        }
-        return false
-      },
     },
   })
 
-  useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content)
+  const handleLink = useCallback(() => {
+    if (!editor) return
+    const prev = editor.getAttributes('link').href as string | undefined
+    const url = window.prompt('URL', prev ?? 'https://')
+    if (url === null) return
+    if (url === '') {
+      editor.chain().focus().unsetLink().run()
+    } else {
+      editor.chain().focus().setLink({ href: url, target: '_blank' }).run()
     }
+  }, [editor])
+
+  useEffect(() => {
+    if (!editor) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        handleLink()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [editor, handleLink])
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) editor.commands.setContent(content)
   }, [content, editor])
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
