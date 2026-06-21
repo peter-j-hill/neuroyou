@@ -3,7 +3,8 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
-import { useEffect, useRef } from 'react'
+import Link from '@tiptap/extension-link'
+import { useEffect, useRef, useCallback } from 'react'
 
 type Props = { content: string; onChange: (html: string) => void }
 
@@ -17,16 +18,37 @@ const btnClass = (active: boolean) =>
 export default function RichEditor({ content, onChange }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const handleLink = useCallback(() => {
+    if (!editor) return
+    const prev = editor.getAttributes('link').href as string | undefined
+    const url = window.prompt('URL', prev ?? 'https://')
+    if (url === null) return // cancelled
+    if (url === '') {
+      editor.chain().focus().unsetLink().run()
+    } else {
+      editor.chain().focus().setLink({ href: url, target: '_blank' }).run()
+    }
+  }, [editor])
+
   const editor = useEditor({
     extensions: [
       StarterKit,
       Image.configure({ inline: false, allowBase64: false }),
+      Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
     ],
     content,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
       attributes: {
         class: 'prose outline-none min-h-[400px] focus:outline-none',
+      },
+      handleKeyDown: (_view, event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+          event.preventDefault()
+          handleLink()
+          return true
+        }
+        return false
       },
     },
   })
@@ -86,6 +108,14 @@ export default function RichEditor({ content, onChange }: Props) {
         <span className="w-px bg-[var(--border)] mx-1" />
         <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={btnClass(editor.isActive('blockquote'))}>Quote</button>
         <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btnClass(false)}>HR</button>
+        <button type="button" onClick={handleLink} className={btnClass(editor.isActive('link'))} title="Link (Ctrl+K)">Link</button>
+        <button
+          type="button"
+          onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() : undefined}
+          className={btnClass(false)}
+          style={{ display: editor.isActive('link') ? 'inline-block' : 'none' }}
+          title="Remove link"
+        >Unlink</button>
         <span className="w-px bg-[var(--border)] mx-1" />
         <button
           type="button"

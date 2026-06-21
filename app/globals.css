@@ -166,6 +166,8 @@ input::placeholder {
 .prose blockquote p { color: #9CA3AF; font-style: italic; }
 .prose hr { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
 .prose img { max-width: 100%; height: auto; margin: 2em 0; border: 1px solid var(--border); }
+.prose a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.prose a:hover { color: var(--white); }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
