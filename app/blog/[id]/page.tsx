@@ -21,7 +21,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         ← Blog
       </a>
 
-      <div className="grid sm:grid-cols-[1fr_2fr] gap-16 mt-12">
+      {post.cover_image && (
+        <img src={post.cover_image} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
+      )}
+
+      <div className={`grid sm:grid-cols-[1fr_2fr] gap-16 ${post.cover_image ? 'mt-12' : 'mt-12'}`}>
         <div className="sm:sticky sm:top-12 self-start">
           <p className="label mb-6">Article</p>
           <h1 className="text-2xl font-light text-[var(--white)] tracking-tight leading-snug mb-6" style={{ letterSpacing: '-0.02em' }}>

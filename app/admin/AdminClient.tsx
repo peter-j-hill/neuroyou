@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import RichEditor from './RichEditor'
 
-type Post = { id: string; title: string; type: string; published_at: string }
+type Post = { id: string; title: string; type: string; published_at: string; cover_image?: string }
 
 export default function AdminClient({ posts }: { posts: Post[] }) {
   const router = useRouter()
@@ -14,8 +14,11 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [type, setType] = useState<'research' | 'blog'>('blog')
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
   const [body, setBody] = useState('')
+  const [coverImage, setCoverImage] = useState('')
+  const [coverUploading, setCoverUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
+  const coverInputRef = useRef<HTMLInputElement>(null)
 
   const startNew = () => {
     setEditing('new')
@@ -23,6 +26,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setType('blog')
     setPublishedAt(new Date().toISOString().slice(0, 10))
     setBody('')
+    setCoverImage('')
     setMsg('')
   }
 
@@ -35,6 +39,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setType(data.type)
     setPublishedAt(data.published_at.slice(0, 10))
     setBody(data.body ?? '')
+    setCoverImage(data.cover_image ?? '')
     setMsg('')
   }
 
@@ -42,7 +47,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setSaving(true)
     setMsg('')
     const supabase = createClient()
-    const payload = { title, type, body, published_at: new Date(publishedAt).toISOString() }
+    const payload = { title, type, body, cover_image: coverImage || null, published_at: new Date(publishedAt).toISOString() }
 
     if (editing === 'new') {
       const { error } = await supabase.from('blog_posts').insert(payload)
@@ -150,6 +155,43 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
                 onChange={(e) => setPublishedAt(e.target.value)}
                 className="px-4 py-3 text-sm font-light rounded-none"
               />
+            </div>
+
+            {/* Cover image */}
+            <div>
+              <label className="label block mb-2">Cover image</label>
+              <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                const file = e.target.files?.[0]
+                if (!file) return
+                setCoverUploading(true)
+                try {
+                  const form = new FormData()
+                  form.append('file', file)
+                  const res = await fetch('/api/upload-image', { method: 'POST', body: form })
+                  const text = await res.text()
+                  let data: { url?: string; error?: string }
+                  try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setCoverUploading(false); return }
+                  if (data.url) setCoverImage(data.url)
+                  else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
+                } catch (err) { alert('Upload error: ' + String(err)) }
+                setCoverUploading(false)
+                e.target.value = ''
+              }} />
+              <div className="flex items-start gap-4">
+                <button type="button" onClick={() => coverInputRef.current?.click()}
+                  className="px-4 py-2 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors">
+                  {coverUploading ? 'Uploading…' : coverImage ? 'Replace image' : 'Upload image'}
+                </button>
+                {coverImage && (
+                  <button type="button" onClick={() => setCoverImage('')}
+                    className="text-xs text-[var(--muted)] hover:text-[var(--magenta)] transition-colors tracking-widest uppercase">
+                    Remove
+                  </button>
+                )}
+              </div>
+              {coverImage && (
+                <img src={coverImage} alt="Cover" className="mt-3 max-h-48 border border-[var(--border)] object-cover" />
+              )}
             </div>
 
             {/* Rich text editor */}

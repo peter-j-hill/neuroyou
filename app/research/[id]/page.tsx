@@ -21,6 +21,10 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
         ← Research
       </a>
 
+      {paper.cover_image && (
+        <img src={paper.cover_image} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
+      )}
+
       <div className="grid sm:grid-cols-[1fr_2fr] gap-16 mt-12">
         <div className="sm:sticky sm:top-12 self-start">
           <p className="label mb-6">White Paper</p>
