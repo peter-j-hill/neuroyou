@@ -9,26 +9,27 @@ type Post = { id: string; title: string; type: string; published_at: string; cov
 
 export default function AdminClient({ posts }: { posts: Post[] }) {
   const router = useRouter()
-  const [editing, setEditing] = useState<string | null>(null) // post id or 'new'
+  const [editing, setEditing] = useState<string | null>(null)
   const [title, setTitle] = useState('')
-  const [type, setType] = useState<'research' | 'blog'>('blog')
+  const [type, setType] = useState<'blog' | 'research' | 'exercise'>('blog')
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
   const [body, setBody] = useState('')
   const [coverImage, setCoverImage] = useState('')
   const [coverUploading, setCoverUploading] = useState(false)
+  const [videoUrl, setVideoUrl] = useState('')
+  const [audioUrl, setAudioUrl] = useState('')
+  const [audioUploading, setAudioUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const coverInputRef = useRef<HTMLInputElement>(null)
+  const audioInputRef = useRef<HTMLInputElement>(null)
 
-  const startNew = () => {
-    setEditing('new')
-    setTitle('')
-    setType('blog')
-    setPublishedAt(new Date().toISOString().slice(0, 10))
-    setBody('')
-    setCoverImage('')
-    setMsg('')
+  const reset = () => {
+    setTitle(''); setType('blog'); setPublishedAt(new Date().toISOString().slice(0, 10))
+    setBody(''); setCoverImage(''); setVideoUrl(''); setAudioUrl(''); setMsg('')
   }
+
+  const startNew = () => { reset(); setEditing('new') }
 
   const startEdit = async (id: string) => {
     const supabase = createClient()
@@ -40,23 +41,24 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setPublishedAt(data.published_at.slice(0, 10))
     setBody(data.body ?? '')
     setCoverImage(data.cover_image ?? '')
+    setVideoUrl(data.video_url ?? '')
+    setAudioUrl(data.audio_url ?? '')
     setMsg('')
   }
 
   const handleSave = async () => {
-    setSaving(true)
-    setMsg('')
+    setSaving(true); setMsg('')
     const supabase = createClient()
-    const payload = { title, type, body, cover_image: coverImage || null, published_at: new Date(publishedAt).toISOString() }
-
+    const payload = {
+      title, type, body,
+      cover_image: coverImage || null,
+      video_url: videoUrl || null,
+      audio_url: audioUrl || null,
+      published_at: new Date(publishedAt).toISOString(),
+    }
     if (editing === 'new') {
       const { data, error } = await supabase.from('blog_posts').insert(payload).select('id').single()
-      if (error) {
-        setMsg(`Error: ${error.message}`)
-      } else {
-        setEditing(data.id)
-        setMsg('Published.')
-      }
+      if (error) { setMsg(`Error: ${error.message}`) } else { setEditing(data.id); setMsg('Published.') }
     } else {
       const { error } = await supabase.from('blog_posts').update(payload).eq('id', editing!)
       setMsg(error ? `Error: ${error.message}` : 'Saved.')
@@ -72,6 +74,38 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     if (editing === id) setEditing(null)
     router.refresh()
   }
+
+  const uploadCover = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; if (!file) return
+    setCoverUploading(true)
+    try {
+      const form = new FormData(); form.append('file', file)
+      const res = await fetch('/api/upload-image', { method: 'POST', body: form })
+      const text = await res.text()
+      let data: { url?: string; error?: string }
+      try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setCoverUploading(false); return }
+      if (data.url) setCoverImage(data.url)
+      else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
+    } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message : JSON.stringify(err))) }
+    setCoverUploading(false); e.target.value = ''
+  }
+
+  const uploadAudio = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; if (!file) return
+    setAudioUploading(true)
+    try {
+      const form = new FormData(); form.append('file', file)
+      const res = await fetch('/api/upload-audio', { method: 'POST', body: form })
+      const text = await res.text()
+      let data: { url?: string; error?: string }
+      try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setAudioUploading(false); return }
+      if (data.url) setAudioUrl(data.url)
+      else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
+    } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message : JSON.stringify(err))) }
+    setAudioUploading(false); e.target.value = ''
+  }
+
+  const typeColor = (t: string) => t === 'research' ? 'text-[var(--blue)]' : t === 'exercise' ? 'text-[var(--violet)]' : 'text-[var(--muted)]'
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">
@@ -94,9 +128,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
           <div className="p-4 border-b border-[var(--border)]">
             <p className="label">All posts</p>
           </div>
-          {posts.length === 0 && (
-            <p className="p-4 text-xs text-[var(--muted)]">No posts yet.</p>
-          )}
+          {posts.length === 0 && <p className="p-4 text-xs text-[var(--muted)]">No posts yet.</p>}
           {posts.map((p) => (
             <div
               key={p.id}
@@ -104,17 +136,13 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               onClick={() => startEdit(p.id)}
             >
               <div className="min-w-0">
-                <p className={`text-[0.6rem] tracking-widest uppercase mb-1 ${p.type === 'research' ? 'text-[var(--blue)]' : 'text-[var(--muted)]'}`}>
-                  {p.type}
-                </p>
+                <p className={`text-[0.6rem] tracking-widest uppercase mb-1 ${typeColor(p.type)}`}>{p.type}</p>
                 <p className="text-xs text-[var(--white)] font-light leading-snug truncate">{p.title}</p>
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); handleDelete(p.id) }}
                 className="text-[var(--muted)] hover:text-[var(--magenta)] text-xs shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                ×
-              </button>
+              >×</button>
             </div>
           ))}
         </div>
@@ -124,7 +152,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
           <div className="border border-[var(--border)] p-6 space-y-5">
             {/* Type toggle */}
             <div className="flex gap-2">
-              {(['blog', 'research'] as const).map((t) => (
+              {(['blog', 'research', 'exercise'] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setType(t)}
@@ -142,46 +170,21 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
             {/* Title */}
             <div>
               <label className="label block mb-2">Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-3 text-sm font-light rounded-none"
-                placeholder="Post title"
-              />
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-4 py-3 text-sm font-light rounded-none" placeholder="Post title" />
             </div>
 
             {/* Date */}
             <div>
               <label className="label block mb-2">Date</label>
-              <input
-                type="date"
-                value={publishedAt}
-                onChange={(e) => setPublishedAt(e.target.value)}
-                className="px-4 py-3 text-sm font-light rounded-none"
-              />
+              <input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)}
+                className="px-4 py-3 text-sm font-light rounded-none" />
             </div>
 
             {/* Cover image */}
             <div>
               <label className="label block mb-2">Cover image</label>
-              <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={async (e) => {
-                const file = e.target.files?.[0]
-                if (!file) return
-                setCoverUploading(true)
-                try {
-                  const form = new FormData()
-                  form.append('file', file)
-                  const res = await fetch('/api/upload-image', { method: 'POST', body: form })
-                  const text = await res.text()
-                  let data: { url?: string; error?: string }
-                  try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setCoverUploading(false); return }
-                  if (data.url) setCoverImage(data.url)
-                  else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
-                } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message + '\n' + err.stack : JSON.stringify(err))) }
-                setCoverUploading(false)
-                e.target.value = ''
-              }} />
+              <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={uploadCover} />
               <div className="flex items-start gap-4">
                 <button type="button" onClick={() => coverInputRef.current?.click()}
                   className="px-4 py-2 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors">
@@ -194,10 +197,40 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
                   </button>
                 )}
               </div>
-              {coverImage && (
-                <img src={coverImage} alt="Cover" className="mt-3 max-h-48 border border-[var(--border)] object-cover" />
-              )}
+              {coverImage && <img src={coverImage} alt="Cover" className="mt-3 max-h-48 border border-[var(--border)] object-cover" />}
             </div>
+
+            {/* Exercise-only fields */}
+            {type === 'exercise' && (
+              <>
+                {/* Vimeo URL */}
+                <div>
+                  <label className="label block mb-2">Vimeo video URL</label>
+                  <input type="url" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)}
+                    className="w-full px-4 py-3 text-sm font-light rounded-none"
+                    placeholder="https://vimeo.com/123456789" />
+                </div>
+
+                {/* Audio upload */}
+                <div>
+                  <label className="label block mb-2">Audio (MP3)</label>
+                  <input ref={audioInputRef} type="file" accept="audio/*" className="hidden" onChange={uploadAudio} />
+                  <div className="flex items-center gap-4">
+                    <button type="button" onClick={() => audioInputRef.current?.click()}
+                      className="px-4 py-2 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors">
+                      {audioUploading ? 'Uploading…' : audioUrl ? 'Replace audio' : 'Upload MP3'}
+                    </button>
+                    {audioUrl && (
+                      <button type="button" onClick={() => setAudioUrl('')}
+                        className="text-xs text-[var(--muted)] hover:text-[var(--magenta)] transition-colors tracking-widest uppercase">
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                  {audioUrl && <p className="mt-2 text-xs text-[var(--blue)] font-light truncate">{audioUrl}</p>}
+                </div>
+              </>
+            )}
 
             {/* Rich text editor */}
             <div>
@@ -214,10 +247,8 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               >
                 {saving ? 'Saving…' : editing === 'new' ? 'Publish' : 'Save changes'}
               </button>
-              <button
-                onClick={() => setEditing(null)}
-                className="text-xs text-[var(--muted)] tracking-widest uppercase hover:text-[var(--white)] transition-colors"
-              >
+              <button onClick={() => setEditing(null)}
+                className="text-xs text-[var(--muted)] tracking-widest uppercase hover:text-[var(--white)] transition-colors">
                 Cancel
               </button>
               {msg && <p className="text-xs text-[var(--blue)]">{msg}</p>}

@@ -1,14 +1,15 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function ExercisesPage() {
   const supabase = await createClient()
   const { data: exercises } = await supabase
-    .from('free_exercises')
-    .select('id, title, category, body')
-    .order('created_at', { ascending: false })
+    .from('blog_posts')
+    .select('id, title, published_at, body, cover_image')
+    .eq('type', 'exercise')
+    .order('published_at', { ascending: false })
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-20">
@@ -25,27 +26,34 @@ export default async function ExercisesPage() {
       </p>
 
       {exercises && exercises.length > 0 ? (
-        <div className="grid gap-px bg-[var(--border)]">
+        <div className="divide-y divide-[var(--border)]">
           {exercises.map((ex) => (
             <Link
               key={ex.id}
               href={`/exercises/${ex.id}`}
-              className="group flex items-start justify-between gap-8 p-8 bg-[var(--black)] hover:bg-[var(--graphite)] transition-colors"
+              className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
             >
-              <div>
-                {ex.category && (
-                  <p className="label mb-3">{ex.category}</p>
+              <div className="flex gap-6 items-start w-full">
+                {ex.cover_image && (
+                  <img src={ex.cover_image} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
                 )}
-                <h2 className="text-base font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight">
-                  {ex.title}
-                </h2>
-                {ex.body && (
-                  <p className="text-xs text-[var(--muted)] mt-2 leading-relaxed font-light line-clamp-2 max-w-lg">
-                    {ex.body.slice(0, 160)}…
-                  </p>
-                )}
+                <div className="min-w-0 flex-1">
+                  <time className="label block mb-4">
+                    {new Date(ex.published_at).toLocaleDateString('en-GB', {
+                      day: 'numeric', month: 'long', year: 'numeric',
+                    })}
+                  </time>
+                  <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
+                    {ex.title}
+                  </h2>
+                  {ex.body && (
+                    <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
+                      {ex.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220)}…
+                    </p>
+                  )}
+                </div>
               </div>
-              <span className="text-[var(--blue)] text-sm shrink-0 mt-1 group-hover:text-glow-blue transition-all">→</span>
+              <span className="text-[var(--blue)] text-sm shrink-0 mt-1">→</span>
             </Link>
           ))}
         </div>
