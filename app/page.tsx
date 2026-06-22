@@ -23,8 +23,9 @@ export default function HomePage() {
         </h1>
 
         <p className="text-sm font-light text-[var(--muted)] max-w-md leading-relaxed mt-8 mb-12" style={{ letterSpacing: '0.02em' }}>
-          NeuroYou is an independent laboratory for consciousness research.
-          Not spiritual. Not wellness. Systems, fields, and direct perceptual investigation.
+          NeuroYou is an independent laboratory for personal consciousness research.
+          Not spiritual. Not wellness. Not religion. It&apos;s a place to explore your senses, attention,
+          observation, and skills at direct perceptual investigation.
         </p>
 
         <div className="flex flex-wrap gap-4">
@@ -32,7 +33,7 @@ export default function HomePage() {
             href="/start-here"
             className="px-6 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
           >
-            Initialize
+            More
           </Link>
           <Link
             href="/exercises"
