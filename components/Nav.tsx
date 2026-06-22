@@ -43,10 +43,10 @@ export default function Nav() {
 
         {/* Nav links */}
         <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
-          <Link href="/exercises" className={isActive('/exercises')}>Exercises</Link>
+          <Link href="/exercises" className={isActive('/exercises')}>Learn</Link>
+          <Link href="/blog" className={isActive('/blog')}>Explore</Link>
+          <Link href="/train" className={isActive('/train')}>Train</Link>
           <Link href="/research" className={isActive('/research')}>Research</Link>
-          <Link href="/blog" className={isActive('/blog')}>Blog</Link>
-          <Link href="/neutralize" className={`${isActive('/neutralize')} text-[var(--blue)]`}>Neutralize</Link>
 
           {user ? (
             <Link href="/dashboard" className={`${isActive('/dashboard')} ml-2`}>Account</Link>

@@ -15,10 +15,10 @@ export default async function ExercisesPage() {
     <div className="max-w-5xl mx-auto px-6 py-20">
       <p className="label mb-10">
         <span className="node mr-3" />
-        Free / Open access
+        Learn / Open access
       </p>
       <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
-        Exercises Library
+        Learn
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-md leading-relaxed">
         Practical techniques for working with attention, sensation, and emotional state.

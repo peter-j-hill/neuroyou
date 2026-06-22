@@ -26,7 +26,7 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
   return (
     <div className="max-w-5xl mx-auto px-6 py-20">
       <a href="/exercises" className="label hover:text-[var(--white)] transition-colors mb-12 inline-flex items-center gap-2">
-        ← All exercises
+        ← Learn
       </a>
 
       {exercise.cover_image && (

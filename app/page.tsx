@@ -38,7 +38,7 @@ export default function HomePage() {
             href="/exercises"
             className="px-6 py-3 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors"
           >
-            Free exercises
+            Learn
           </Link>
         </div>
       </section>
@@ -184,7 +184,7 @@ export default function HomePage() {
           >
             <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
             <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
-              Exercises Library
+              Learn
             </h3>
             <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
               Text and audio practices. Attention, sensation, and emotional state.
@@ -197,7 +197,7 @@ export default function HomePage() {
           >
             <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
             <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
-              Research Articles
+              Explore
             </h3>
             <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
               Deep reads on consciousness, perception, and the neuroscience of emotion.
