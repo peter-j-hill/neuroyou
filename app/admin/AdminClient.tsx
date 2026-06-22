@@ -50,8 +50,13 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     const payload = { title, type, body, cover_image: coverImage || null, published_at: new Date(publishedAt).toISOString() }
 
     if (editing === 'new') {
-      const { error } = await supabase.from('blog_posts').insert(payload)
-      setMsg(error ? `Error: ${error.message}` : 'Published.')
+      const { data, error } = await supabase.from('blog_posts').insert(payload).select('id').single()
+      if (error) {
+        setMsg(`Error: ${error.message}`)
+      } else {
+        setEditing(data.id)
+        setMsg('Published.')
+      }
     } else {
       const { error } = await supabase.from('blog_posts').update(payload).eq('id', editing!)
       setMsg(error ? `Error: ${error.message}` : 'Saved.')
