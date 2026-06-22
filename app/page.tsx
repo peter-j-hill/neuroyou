@@ -33,7 +33,7 @@ export default function HomePage() {
             href="/start-here"
             className="px-6 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
           >
-            More
+            Start Here
           </Link>
           <Link
             href="/exercises"
