@@ -21,8 +21,7 @@ export default async function BlogPage() {
         Explore
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-xl leading-relaxed">
-        Shorter, more conversational pieces. Practical observations, applications,
-        and ideas from the NeuroYou lab.
+        Explore the ideas that led to the creation of NeuroYou. These short articles cover some of the history, thinking and practical experimentation from the NeuroYou lab.
       </p>
 
       {posts && posts.length > 0 ? (
