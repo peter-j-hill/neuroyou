@@ -128,6 +128,13 @@ export default function RichEditor({ content, onChange }: Props) {
           Image ↑
         </button>
         <span className="w-px bg-[var(--border)] mx-1" />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
+          className={btnClass(false)}
+          title="Remove all formatting — converts selection to plain body text"
+        >Clear fmt</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
         <button type="button" onClick={() => editor.chain().focus().undo().run()} className={btnClass(false)}>Undo</button>
         <button type="button" onClick={() => editor.chain().focus().redo().run()} className={btnClass(false)}>Redo</button>
       </div>
