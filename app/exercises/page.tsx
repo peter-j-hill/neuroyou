@@ -21,8 +21,7 @@ export default async function ExercisesPage() {
         Learn
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-md leading-relaxed">
-        Practical techniques for working with attention, sensation, and emotional state.
-        Text and audio. No sequence — begin anywhere.
+        Start your personal consciousness lab with these simple, free exercises. Most can be done in just a few minutes, wherever you are right now. They can be done in any order. The exercises help you reconnect with your senses, and start your exploration of consciousness. Making notes about your insights is highly recommended — there are optional self reflection prompts in each exercise.
       </p>
 
       {exercises && exercises.length > 0 ? (
