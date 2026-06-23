@@ -45,7 +45,7 @@ export default function Nav() {
         <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
           <Link href="/exercises" className={isActive('/exercises')}>Learn</Link>
           <Link href="/blog" className={isActive('/blog')}>Explore</Link>
-          <Link href="/train" className={isActive('/train')}>Train</Link>
+          <Link href="/train" className={isActive('/train')}>Protocols</Link>
           <Link href="/research" className={isActive('/research')}>Research</Link>
 
           {user ? (

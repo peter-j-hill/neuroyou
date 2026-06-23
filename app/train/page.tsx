@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Train — NeuroYou',
-  description: 'Paid training programmes from NeuroYou. Structured, sequential, neuroscience-grounded.',
+  title: 'Protocols — NeuroYou',
+  description: 'The NeuroYou Protocols — structured online courses for direct consciousness work.',
 }
 
 export default function TrainPage() {
@@ -10,14 +10,14 @@ export default function TrainPage() {
     <div className="max-w-5xl mx-auto px-6 py-20">
       <p className="label mb-10">
         <span className="node mr-3" />
-        Structured training
+        The NeuroYou Protocols
       </p>
       <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
-        Train
+        Protocols
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-xl leading-relaxed">
-        Sequential programmes for direct intervention. Each course follows a fixed structure —
-        no skipping, no shortcuts. Built for people who want results, not insights.
+        Structured online courses for direct consciousness work. Each protocol follows a fixed
+        sequence — no skipping, no shortcuts. Built for people who want results, not insights.
       </p>
 
       {/* Neutralize */}
