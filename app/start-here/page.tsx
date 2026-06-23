@@ -40,7 +40,7 @@ export default function StartHerePage() {
 
           <h2>What to expect</h2>
           <p>
-            The free exercises are a starting point. They are short, specific, and
+            The <a href="/exercises">free exercises</a> are a starting point. They are short, specific, and
             instruction-based — you will be asked to notice something, or to direct
             your attention in a particular way, and then observe what happens.
           </p>
