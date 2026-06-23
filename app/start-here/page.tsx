@@ -45,9 +45,9 @@ export default function StartHerePage() {
             your attention in a particular way, and then observe what happens.
           </p>
           <p>
-            The Neutralize course goes deeper: a structured sequence specifically for
-            emotional regulation, for people whose unpleasant emotional states are
-            limiting their lives.
+            After you&apos;ve done some of the free exercises, if you are still curious, take a look
+            at the <a href="/train">NeuroYou Protocols</a>. These are more structured, committing
+            courses where you will learn powerful new ways to manage your consciousness more effectively.
           </p>
 
           <h2>What is not here</h2>
