@@ -26,9 +26,10 @@ export default function StartHerePage() {
 
           <h2>What consciousness research means here</h2>
           <p>
-            Consciousness — your direct, first-person experience of being here — is the
-            subject matter. Not productivity. Not spiritual development. Not happiness
-            optimization.
+            Consciousness — your direct, first-person experience of being here, in your body,
+            with your thoughts, your emotion, your belief, your identity, and your life — is the
+            subject matter. Not productivity. Not spiritual development. Not making more money.
+            Not happiness optimization.
           </p>
           <p>
             The techniques are drawn from neuroscience, phenomenology, and decades of
