@@ -53,6 +53,11 @@ function LoginForm() {
           className="w-full px-4 py-3 text-sm font-light rounded-none"
         />
       </div>
+      <div className="text-right">
+        <Link href="/forgot-password" className="text-xs text-[var(--muted)] hover:text-[var(--white)] transition-colors">
+          Forgot password?
+        </Link>
+      </div>
       {error && (
         <p className="text-xs font-light" style={{ color: 'var(--magenta)' }}>{error}</p>
       )}
