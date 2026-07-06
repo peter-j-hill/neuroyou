@@ -44,25 +44,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Q&A punch */}
-      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16">
-        <div>
-          <p className="label mb-6">Q:</p>
-          <p className="text-2xl font-light text-[var(--white)] leading-snug tracking-tight">
-            WHO IS THE SELF?
-          </p>
-        </div>
-        <div>
-          <p className="label mb-6">A:</p>
-          <p className="text-2xl font-bold text-[var(--blue)] text-glow-blue leading-snug tracking-tight uppercase">
-            A stabilized neural pattern<br />in a predictive system.
-          </p>
-          <p className="text-xs text-[var(--muted)] mt-6 leading-relaxed font-light max-w-xs">
-            Identity is not found. It is constructed — moment to moment — by a nervous system
-            optimizing for prediction accuracy.
-          </p>
-        </div>
-      </section>
 
       {/* Three axioms */}
       <section className="py-24 border-b border-[var(--border)]">
