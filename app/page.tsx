@@ -150,14 +150,15 @@ export default function HomePage() {
         </div>
         <div className="border border-[var(--border)] p-8" style={{ borderColor: 'rgba(140,92,255,0.3)' }}>
           <p className="text-[0.6rem] tracking-widest uppercase font-light mb-6" style={{ color: 'var(--violet)' }}>
-            From the introduction
+            From the author
           </p>
           <p className="text-sm font-light text-[var(--white)] leading-relaxed mb-4" style={{ fontStyle: 'italic' }}>
-            &ldquo;Meditation is not a retreat from reality. It is a more careful encounter with it.
-            The techniques described in this book do not ask you to believe anything.
-            They ask you to observe — precisely, repeatedly, and without flinching.&rdquo;
+            &ldquo;Meditation is not a retreat from reality. It is a more careful encounter with the
+            consciousness that defines it. The techniques described in this book do not ask you to
+            believe anything. They simply ask you to observe — precisely, repeatedly, and deliberately
+            about what exactly it is that creates your experience of this world.&rdquo;
           </p>
-          <p className="text-xs text-[var(--muted)] font-light">Peter J Hill</p>
+          <p className="text-xs text-[var(--muted)] font-light">Peter J Hill, Author of Reality Check, Founder of NeuroYou, and inventor of the NeuroYou Protocols</p>
         </div>
       </section>
 
