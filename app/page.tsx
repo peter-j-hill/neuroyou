@@ -137,12 +137,28 @@ export default function HomePage() {
             Reality Check
           </h2>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
-            How meditation moved from mysticism to neuroscience.
+            In just a few short decades, meditation and mindfulness has evolved from an obscure
+            eastern mystical practice, to magazines at supermarket checkouts and the go-to practice
+            of Silicon Valley billionaires and Hollywood celebrities.
+          </p>
+          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
+            What fueled this unstoppable trend and cultural phenomena? In this groundbreaking book,
+            Peter J Hill reveals how a seemingly random series of connections brought together the
+            ideas of German philosophers, atomic physicists, psychologists, LSD tripping hippies,
+            New Age dreamers, eastern gurus and cognitive neuroscientists, to end up as the modern
+            practice of meditation, one that increasingly is framed by neuroscience, not mysticism.
           </p>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
-            A field manual for the serious practitioner — built from thirty years of
-            first-person investigation, stripped of doctrine, and grounded in how the
-            brain actually constructs experience.
+            Drawing on thousands of hours of his own explorations in consciousness over thirty years
+            of daily meditation practice using dozens of different techniques, Peter Hill explains
+            the mysteries of binaural beats, the dangers of getting &lsquo;puddled&rsquo;, and the reasons
+            why seeking enlightenment is not nearly as difficult or elusive as many meditation
+            teachers or gurus might have led you to believe. In his precise, clear, no-nonsense
+            style, meditation is broken down into the senses, skills and habits of consciousness.
+            With simple yet powerful exercises, and a detailed insight into the research behind the
+            NeuroFinity protocol, this book shows anyone with a few minutes a day how to profoundly
+            influence their thoughts and emotions for the better, understand and explore their own
+            consciousness, and perhaps, for some, to find enlightenment.
           </p>
           <p className="text-xs tracking-widest uppercase text-[var(--violet)] font-light">
             In preparation — 2025
