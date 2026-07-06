@@ -161,7 +161,7 @@ export default function HomePage() {
             consciousness, and perhaps, for some, to find enlightenment.
           </p>
           <p className="text-xs tracking-widest uppercase text-[var(--violet)] font-light">
-            In preparation — 2025
+            Coming Soon
           </p>
         </div>
         <div className="border border-[var(--border)] p-8" style={{ borderColor: 'rgba(140,92,255,0.3)' }}>
