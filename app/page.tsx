@@ -106,16 +106,14 @@ export default function HomePage() {
             {' '}The NeuroYou Protocols
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Four stages.<br />Strict sequence.
+            Four Protocols.<br />One Direction: Inward.
           </h2>
-          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
-            The techniques are learned in fixed order — each stage requires the one before it.
-            You cannot explore the dissolution of awareness before you can reliably quiet a single emotion.
-            You earn each stage by succeeding at the last.
-          </p>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
-            The papers are open. Anyone can read the full intellectual trajectory.
-            The practice is sequential, gated, and cumulative — because that is the actual shape of the work.
+            The NeuroYou protocols are a highly advanced set of sequential, experiential consciousness
+            exploration exercises. Not therapy, not wellness. Consciousness engineering. The result of
+            30 years of direct practice and thousands of hours of experimentation and observation in
+            meditation and consciousness work, and only available from NeuroYou. Designed to be
+            sequential, each requires the skills that are developed in the earlier protocols.
           </p>
           <Link
             href="/train"
