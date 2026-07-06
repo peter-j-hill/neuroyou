@@ -19,6 +19,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [videoUrl, setVideoUrl] = useState('')
   const [audioUrl, setAudioUrl] = useState('')
   const [audioUploading, setAudioUploading] = useState(false)
+  const [sortOrder, setSortOrder] = useState(0)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const coverInputRef = useRef<HTMLInputElement>(null)
@@ -26,7 +27,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
 
   const reset = () => {
     setTitle(''); setType('blog'); setPublishedAt(new Date().toISOString().slice(0, 10))
-    setBody(''); setCoverImage(''); setVideoUrl(''); setAudioUrl(''); setMsg('')
+    setBody(''); setCoverImage(''); setVideoUrl(''); setAudioUrl(''); setSortOrder(0); setMsg('')
   }
 
   const startNew = () => { reset(); setEditing('new') }
@@ -43,6 +44,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setCoverImage(data.cover_image ?? '')
     setVideoUrl(data.video_url ?? '')
     setAudioUrl(data.audio_url ?? '')
+    setSortOrder(data.sort_order ?? 0)
     setMsg('')
   }
 
@@ -54,6 +56,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
       cover_image: coverImage || null,
       video_url: videoUrl || null,
       audio_url: audioUrl || null,
+      sort_order: sortOrder,
       published_at: new Date(publishedAt).toISOString(),
     }
     if (editing === 'new') {
@@ -179,6 +182,17 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               <label className="label block mb-2">Date</label>
               <input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)}
                 className="px-4 py-3 text-sm font-light rounded-none" />
+            </div>
+
+            {/* Sort order */}
+            <div>
+              <label className="label block mb-2">Sort order <span className="normal-case text-[var(--muted)]">(lower = first)</span></label>
+              <input
+                type="number"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(parseInt(e.target.value) || 0)}
+                className="w-24 px-4 py-3 text-sm font-light rounded-none"
+              />
             </div>
 
             {/* Cover image */}

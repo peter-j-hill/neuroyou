@@ -9,7 +9,7 @@ export default async function ResearchPage() {
     .from('blog_posts')
     .select('id, title, published_at, body, cover_image')
     .eq('type', 'research')
-    .order('published_at', { ascending: false })
+    .order('sort_order', { ascending: true })
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-20">
