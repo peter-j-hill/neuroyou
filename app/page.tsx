@@ -98,45 +98,47 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Neutralize */}
+      {/* Protocols */}
       <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
         <div>
           <p className="label mb-6">
             <span style={{ color: 'var(--magenta)' }}>▸</span>
-            {' '}The course
+            {' '}The NeuroYou Protocols
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Neutralize
+            Four stages.<br />Strict sequence.
           </h2>
+          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
+            The techniques are learned in fixed order — each stage requires the one before it.
+            You cannot explore the dissolution of awareness before you can reliably quiet a single emotion.
+            You earn each stage by succeeding at the last.
+          </p>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
-            A fixed sequential course in emotional regulation. For people whose unpleasant
-            emotional states are limiting their lives — and who want a rigorous,
-            neuroscience-informed method through.
+            The papers are open. Anyone can read the full intellectual trajectory.
+            The practice is sequential, gated, and cumulative — because that is the actual shape of the work.
           </p>
           <Link
-            href="/neutralize"
+            href="/train"
             className="text-xs tracking-widest uppercase text-[var(--blue)] hover:text-glow-blue transition-colors border-b border-[var(--blue)] pb-0.5"
           >
-            View course →
+            View the protocols →
           </Link>
         </div>
-        <div className="border border-[var(--border)] p-8 glow-blue">
-          <p className="label mb-4">
-            <span style={{ color: 'var(--magenta)' }}>Q:</span>
-          </p>
-          <p className="text-lg font-light text-[var(--white)] mb-6 tracking-tight">
-            WHAT IS EMOTIONAL REGULATION?
-          </p>
-          <p className="label mb-3">
-            <span style={{ color: 'var(--blue)' }}>A:</span>
-          </p>
-          <p className="text-sm font-medium text-[var(--blue)] uppercase tracking-wide leading-relaxed">
-            Modifying the nervous system&apos;s<br />
-            threat-prediction output.
-          </p>
-          <p className="text-xs text-[var(--muted)] font-light mt-4 leading-relaxed">
-            Not suppression. Not reframing. Direct intervention at the level of sensation.
-          </p>
+        <div className="border border-[var(--border)] p-8 space-y-px">
+          {[
+            { n: '01', title: 'Neutralize', note: 'Foundational — entry point' },
+            { n: '02', title: 'NeuroGoal', note: 'First application — tangible results' },
+            { n: '03', title: 'Reality Distortion', note: 'Advanced generalisation' },
+            { n: '04', title: 'NeuroFinity', note: 'The frontier' },
+          ].map((p) => (
+            <div key={p.n} className="flex items-center justify-between gap-4 py-4 border-b border-[var(--border)] last:border-0">
+              <div className="flex items-center gap-4">
+                <span className="text-[0.6rem] tracking-widest text-[var(--blue)] font-light">{p.n}</span>
+                <span className="text-sm font-light text-[var(--white)]">{p.title}</span>
+              </div>
+              <span className="text-[0.6rem] tracking-wider text-[var(--muted)] font-light text-right">{p.note}</span>
+            </div>
+          ))}
         </div>
       </section>
 
