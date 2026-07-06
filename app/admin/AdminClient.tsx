@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import RichEditor from './RichEditor'
 
-type Post = { id: string; title: string; type: string; published_at: string; cover_image?: string }
+type Post = { id: string; title: string; type: string; published_at: string; cover_image?: string; sort_order?: number }
 
 export default function AdminClient({ posts }: { posts: Post[] }) {
   const router = useRouter()
@@ -139,7 +139,11 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               onClick={() => startEdit(p.id)}
             >
               <div className="min-w-0">
-                <p className={`text-[0.6rem] tracking-widest uppercase mb-1 ${typeColor(p.type)}`}>{p.type}</p>
+                <div className="flex items-center gap-2 mb-1">
+                  <p className={`text-[0.6rem] tracking-widest uppercase ${typeColor(p.type)}`}>{p.type}</p>
+                  <span className="text-[0.6rem] text-[var(--border)] font-light">·</span>
+                  <p className="text-[0.6rem] text-[var(--muted)] font-light">#{p.sort_order ?? 0}</p>
+                </div>
                 <p className="text-xs text-[var(--white)] font-light leading-snug truncate">{p.title}</p>
               </div>
               <button
