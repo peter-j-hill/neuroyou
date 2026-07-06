@@ -54,8 +54,6 @@ export default function StartHerePage() {
           <p>
             No streaks. No badges. No progress bars. No cosmic swirls.
             No chakras. No galaxy backgrounds. No lotus poses.
-            If you completed Module 3 on June 14 — it will say "Completed: June 14."
-            That is the extent of the tracking.
           </p>
 
           <h2>Begin</h2>
