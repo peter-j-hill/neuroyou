@@ -134,7 +134,7 @@ export default function HomePage() {
             {' '}The book
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Reality Check
+            Reality Check: <span className="text-[var(--blue)]">The Book</span>
           </h2>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
             In just a few short decades, meditation and mindfulness has evolved from an obscure
