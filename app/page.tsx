@@ -45,25 +45,30 @@ export default function HomePage() {
       </section>
 
 
-      {/* Three axioms */}
+      {/* Orientation */}
       <section className="py-24 border-b border-[var(--border)]">
-        <p className="label mb-12">Operating principles</p>
-        <div className="grid sm:grid-cols-3 gap-12">
+        <p className="label mb-12">NeuroYou Orientation</p>
+        <div className="grid sm:grid-cols-2 gap-12">
           {[
             {
               index: '01',
-              title: 'Systems, not stories',
-              body: 'Your experience is produced by physical systems. Understanding those systems changes what is possible.',
+              title: 'Experience Over Explanation',
+              body: 'Understanding arises from doing, not from adopting narratives. Concepts are useful only insofar as they support direct observation.',
             },
             {
               index: '02',
-              title: 'Zero gamification',
-              body: 'No streaks. No points. No badges. Completion is recorded by date — and nothing more.',
+              title: 'Structure Over Story',
+              body: 'Emotional events, beliefs, and insights are treated as patterns, not identities. The goal is not meaning-making, but structural flexibility.',
             },
             {
               index: '03',
-              title: 'Direct investigation',
-              body: 'The techniques operate on actual sensory experience — not beliefs, not breath counts, not visualisations.',
+              title: 'Skill Over Faith',
+              body: 'Abstraction, attention, and non-identification are trainable capacities. Progress is measured by capability, not conviction.',
+            },
+            {
+              index: '04',
+              title: 'Humility Over Certainty',
+              body: 'Claims are provisional. Experiences are not universalized. Limits, risks, and failure modes are acknowledged explicitly.',
             },
           ].map((item) => (
             <div key={item.index}>
