@@ -47,7 +47,7 @@ export default function HomePage() {
 
       {/* Orientation */}
       <section className="py-24 border-b border-[var(--border)]">
-        <p className="label mb-12"><span className="node mr-3" />NeuroYou Orientation</p>
+        <p className="label mb-12"><span className="node mr-3" />NeuroYou Commitments</p>
         <div className="grid sm:grid-cols-2 gap-12">
           {[
             {
