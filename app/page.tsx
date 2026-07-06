@@ -87,7 +87,7 @@ export default function HomePage() {
             {' '}The NeuroYou Protocols
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Four Protocols.<br />One Direction: Inward.
+            Four Protocols.<br />One Direction: <span className="text-[var(--blue)] text-glow-blue">Inward.</span>
           </h2>
           <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
             The NeuroYou protocols are a highly advanced set of sequential, experiential consciousness
