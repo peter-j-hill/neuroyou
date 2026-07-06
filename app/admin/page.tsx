@@ -12,8 +12,8 @@ export default async function AdminPage() {
 
   const { data: posts } = await supabase
     .from('blog_posts')
-    .select('id, title, type, published_at')
-    .order('published_at', { ascending: false })
+    .select('id, title, type, published_at, sort_order')
+    .order('sort_order', { ascending: true })
 
   return <AdminClient posts={posts ?? []} />
 }
