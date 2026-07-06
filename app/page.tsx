@@ -47,7 +47,7 @@ export default function HomePage() {
 
       {/* Orientation */}
       <section className="py-24 border-b border-[var(--border)]">
-        <p className="label mb-12">NeuroYou Orientation</p>
+        <p className="label mb-12"><span className="node mr-3" />NeuroYou Orientation</p>
         <div className="grid sm:grid-cols-2 gap-12">
           {[
             {
@@ -88,8 +88,8 @@ export default function HomePage() {
       <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
         <div>
           <p className="label mb-6">
-            <span style={{ color: 'var(--magenta)' }}>▸</span>
-            {' '}The NeuroYou Protocols
+            <span className="node mr-3" style={{ background: 'var(--magenta)', boxShadow: '0 0 8px var(--magenta)' }} />
+            The NeuroYou Protocols
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
             Four Protocols.<br />One Direction: <span className="text-[var(--blue)] text-glow-blue">Inward.</span>
@@ -130,8 +130,8 @@ export default function HomePage() {
       <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
         <div>
           <p className="label mb-6">
-            <span style={{ color: 'var(--violet)' }}>▸</span>
-            {' '}The book
+            <span className="node mr-3" style={{ background: 'var(--violet)', boxShadow: '0 0 8px var(--violet)' }} />
+            The book
           </p>
           <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
             Reality Check: <span className="text-[var(--blue)]">The Book</span>

@@ -36,7 +36,7 @@ export default function TrainPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-20">
       <p className="label mb-10">
-        <span className="node mr-3" />
+        <span className="node mr-3" style={{ background: 'var(--violet)', boxShadow: '0 0 8px var(--violet)' }} />
         The NeuroYou Protocols
       </p>
       <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
