@@ -97,13 +97,27 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     const file = e.target.files?.[0]; if (!file) return
     setAudioUploading(true)
     try {
-      const form = new FormData(); form.append('file', file)
-      const res = await fetch('/api/upload-audio', { method: 'POST', body: form })
-      const text = await res.text()
-      let data: { url?: string; error?: string }
-      try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setAudioUploading(false); return }
-      if (data.url) setAudioUrl(data.url)
-      else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
+      const urlRes = await fetch('/api/upload-audio-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name }),
+      })
+      const urlText = await urlRes.text()
+      let urlData: { path?: string; token?: string; error?: string }
+      try { urlData = JSON.parse(urlText) } catch { alert('Upload error: ' + urlText.slice(0, 200)); setAudioUploading(false); return }
+      if (!urlData.path || !urlData.token) {
+        alert('Upload failed: ' + (urlData.error ?? 'unknown') + ' (status ' + urlRes.status + ')')
+        setAudioUploading(false); return
+      }
+
+      const supabase = createClient()
+      const { error: uploadError } = await supabase.storage
+        .from('audio-files')
+        .uploadToSignedUrl(urlData.path, urlData.token, file)
+      if (uploadError) { alert('Upload error: ' + uploadError.message); setAudioUploading(false); return }
+
+      const { data: { publicUrl } } = supabase.storage.from('audio-files').getPublicUrl(urlData.path)
+      setAudioUrl(publicUrl)
     } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message : JSON.stringify(err))) }
     setAudioUploading(false); e.target.value = ''
   }
