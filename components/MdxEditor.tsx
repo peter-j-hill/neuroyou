@@ -1,131 +1,170 @@
 'use client'
 
-import { useEffect, useRef, useState, useTransition, type ReactNode } from 'react'
-import { previewMdx } from '@/lib/actions'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
+import { useEffect, useRef, useCallback } from 'react'
+import { DiagramEmbed } from './DiagramNode'
 
-type Props = { value: string; onChange: (value: string) => void }
+type Props = { value: string; onChange: (html: string) => void }
 
-const snippets: { label: string; insert: string; wrap?: boolean }[] = [
-  { label: 'H2', insert: '## ', wrap: false },
-  { label: 'H3', insert: '### ', wrap: false },
-  { label: 'Bold', insert: '**', wrap: true },
-  { label: 'Italic', insert: '_', wrap: true },
-  { label: 'Link', insert: '[text](https://)', wrap: false },
-  { label: 'List', insert: '- ', wrap: false },
-  { label: 'Quote', insert: '> ', wrap: false },
-  { label: 'Image', insert: '![alt](url)', wrap: false },
-  { label: 'Diagram', insert: '<Diagram slug="" caption="" />', wrap: false },
-]
+const btnClass = (active: boolean) =>
+  `px-2.5 py-1 text-[0.65rem] tracking-wider uppercase border transition-colors ${
+    active
+      ? 'border-[var(--blue)] text-[var(--blue)]'
+      : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--white)] hover:border-[var(--muted)]'
+  }`
 
 export default function MdxEditor({ value, onChange }: Props) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-  // Existing content opens on Preview (formatted); a blank new post opens on Write.
-  const [tab, setTab] = useState<'write' | 'preview'>(() => (value.trim() ? 'preview' : 'write'))
-  const [previewNode, setPreviewNode] = useState<ReactNode>(null)
-  const [previewError, setPreviewError] = useState('')
-  const [isPending, startTransition] = useTransition()
-  const hasRunInitialPreview = useRef(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const runPreview = () => {
-    setTab('preview')
-    startTransition(async () => {
-      const result = await previewMdx(value)
-      if (result.error) {
-        setPreviewError(result.error)
-        setPreviewNode(null)
-      } else {
-        setPreviewError('')
-        setPreviewNode(result.content ?? null)
-      }
-    })
-  }
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Image.configure({ inline: false, allowBase64: false }),
+      Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
+      DiagramEmbed,
+    ],
+    content: value,
+    onUpdate: ({ editor }) => onChange(editor.getHTML()),
+    editorProps: {
+      attributes: {
+        class: 'prose outline-none min-h-[400px] focus:outline-none',
+      },
+    },
+  })
 
-  // Auto-compile once on mount if we're starting on the Preview tab.
-  useEffect(() => {
-    if (tab === 'preview' && !hasRunInitialPreview.current) {
-      hasRunInitialPreview.current = true
-      runPreview()
+  const handleLink = useCallback(() => {
+    if (!editor) return
+    const prev = editor.getAttributes('link').href as string | undefined
+    const url = window.prompt('URL', prev ?? 'https://')
+    if (url === null) return
+    if (url === '') {
+      editor.chain().focus().unsetLink().run()
+    } else {
+      editor.chain().focus().setLink({ href: url, target: '_blank' }).run()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [editor])
 
-  const insertSnippet = (snippet: (typeof snippets)[number]) => {
-    const el = textareaRef.current
-    if (!el) return
-    const start = el.selectionStart
-    const end = el.selectionEnd
-    const selected = value.slice(start, end)
+  const handleDiagram = useCallback(() => {
+    if (!editor) return
+    const slug = window.prompt('Diagram slug', '')
+    if (slug === null) return
+    const caption = window.prompt('Caption (optional)', '') ?? ''
+    editor.chain().focus().insertContent({ type: 'diagramEmbed', attrs: { slug, caption } }).run()
+  }, [editor])
 
-    const next = snippet.wrap
-      ? value.slice(0, start) + snippet.insert + selected + snippet.insert + value.slice(end)
-      : value.slice(0, start) + snippet.insert + selected + value.slice(end)
+  useEffect(() => {
+    if (!editor) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        handleLink()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [editor, handleLink])
 
-    onChange(next)
-    requestAnimationFrame(() => {
-      el.focus()
-      const cursor = start + snippet.insert.length
-      el.setSelectionRange(cursor, cursor)
-    })
+  useEffect(() => {
+    if (editor && value !== editor.getHTML()) editor.commands.setContent(value)
+  }, [value, editor])
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !editor) return
+
+    const form = new FormData()
+    form.append('file', file)
+
+    try {
+      const res = await fetch('/api/upload-image', { method: 'POST', body: form })
+      const text = await res.text()
+      let data: { url?: string; error?: string }
+      try {
+        data = JSON.parse(text)
+      } catch {
+        alert('Upload failed: server returned unexpected response.\n\n' + text.slice(0, 200))
+        e.target.value = ''
+        return
+      }
+
+      if (data.url) {
+        editor.chain().focus().setImage({ src: data.url }).run()
+      } else {
+        alert('Upload failed: ' + (data.error ?? 'unknown error') + '\n\nStatus: ' + res.status)
+      }
+    } catch (err) {
+      alert('Upload failed: ' + (err instanceof Error ? err.message + '\n' + err.stack : JSON.stringify(err)))
+    }
+
+    e.target.value = ''
   }
+
+  if (!editor) return null
 
   return (
     <div className="border border-[var(--border)]">
-      {/* Prominent Write/Preview tabs */}
-      <div className="flex items-stretch border-b border-[var(--border)]">
+      {/* Toolbar */}
+      <div className="flex flex-wrap gap-1 p-3 border-b border-[var(--border)]">
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={btnClass(editor.isActive('heading', { level: 1 }))}>H1</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={btnClass(editor.isActive('heading', { level: 2 }))}>H2</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={btnClass(editor.isActive('heading', { level: 3 }))}>H3</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
+        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={btnClass(editor.isActive('bold'))}>B</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={btnClass(editor.isActive('italic'))}>I</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
+        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={btnClass(editor.isActive('bulletList'))}>List</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={btnClass(editor.isActive('orderedList'))}>1. List</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
+        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={btnClass(editor.isActive('blockquote'))}>Quote</button>
+        <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btnClass(false)}>HR</button>
+        <button type="button" onClick={handleLink} className={btnClass(editor.isActive('link'))} title="Link (Ctrl+K)">Link</button>
         <button
           type="button"
-          onClick={() => setTab('write')}
-          className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase transition-colors ${
-            tab === 'write'
-              ? 'text-[var(--blue)] bg-[var(--accent-glow)] border-b-2 border-[var(--blue)]'
-              : 'text-[var(--muted)] hover:text-[var(--white)] border-b-2 border-transparent'
-          }`}
-        >
-          Write (raw source)
-        </button>
+          onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() : undefined}
+          className={btnClass(false)}
+          style={{ display: editor.isActive('link') ? 'inline-block' : 'none' }}
+          title="Remove link"
+        >Unlink</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
         <button
           type="button"
-          onClick={runPreview}
-          className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase transition-colors ${
-            tab === 'preview'
-              ? 'text-[var(--blue)] bg-[var(--accent-glow)] border-b-2 border-[var(--blue)]'
-              : 'text-[var(--muted)] hover:text-[var(--white)] border-b-2 border-transparent'
-          }`}
+          onClick={() => fileInputRef.current?.click()}
+          className={btnClass(false)}
+          title="Upload image"
         >
-          Preview (formatted)
+          Image ↑
         </button>
+        <button type="button" onClick={handleDiagram} className={btnClass(false)} title="Embed a diagram">
+          Diagram
+        </button>
+        <span className="w-px bg-[var(--border)] mx-1" />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
+          className={btnClass(false)}
+          title="Remove all formatting — converts selection to plain body text"
+        >Clear fmt</button>
+        <span className="w-px bg-[var(--border)] mx-1" />
+        <button type="button" onClick={() => editor.chain().focus().undo().run()} className={btnClass(false)}>Undo</button>
+        <button type="button" onClick={() => editor.chain().focus().redo().run()} className={btnClass(false)}>Redo</button>
       </div>
 
-      {tab === 'write' && (
-        <div className="flex flex-wrap items-center gap-1 p-3 border-b border-[var(--border)]">
-          {snippets.map((s) => (
-            <button
-              key={s.label}
-              type="button"
-              onClick={() => insertSnippet(s)}
-              className="px-2.5 py-1 text-[0.65rem] tracking-wider uppercase border border-[var(--border)] text-[var(--muted)] hover:text-[var(--white)] hover:border-[var(--blue)] transition-colors"
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageUpload}
+      />
 
-      {tab === 'write' ? (
-        <textarea
-          ref={textareaRef}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full min-h-[420px] p-6 text-sm font-mono leading-relaxed resize-y focus:outline-none bg-[var(--graphite)] text-[var(--white)]"
-          placeholder="Write in Markdown/MDX. Use the Diagram button to embed a diagram."
-        />
-      ) : (
-        <div className="p-6 min-h-[420px] bg-[var(--graphite)]">
-          {isPending && <p className="text-xs text-[var(--muted)]">Compiling…</p>}
-          {previewError && <p className="text-xs" style={{ color: 'var(--magenta)' }}>{previewError}</p>}
-          {!isPending && !previewError && <div className="prose">{previewNode}</div>}
-        </div>
-      )}
+      {/* Editor area */}
+      <div className="p-6 bg-[var(--graphite)]">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   )
 }
