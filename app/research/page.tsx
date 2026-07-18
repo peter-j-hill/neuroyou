@@ -6,9 +6,11 @@ export const dynamic = 'force-dynamic'
 export default async function ResearchPage() {
   const supabase = await createClient()
   const { data: papers } = await supabase
-    .from('blog_posts')
-    .select('id, title, published_at, body, cover_image')
-    .eq('type', 'research')
+    .from('content')
+    .select('id, title, published_at, excerpt, hero_asset')
+    .eq('site', 'neuroyou')
+    .eq('type', 'paper')
+    .eq('status', 'published')
     .order('sort_order', { ascending: true })
 
   return (
@@ -34,8 +36,8 @@ export default async function ResearchPage() {
               className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
             >
               <div className="flex gap-6 items-start w-full">
-                {paper.cover_image && (
-                  <img src={paper.cover_image} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
+                {paper.hero_asset && (
+                  <img src={paper.hero_asset} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
                 )}
                 <div className="min-w-0 flex-1">
                   <time className="label block mb-4">
@@ -46,9 +48,9 @@ export default async function ResearchPage() {
                   <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
                     {paper.title}
                   </h2>
-                  {paper.body && (
+                  {paper.excerpt && (
                     <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
-                      {paper.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220)}…
+                      {paper.excerpt}
                     </p>
                   )}
                 </div>

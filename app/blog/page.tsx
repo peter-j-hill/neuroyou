@@ -6,9 +6,11 @@ export const dynamic = 'force-dynamic'
 export default async function BlogPage() {
   const supabase = await createClient()
   const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('id, title, published_at, body, cover_image')
-    .eq('type', 'blog')
+    .from('content')
+    .select('id, title, published_at, excerpt, hero_asset')
+    .eq('site', 'neuroyou')
+    .eq('type', 'article')
+    .eq('status', 'published')
     .order('sort_order', { ascending: true })
 
   return (
@@ -33,8 +35,8 @@ export default async function BlogPage() {
               className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
             >
               <div className="flex gap-6 items-start w-full">
-                {post.cover_image && (
-                  <img src={post.cover_image} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
+                {post.hero_asset && (
+                  <img src={post.hero_asset} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
                 )}
                 <div className="min-w-0 flex-1">
                   <time className="label block mb-4">
@@ -45,9 +47,9 @@ export default async function BlogPage() {
                   <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
                     {post.title}
                   </h2>
-                  {post.body && (
+                  {post.excerpt && (
                     <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
-                      {post.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220)}…
+                      {post.excerpt}
                     </p>
                   )}
                 </div>

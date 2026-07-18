@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import AudioPlayer from '@/app/components/AudioPlayer'
+import { MdxContent } from '@/lib/mdx'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,9 +14,10 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
   const { id } = await params
   const supabase = await createClient()
   const { data: exercise } = await supabase
-    .from('blog_posts')
+    .from('content')
     .select('*')
     .eq('id', id)
+    .eq('site', 'neuroyou')
     .eq('type', 'exercise')
     .single()
 
@@ -29,8 +31,8 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
         ← Learn
       </a>
 
-      {exercise.cover_image && (
-        <img src={exercise.cover_image} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
+      {exercise.hero_asset && (
+        <img src={exercise.hero_asset} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
       )}
 
       <div className="grid sm:grid-cols-[1fr_2fr] gap-16 mt-12">
@@ -67,7 +69,7 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
             </div>
           )}
 
-          <div className="prose" dangerouslySetInnerHTML={{ __html: exercise.body ?? '' }} />
+          {exercise.body_mdx && <MdxContent source={exercise.body_mdx} />}
         </div>
       </div>
     </div>

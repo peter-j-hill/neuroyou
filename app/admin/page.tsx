@@ -11,8 +11,9 @@ export default async function AdminPage() {
   if (!user || user.email !== ADMIN_EMAIL) redirect('/')
 
   const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('id, title, type, published_at, sort_order')
+    .from('content')
+    .select('id, title, type, status, published_at, sort_order')
+    .eq('site', 'neuroyou')
     .order('sort_order', { ascending: true })
 
   return <AdminClient posts={posts ?? []} />

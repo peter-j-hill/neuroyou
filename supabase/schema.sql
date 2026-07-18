@@ -98,3 +98,41 @@ create policy "Users can insert own progress"
 
 create policy "Users can update own progress"
   on public.module_progress for update using (auth.uid() = user_id);
+
+-- ============================================================================
+-- Job Search Website — shares this project/auth pool as a separate product.
+-- Full schema/rationale lives in the Job-Search-Website repo's
+-- job-search-website-mvp-brief.md (Section 8). Tables are job_search_-prefixed
+-- to stay clearly separated from NeuroYou's own tables above. See that repo
+-- for the actual migration; this comment exists so this schema.sql stays an
+-- accurate picture of what's really in this database.
+-- ============================================================================
+
+-- ============================================================================
+-- Unified content — shared with peterjonathanhill.com, a second product in
+-- this same project. Full schema/rationale lives in the peterjonathanhill.com
+-- repo. blog_posts above is retired in favor of `content` (site='neuroyou')
+-- but is left in place, untouched, as a rollback safety net — not read by
+-- the app anymore. This comment exists so this schema.sql stays an accurate
+-- picture of what's really in this database.
+--
+-- content_type: article | paper | diagram | essay | presentation | video |
+--               reading_list | book | talk | exercise
+-- content_site: peterjonathanhill | neuroyou
+-- content_status: draft | published
+--
+-- content(id, site, type, title, slug, excerpt, body_mdx, hero_asset,
+--         video_url, audio_url, status, published_at, sort_order,
+--         reading_time, created_at, updated_at, search_vector)
+--         unique(site, slug)
+-- themes(id, slug, title, question, description, sort_order)
+-- domains(id, slug, title, sort_order)
+-- tags(id, slug, title)
+-- content_themes(content_id, theme_id), content_domains(content_id, domain_id),
+-- content_tags(content_id, tag_id) — many-to-many joins
+--
+-- RLS: public select where status = 'published'; insert/update/delete gated
+-- on auth.jwt()->>'email' = 'peter.j.hill@live.com' (same pattern as
+-- blog_posts above). Same policy shape on themes/domains/tags/join tables,
+-- but with public read (not gated on status).
+-- ============================================================================

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import { MdxContent } from '@/lib/mdx'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,10 +8,11 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
   const { id } = await params
   const supabase = await createClient()
   const { data: paper } = await supabase
-    .from('blog_posts')
+    .from('content')
     .select('*')
     .eq('id', id)
-    .eq('type', 'research')
+    .eq('site', 'neuroyou')
+    .eq('type', 'paper')
     .single()
 
   if (!paper) notFound()
@@ -21,8 +23,8 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
         ← Research
       </a>
 
-      {paper.cover_image && (
-        <img src={paper.cover_image} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
+      {paper.hero_asset && (
+        <img src={paper.hero_asset} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
       )}
 
       <div className="grid sm:grid-cols-[1fr_2fr] gap-16 mt-12">
@@ -38,7 +40,7 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
           </time>
         </div>
 
-        <div className="prose" dangerouslySetInnerHTML={{ __html: paper.body ?? '' }} />
+        {paper.body_mdx && <MdxContent source={paper.body_mdx} />}
       </div>
     </div>
   )

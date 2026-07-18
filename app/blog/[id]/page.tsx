@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import { MdxContent } from '@/lib/mdx'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,10 +8,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
   const { id } = await params
   const supabase = await createClient()
   const { data: post } = await supabase
-    .from('blog_posts')
+    .from('content')
     .select('*')
     .eq('id', id)
-    .eq('type', 'blog')
+    .eq('site', 'neuroyou')
+    .eq('type', 'article')
     .single()
 
   if (!post) notFound()
@@ -21,11 +23,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         ← Blog
       </a>
 
-      {post.cover_image && (
-        <img src={post.cover_image} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
+      {post.hero_asset && (
+        <img src={post.hero_asset} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
       )}
 
-      <div className={`grid sm:grid-cols-[1fr_2fr] gap-16 ${post.cover_image ? 'mt-12' : 'mt-12'}`}>
+      <div className={`grid sm:grid-cols-[1fr_2fr] gap-16 ${post.hero_asset ? 'mt-12' : 'mt-12'}`}>
         <div className="sm:sticky sm:top-12 self-start">
           <p className="label mb-6">Article</p>
           <h1 className="text-2xl font-light text-[var(--white)] tracking-tight leading-snug mb-6" style={{ letterSpacing: '-0.02em' }}>
@@ -38,7 +40,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </time>
         </div>
 
-        <div className="prose" dangerouslySetInnerHTML={{ __html: post.body ?? '' }} />
+        {post.body_mdx && <MdxContent source={post.body_mdx} />}
       </div>
     </div>
   )
