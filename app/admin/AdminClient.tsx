@@ -223,15 +223,17 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
             </div>
 
             {/* Status */}
-            <div>
-              <label className="label block mb-2">Status</label>
-              <div className="flex gap-2">
-                {(['draft', 'published'] as const).map((s) => (
-                  <button key={s} onClick={() => setStatus(s)}
-                    className={`px-4 py-1.5 text-[0.6rem] tracking-widest uppercase border transition-colors ${
-                      status === s ? 'border-[var(--blue)] text-[var(--blue)]' : 'border-[var(--border)] text-[var(--muted)]'
-                    }`}>{s}</button>
-                ))}
+            <div className="border border-[var(--border)] p-4">
+              <label className="label block mb-3">Status — controls whether this is visible on the live site</label>
+              <div className="flex gap-3">
+                <button type="button" onClick={() => setStatus('published')}
+                  className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase border-2 transition-colors ${
+                    status === 'published' ? 'border-[var(--blue)] text-[var(--blue)] bg-[var(--accent-glow)]' : 'border-[var(--border)] text-[var(--muted)]'
+                  }`}>Published — live now</button>
+                <button type="button" onClick={() => setStatus('draft')}
+                  className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase border-2 transition-colors ${
+                    status === 'draft' ? 'border-[var(--white)] text-[var(--white)] bg-[var(--border)]' : 'border-[var(--border)] text-[var(--muted)]'
+                  }`}>Draft — hidden</button>
               </div>
             </div>
 
@@ -317,7 +319,11 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
                 disabled={saving || !title}
                 className="px-6 py-2.5 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
               >
-                {saving ? 'Saving…' : editing === 'new' ? 'Publish' : 'Save changes'}
+                {saving
+                  ? 'Saving…'
+                  : status === 'published'
+                    ? (editing === 'new' ? 'Publish' : 'Save & keep published')
+                    : 'Save as draft'}
               </button>
               <button onClick={() => setEditing(null)}
                 className="text-xs text-[var(--muted)] tracking-widest uppercase hover:text-[var(--white)] transition-colors">
