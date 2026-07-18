@@ -307,7 +307,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
             {/* MDX editor */}
             <div>
               <label className="label block mb-2">Body</label>
-              <MdxEditor value={body} onChange={setBody} />
+              <MdxEditor key={editing} value={body} onChange={setBody} />
             </div>
 
             {/* Save */}

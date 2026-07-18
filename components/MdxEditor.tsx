@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useTransition, type ReactNode } from 'react'
+import { useEffect, useRef, useState, useTransition, type ReactNode } from 'react'
 import { previewMdx } from '@/lib/actions'
 
 type Props = { value: string; onChange: (value: string) => void }
@@ -19,10 +19,35 @@ const snippets: { label: string; insert: string; wrap?: boolean }[] = [
 
 export default function MdxEditor({ value, onChange }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [tab, setTab] = useState<'write' | 'preview'>('write')
+  // Existing content opens on Preview (formatted); a blank new post opens on Write.
+  const [tab, setTab] = useState<'write' | 'preview'>(() => (value.trim() ? 'preview' : 'write'))
   const [previewNode, setPreviewNode] = useState<ReactNode>(null)
   const [previewError, setPreviewError] = useState('')
   const [isPending, startTransition] = useTransition()
+  const hasRunInitialPreview = useRef(false)
+
+  const runPreview = () => {
+    setTab('preview')
+    startTransition(async () => {
+      const result = await previewMdx(value)
+      if (result.error) {
+        setPreviewError(result.error)
+        setPreviewNode(null)
+      } else {
+        setPreviewError('')
+        setPreviewNode(result.content ?? null)
+      }
+    })
+  }
+
+  // Auto-compile once on mount if we're starting on the Preview tab.
+  useEffect(() => {
+    if (tab === 'preview' && !hasRunInitialPreview.current) {
+      hasRunInitialPreview.current = true
+      runPreview()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const insertSnippet = (snippet: (typeof snippets)[number]) => {
     const el = textareaRef.current
@@ -43,53 +68,48 @@ export default function MdxEditor({ value, onChange }: Props) {
     })
   }
 
-  const runPreview = () => {
-    setTab('preview')
-    startTransition(async () => {
-      const result = await previewMdx(value)
-      if (result.error) {
-        setPreviewError(result.error)
-        setPreviewNode(null)
-      } else {
-        setPreviewError('')
-        setPreviewNode(result.content ?? null)
-      }
-    })
-  }
-
   return (
     <div className="border border-[var(--border)]">
-      <div className="flex flex-wrap items-center gap-1 p-3 border-b border-[var(--border)]">
-        {snippets.map((s) => (
-          <button
-            key={s.label}
-            type="button"
-            onClick={() => insertSnippet(s)}
-            className="px-2.5 py-1 text-[0.65rem] tracking-wider uppercase border border-[var(--border)] text-[var(--muted)] hover:text-[var(--white)] hover:border-[var(--blue)] transition-colors"
-          >
-            {s.label}
-          </button>
-        ))}
-        <span className="flex-1" />
+      {/* Prominent Write/Preview tabs */}
+      <div className="flex items-stretch border-b border-[var(--border)]">
         <button
           type="button"
           onClick={() => setTab('write')}
-          className={`px-3 py-1 text-[0.65rem] tracking-wider uppercase border transition-colors ${
-            tab === 'write' ? 'border-[var(--blue)] text-[var(--blue)]' : 'border-[var(--border)] text-[var(--muted)]'
+          className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase transition-colors ${
+            tab === 'write'
+              ? 'text-[var(--blue)] bg-[var(--accent-glow)] border-b-2 border-[var(--blue)]'
+              : 'text-[var(--muted)] hover:text-[var(--white)] border-b-2 border-transparent'
           }`}
         >
-          Write
+          Write (raw source)
         </button>
         <button
           type="button"
           onClick={runPreview}
-          className={`px-3 py-1 text-[0.65rem] tracking-wider uppercase border transition-colors ${
-            tab === 'preview' ? 'border-[var(--blue)] text-[var(--blue)]' : 'border-[var(--border)] text-[var(--muted)]'
+          className={`flex-1 px-4 py-3 text-xs tracking-widest uppercase transition-colors ${
+            tab === 'preview'
+              ? 'text-[var(--blue)] bg-[var(--accent-glow)] border-b-2 border-[var(--blue)]'
+              : 'text-[var(--muted)] hover:text-[var(--white)] border-b-2 border-transparent'
           }`}
         >
-          Preview
+          Preview (formatted)
         </button>
       </div>
+
+      {tab === 'write' && (
+        <div className="flex flex-wrap items-center gap-1 p-3 border-b border-[var(--border)]">
+          {snippets.map((s) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => insertSnippet(s)}
+              className="px-2.5 py-1 text-[0.65rem] tracking-wider uppercase border border-[var(--border)] text-[var(--muted)] hover:text-[var(--white)] hover:border-[var(--blue)] transition-colors"
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {tab === 'write' ? (
         <textarea
