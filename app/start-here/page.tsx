@@ -46,7 +46,7 @@ export default function StartHerePage() {
           </p>
           <p>
             After you&apos;ve done some of the free exercises, if you are still curious, take a look
-            at the <a href="/train">NeuroYou Protocols</a>. These are more structured, committing
+            at the <a href="/protocols">NeuroYou Protocols</a>. These are more structured, committing
             courses where you will learn powerful new ways to manage your consciousness more effectively.
           </p>
 

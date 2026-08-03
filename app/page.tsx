@@ -102,7 +102,7 @@ export default function HomePage() {
             sequential, each requires the skills that are developed in the earlier protocols.
           </p>
           <Link
-            href="/train"
+            href="/protocols"
             className="text-xs tracking-widest uppercase text-[var(--blue)] hover:text-glow-blue transition-colors border-b border-[var(--blue)] pb-0.5"
           >
             View the protocols →

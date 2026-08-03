@@ -13,9 +13,11 @@ export default function Footer() {
         <nav className="flex gap-6 text-[0.65rem] tracking-widest uppercase text-[var(--muted)]">
           <Link href="/exercises" className="hover:text-[var(--white)] transition-colors">Learn</Link>
           <Link href="/blog" className="hover:text-[var(--white)] transition-colors">Explore</Link>
-          <Link href="/train" className="hover:text-[var(--white)] transition-colors">Protocols</Link>
+          <Link href="/protocols" className="hover:text-[var(--white)] transition-colors">Protocols</Link>
           <Link href="/research" className="hover:text-[var(--white)] transition-colors">Research</Link>
           <Link href="/start-here" className="hover:text-[var(--white)] transition-colors">Start Here</Link>
+          <Link href="/about" className="hover:text-[var(--white)] transition-colors">About</Link>
+          <a href="https://www.facebook.com/neuroyou" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--white)] transition-colors">Facebook</a>
         </nav>
         <p className="text-[0.6rem] tracking-wider text-[var(--muted)]">
           © {new Date().getFullYear()}

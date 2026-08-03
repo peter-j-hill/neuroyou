@@ -45,8 +45,9 @@ export default function Nav() {
         <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
           <Link href="/exercises" className={isActive('/exercises')}>Learn</Link>
           <Link href="/blog" className={isActive('/blog')}>Explore</Link>
-          <Link href="/train" className={isActive('/train')}>Protocols</Link>
+          <Link href="/protocols" className={isActive('/protocols')}>Protocols</Link>
           <Link href="/research" className={isActive('/research')}>Research</Link>
+          <Link href="/about" className={isActive('/about')}>About</Link>
 
           {user ? (
             <Link href="/dashboard" className={`${isActive('/dashboard')} ml-2`}>Account</Link>
@@ -54,10 +55,10 @@ export default function Nav() {
             <>
               <Link href="/login" className={isActive('/login')}>Sign in</Link>
               <Link
-                href="/signup"
+                href="/connect"
                 className="ml-2 px-4 py-1.5 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
               >
-                Enter
+                Connect
               </Link>
             </>
           )}

@@ -23,7 +23,7 @@ export default async function BlogPage() {
         Explore
       </h1>
       <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-xl leading-relaxed">
-        Explore the ideas that led to the creation of NeuroYou. These short articles cover some of the history, thinking and practical experimentation from the NeuroYou lab.
+        Explore the sort of ideas you can expect to encounter in the NeuroYou consciousness lab. These short articles cover some of the history, thinking and practical experimentation from the NeuroYou lab over many years.
       </p>
 
       {posts && posts.length > 0 ? (
