@@ -160,9 +160,13 @@ export default function HomePage() {
             influence their thoughts and emotions for the better, understand and explore their own
             consciousness, and perhaps, for some, to find enlightenment.
           </p>
-          <p className="text-xs tracking-widest uppercase text-[var(--violet)] font-light">
-            Coming Soon
-          </p>
+          <Link
+            href="/connect"
+            className="text-xs tracking-widest uppercase text-[var(--violet)] font-light border-b pb-0.5 hover:text-white transition-colors inline-block"
+            style={{ borderColor: 'var(--violet)' }}
+          >
+            Register Interest
+          </Link>
         </div>
         <div className="border border-[var(--border)] p-8" style={{ borderColor: 'rgba(140,92,255,0.3)' }}>
           <p className="text-[0.6rem] tracking-widest uppercase font-light mb-6" style={{ color: 'var(--violet)' }}>
