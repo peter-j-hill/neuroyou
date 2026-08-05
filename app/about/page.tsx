@@ -17,14 +17,16 @@ export default function AboutPage() {
 
           <div className="prose">
             <p>
-              NeuroYou began as a private discipline. For more than two decades I have
-              practised and refined a method for directing attention and intention —
-              first for my own goals, then as a body of technique precise enough to
-              teach. NeuroYou is where that work now lives.
+              NeuroYou began as a personal meditation practice over 30 years ago. After
+              years of frustration with the way meditation and self development
+              techniques were practiced and taught, a refined approach was developed for
+              directing attention and intention — first for my own goals, then as a body
+              of techniques precise enough to teach. NeuroYou is the final result of
+              multiple decades of this painstaking process.
             </p>
             <p>
-              It is one practitioner&apos;s research, offered openly to others who take
-              the subject as seriously.
+              The work is deliberately stripped of the dogma, mysticism or pseudoscience
+              that is often found when studying personal consciousness.
             </p>
           </div>
         </div>
