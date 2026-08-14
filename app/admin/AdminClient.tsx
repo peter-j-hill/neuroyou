@@ -21,6 +21,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [type, setType] = useState<(typeof CONTENT_TYPES)[number]>('article')
   const [status, setStatus] = useState<'draft' | 'published'>('published')
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
+  const [excerpt, setExcerpt] = useState('')
   const [body, setBody] = useState('')
   const [heroAsset, setHeroAsset] = useState('')
   const [heroUploading, setHeroUploading] = useState(false)
@@ -36,7 +37,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const reset = () => {
     setTitle(''); setSlug(''); setSlugTouched(false); setType('article'); setStatus('published')
     setPublishedAt(new Date().toISOString().slice(0, 10))
-    setBody(''); setHeroAsset(''); setVideoUrl(''); setAudioUrl(''); setSortOrder(0); setMsg('')
+    setExcerpt(''); setBody(''); setHeroAsset(''); setVideoUrl(''); setAudioUrl(''); setSortOrder(0); setMsg('')
   }
 
   const startNew = () => { reset(); setEditing('new') }
@@ -52,6 +53,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setType(data.type)
     setStatus(data.status)
     setPublishedAt((data.published_at as string).slice(0, 10))
+    setExcerpt(data.excerpt ?? '')
     setBody(data.body_mdx ?? '')
     setHeroAsset(data.hero_asset ?? '')
     setVideoUrl(data.video_url ?? '')
@@ -72,6 +74,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
       site: 'neuroyou' as const,
       title, type, status,
       slug: slug || slugify(title),
+      excerpt: excerpt || null,
       body_mdx: body || null,
       hero_asset: heroAsset || null,
       video_url: videoUrl || null,
@@ -220,6 +223,13 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               <label className="label block mb-2">Slug</label>
               <input type="text" value={slug} onChange={(e) => { setSlug(e.target.value); setSlugTouched(true) }}
                 className="w-full px-4 py-3 text-sm font-light rounded-none" />
+            </div>
+
+            {/* Excerpt */}
+            <div>
+              <label className="label block mb-2">Excerpt <span className="normal-case text-[var(--muted)]">— short preview text shown in post listings, optional</span></label>
+              <textarea rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)}
+                className="w-full px-4 py-3 text-sm font-light rounded-none" placeholder="One or two sentences summarizing the post" />
             </div>
 
             {/* Status */}
