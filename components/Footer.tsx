@@ -18,6 +18,7 @@ export default function Footer() {
           <Link href="/start-here" className="hover:text-[var(--white)] transition-colors">Start Here</Link>
           <Link href="/about" className="hover:text-[var(--white)] transition-colors">About</Link>
           <a href="https://www.facebook.com/neuroyou" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--white)] transition-colors">Facebook</a>
+          <a href="https://neuroyou.substack.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--white)] transition-colors">Substack</a>
         </nav>
         <p className="text-[0.6rem] tracking-wider text-[var(--muted)]">
           © {new Date().getFullYear()}
