@@ -10,11 +10,14 @@ import { DiagramEmbed } from './DiagramNode'
 type Props = { value: string; onChange: (html: string) => void }
 
 const btnClass = (active: boolean) =>
-  `px-2.5 py-1 text-[0.65rem] tracking-wider uppercase border transition-colors ${
+  `min-w-[34px] h-8 px-2.5 rounded-[7px] text-[13px] whitespace-nowrap transition-colors ${
     active
-      ? 'border-[var(--blue)] text-[var(--blue)]'
-      : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--white)] hover:border-[var(--muted)]'
+      ? 'bg-[var(--ny-tide-tint)] text-[var(--ny-tide)] font-semibold'
+      : 'text-[var(--ny-ink)] hover:bg-[var(--ny-mist)]'
   }`
+
+// Thin divider between groups of toolbar buttons
+const Sep = () => <span className="w-px self-stretch my-1 mx-1" style={{ background: 'var(--ny-line)' }} />
 
 export default function MdxEditor({ value, onChange }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -30,7 +33,7 @@ export default function MdxEditor({ value, onChange }: Props) {
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
       attributes: {
-        class: 'prose outline-none min-h-[400px] focus:outline-none',
+        class: 'ny-prose outline-none min-h-[420px] focus:outline-none',
       },
     },
   })
@@ -105,22 +108,24 @@ export default function MdxEditor({ value, onChange }: Props) {
   if (!editor) return null
 
   return (
-    <div className="border border-[var(--border)]">
-      {/* Toolbar */}
-      <div className="flex flex-wrap gap-1 p-3 border-b border-[var(--border)]">
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={btnClass(editor.isActive('heading', { level: 1 }))}>H1</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={btnClass(editor.isActive('heading', { level: 2 }))}>H2</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={btnClass(editor.isActive('heading', { level: 3 }))}>H3</button>
-        <span className="w-px bg-[var(--border)] mx-1" />
-        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={btnClass(editor.isActive('bold'))}>B</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={btnClass(editor.isActive('italic'))}>I</button>
-        <span className="w-px bg-[var(--border)] mx-1" />
-        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={btnClass(editor.isActive('bulletList'))}>List</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={btnClass(editor.isActive('orderedList'))}>1. List</button>
-        <span className="w-px bg-[var(--border)] mx-1" />
-        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={btnClass(editor.isActive('blockquote'))}>Quote</button>
-        <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btnClass(false)}>HR</button>
-        <button type="button" onClick={handleLink} className={btnClass(editor.isActive('link'))} title="Link (Ctrl+K)">Link</button>
+    <div>
+      {/* Toolbar — stays in view while the page scrolls */}
+      <div
+        className="sticky top-0 z-[5] flex flex-wrap items-center gap-0.5 p-1.5 rounded-xl border bg-white"
+        style={{ borderColor: 'var(--ny-line)', boxShadow: '0 2px 10px rgba(0,0,0,.04)' }}
+      >
+        <button type="button" title="Heading 1" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={btnClass(editor.isActive('heading', { level: 1 }))}>H1</button>
+        <button type="button" title="Heading 2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={btnClass(editor.isActive('heading', { level: 2 }))}>H2</button>
+        <button type="button" title="Heading 3" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={btnClass(editor.isActive('heading', { level: 3 }))}>H3</button>
+        <button type="button" title="Bold" onClick={() => editor.chain().focus().toggleBold().run()} className={btnClass(editor.isActive('bold'))} style={{ fontWeight: 700 }}>B</button>
+        <button type="button" title="Italic" onClick={() => editor.chain().focus().toggleItalic().run()} className={btnClass(editor.isActive('italic'))} style={{ fontStyle: 'italic' }}>I</button>
+        <Sep />
+        <button type="button" title="Bulleted list" onClick={() => editor.chain().focus().toggleBulletList().run()} className={btnClass(editor.isActive('bulletList'))}>• List</button>
+        <button type="button" title="Numbered list" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={btnClass(editor.isActive('orderedList'))}>1. List</button>
+        <Sep />
+        <button type="button" title="Quote" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={btnClass(editor.isActive('blockquote'))}>Quote</button>
+        <button type="button" title="Divider" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btnClass(false)}>—</button>
+        <button type="button" title="Link (Ctrl+K)" onClick={handleLink} className={btnClass(editor.isActive('link'))}>Link</button>
         <button
           type="button"
           onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() : undefined}
@@ -128,28 +133,19 @@ export default function MdxEditor({ value, onChange }: Props) {
           style={{ display: editor.isActive('link') ? 'inline-block' : 'none' }}
           title="Remove link"
         >Unlink</button>
-        <span className="w-px bg-[var(--border)] mx-1" />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className={btnClass(false)}
-          title="Upload image"
-        >
-          Image ↑
-        </button>
-        <button type="button" onClick={handleDiagram} className={btnClass(false)} title="Embed a diagram">
-          Diagram
-        </button>
-        <span className="w-px bg-[var(--border)] mx-1" />
+        <Sep />
+        <button type="button" title="Upload image" onClick={() => fileInputRef.current?.click()} className={btnClass(false)}>Image ↑</button>
+        <button type="button" title="Embed a diagram" onClick={handleDiagram} className={btnClass(false)}>Diagram</button>
+        <Sep />
         <button
           type="button"
           onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
           className={btnClass(false)}
           title="Remove all formatting — converts selection to plain body text"
-        >Clear fmt</button>
-        <span className="w-px bg-[var(--border)] mx-1" />
-        <button type="button" onClick={() => editor.chain().focus().undo().run()} className={btnClass(false)}>Undo</button>
-        <button type="button" onClick={() => editor.chain().focus().redo().run()} className={btnClass(false)}>Redo</button>
+        >Clear</button>
+        <Sep />
+        <button type="button" title="Undo" onClick={() => editor.chain().focus().undo().run()} className={btnClass(false)}>↶</button>
+        <button type="button" title="Redo" onClick={() => editor.chain().focus().redo().run()} className={btnClass(false)}>↷</button>
       </div>
 
       {/* Hidden file input */}
@@ -161,8 +157,11 @@ export default function MdxEditor({ value, onChange }: Props) {
         onChange={handleImageUpload}
       />
 
-      {/* Editor area */}
-      <div className="p-6 bg-[var(--graphite)]">
+      {/* Writing surface — styled like the public article body */}
+      <div
+        className="mt-2 rounded-[14px] bg-white px-6 sm:px-9 py-8 min-h-[480px] transition-shadow focus-within:shadow-[0_0_0_3px_rgba(10,108,140,.18)]"
+        style={{ boxShadow: '0 1px 2px rgba(0,0,0,.04)' }}
+      >
         <EditorContent editor={editor} />
       </div>
     </div>

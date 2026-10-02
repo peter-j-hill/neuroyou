@@ -281,6 +281,29 @@ textarea.ny-field { padding: 12px 14px; resize: vertical; }
 input.ny-field:focus, textarea.ny-field:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
 input.ny-field::placeholder, textarea.ny-field::placeholder { color: var(--ny-ink-4); }
 
+/* Compact controls for the admin. Same specificity trick as .ny-field above. */
+input.ny-sm, select.ny-sm, textarea.ny-sm {
+  width: 100%; min-width: 0; height: 34px; padding: 0 10px; font-size: 13px; font-weight: 400;
+  background: #fff; color: var(--ny-ink); border: 1px solid var(--ny-line-strong); border-radius: 8px;
+  font-family: var(--ny-font);
+  transition: border-color .2s var(--ny-ease), box-shadow .2s var(--ny-ease);
+}
+input.ny-sm.ny-mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+input.ny-sm[readonly] { background: #FAFAFC; color: var(--ny-ink-2); border-color: var(--ny-line); }
+input.ny-sm:focus, select.ny-sm:focus, textarea.ny-sm:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
+input.ny-search {
+  width: 100%; height: 34px; padding: 0 12px; font-size: 14px; font-weight: 400; border: 0; border-radius: 8px;
+  background: var(--ny-mist); color: var(--ny-ink); font-family: var(--ny-font);
+}
+input.ny-search:focus { outline: none; box-shadow: 0 0 0 3px rgba(10, 108, 140, .2); }
+/* Borderless, auto-growing textareas (admin title and excerpt) */
+textarea.ny-bare {
+  display: block; width: 100%; padding: 0; margin: 0; border: 0; border-radius: 0; background: transparent;
+  resize: none; overflow: hidden; outline: none; box-shadow: none; font-family: var(--ny-font); font-weight: inherit;
+}
+textarea.ny-bare:focus { border: 0; outline: none; box-shadow: none; }
+textarea.ny-bare::placeholder { color: var(--ny-ink-4); font-weight: 400; }
+
 /* Chip */
 .ny-chip {
   display: inline-flex; align-items: center; border-radius: var(--ny-r-pill);
@@ -300,6 +323,10 @@ input.ny-field::placeholder, textarea.ny-field::placeholder { color: var(--ny-in
   .ny-reveal { animation: ny-rise .4s var(--ny-ease) both; }
 }
 @keyframes ny-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* The old dark theme paints a black scrollbar track. On light pages (and inside the
+   admin's scrolling panes) use a quiet grey thumb on a transparent track instead. */
+html:has(.ny-scope), .ny-scope * { scrollbar-width: thin; scrollbar-color: #C7C7CC transparent; }
 
 /* Any page wrapped in .ny-scope gets a white page background, so short
    pages don't show the (still-dark) global body above the footer. */
@@ -332,6 +359,10 @@ main:has(> .ny-scope) { background: #fff; }
 .ny-prose pre { background: var(--ny-mist); padding: 16px 20px; border-radius: 14px; overflow-x: auto; margin: 0 0 28px; }
 .ny-prose pre code { background: none; padding: 0; }
 .ny-prose > div:first-child > :first-child { margin-top: 0; }
+/* The admin's Tiptap editor renders the same body styles, but as direct children */
+.ProseMirror.ny-prose > :first-child { margin-top: 0; }
+.ProseMirror.ny-prose > :last-child { margin-bottom: 0; }
+.ProseMirror.ny-prose img.ProseMirror-selectednode { outline: 2px solid var(--ny-tide); }
 .ny-prose > div:last-child > :last-child { margin-bottom: 0; }
 @media (max-width: 640px) {
   .ny-prose { font-size: 18px; }
