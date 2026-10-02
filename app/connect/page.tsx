@@ -11,11 +11,13 @@ import Link from 'next/link'
 //   ("you@organization.com"), Interest — optional ("What are you hoping to explore with
 //   NeuroYou?"), checkbox "I agree to receive occasional email about the NeuroYou
 //   Protocols.", button "Register interest".
+//   Redesign handoff wording (before "Stay in touch"): heading "Register interest.", button
+//   "Register Interest".
 //   Thank-you: "Registered" / "You're on the list." / "Thanks for registering your
 //   interest. We'll be in touch when the first NeuroYou Protocol opens."
 const COPY = {
   eyebrow: 'Connect',
-  heading: 'Register interest.',
+  heading: 'Stay in touch.',
   intro: 'Be first to hear when the protocols and the book become available.',
   thanksEyebrow: 'Received',
   thanksHeading: 'Thank you.',
@@ -139,7 +141,7 @@ export default function ConnectPage() {
 
               <button type="submit" disabled={loading} className="ny-btn ny-btn-primary self-start mt-2 disabled:opacity-50"
                 style={{ padding: '13px 26px' }}>
-                {loading ? 'Sending…' : 'Register Interest'}
+                {loading ? 'Sending…' : 'Stay in Touch'}
               </button>
               <div className="text-[13px]" style={{ color: 'var(--ny-ink-4)' }}>
                 Or follow on{' '}
