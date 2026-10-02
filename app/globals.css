@@ -269,15 +269,17 @@ textarea::placeholder {
 .ny-text-link:hover { color: var(--ny-tide-deep); }
 .ny-text-link::after { content: ' \203A'; }
 
-/* Field */
-.ny-field {
-  height: 48px; border: 1px solid var(--ny-line-strong); border-radius: var(--ny-r-field);
-  font-size: 17px; padding: 0 14px; background: #fff; color: var(--ny-ink); font-family: var(--ny-font);
+/* Field. Written as input.ny-field / textarea.ny-field so these out-rank the old dark
+   theme's `input[type="email"]` etc. rules (same specificity, and these come later). */
+input.ny-field, textarea.ny-field {
+  width: 100%; border: 1px solid var(--ny-line-strong); border-radius: var(--ny-r-field);
+  font-size: 17px; font-weight: 400; background: #fff; color: var(--ny-ink); font-family: var(--ny-font);
   transition: border-color .2s var(--ny-ease), box-shadow .2s var(--ny-ease);
 }
-.ny-field:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
-.ny-field::placeholder { color: var(--ny-ink-4); }
-textarea.ny-field { height: auto; padding: 12px 14px; }
+input.ny-field { height: 48px; padding: 0 14px; min-width: 0; }
+textarea.ny-field { padding: 12px 14px; resize: vertical; }
+input.ny-field:focus, textarea.ny-field:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
+input.ny-field::placeholder, textarea.ny-field::placeholder { color: var(--ny-ink-4); }
 
 /* Chip */
 .ny-chip {
@@ -286,6 +288,8 @@ textarea.ny-field { height: auto; padding: 12px 14px; }
   background: #fff; color: var(--ny-ink); transition: all .2s var(--ny-ease); font-family: var(--ny-font);
 }
 .ny-chip[data-on="true"] { background: var(--ny-ink); color: #fff; border-color: var(--ny-ink); }
+/* Multi-select chips (e.g. interests): Tide tint instead of solid ink */
+.ny-chip[data-variant="tint"][data-on="true"] { background: var(--ny-tide-tint); color: var(--ny-tide); border-color: var(--ny-tide); }
 
 /* Media card */
 .ny-card { border-radius: var(--ny-r-card); background: var(--ny-mist); overflow: hidden; transition: transform .4s var(--ny-ease); }

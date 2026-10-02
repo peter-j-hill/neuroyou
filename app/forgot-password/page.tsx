@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -27,53 +28,44 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto px-6 py-24">
-      <p className="label mb-8">
-        <span className="node mr-3" />
-        Authentication
-      </p>
-      <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-2">Reset password</h1>
-      <p className="text-xs text-[var(--muted)] font-light mb-10">
-        Remembered it?{' '}
-        <Link href="/login" className="text-[var(--blue)] hover:underline underline-offset-4">
-          Sign in
-        </Link>
-      </p>
+    <AuthShell>
+      <AuthTitle
+        title="Reset password."
+        sub={<>Remembered it? <Link href="/login" style={{ color: 'var(--ny-tide)' }}>Sign in</Link></>}
+      />
 
       {sent ? (
-        <div className="border border-[var(--border)] p-8">
-          <p className="text-sm font-light text-[var(--white)] mb-3">Check your email</p>
-          <p className="text-xs text-[var(--muted)] font-light leading-relaxed">
-            A password reset link has been sent to <span className="text-[var(--white)]">{email}</span>.
+        <div className="mt-9 rounded-[14px] p-6" style={{ background: 'var(--ny-mist)' }}>
+          <p className="text-[17px] font-semibold m-0 mb-2">Check your email</p>
+          <p className="text-[15px] leading-relaxed m-0" style={{ color: 'var(--ny-ink-3)' }}>
+            A password reset link has been sent to <span style={{ color: 'var(--ny-ink)' }}>{email}</span>.
             Click the link in the email to set a new password.
           </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="label block mb-2">Email address</label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-sm font-light rounded-none"
-              placeholder="your@email.com"
-            />
-          </div>
-          {error && (
-            <p className="text-xs font-light" style={{ color: 'var(--magenta)' }}>{error}</p>
-          )}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-9">
+          <label htmlFor="email" className="sr-only">Email address</label>
+          <input
+            id="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="your@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="ny-field"
+          />
+          <AuthError message={error} />
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
+            className="ny-btn ny-btn-primary w-full mt-2 disabled:opacity-50"
+            style={{ height: 48, padding: 0 }}
           >
             {loading ? 'Sending…' : 'Send reset link'}
           </button>
         </form>
       )}
-    </div>
+    </AuthShell>
   )
 }
