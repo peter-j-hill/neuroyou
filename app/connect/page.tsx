@@ -29,7 +29,7 @@ export default function ConnectPage() {
   const [lastName, setLastName] = useState('')
   const [organization, setOrganization] = useState('')
   const [email, setEmail] = useState('')
-  const [interests, setInterests] = useState<string[]>(['The Protocols'])
+  const [interests, setInterests] = useState<string[]>([])
   const [message, setMessage] = useState('')
   const [marketingConsent, setMarketingConsent] = useState(false)
   const [error, setError] = useState('')
