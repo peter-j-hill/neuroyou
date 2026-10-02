@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { EXERCISE_CATEGORIES, type ExerciseCategory } from '@/lib/categories'
 
 export type Exercise = {
   id: string
@@ -10,26 +11,14 @@ export type Exercise = {
   hero_asset: string | null
   audio_url: string | null
   video_url: string | null
+  category: ExerciseCategory | null
 }
 
-const CATEGORIES = ['External Consciousness', 'Internal Consciousness', 'Abstract Consciousness'] as const
-type Category = (typeof CATEGORIES)[number]
-
-// The category is the title prefix ("External Consciousness: Sound"). Matching on
-// the first word keeps titles with typos in the data (e.g. "Abstract Consiousness",
-// "Abstraction Consciousness") in the right group without editing any content.
-function categoryOf(title: string): Category | null {
-  if (!title.includes(':')) return null
-  const prefix = title.split(':')[0].trim().toLowerCase()
-  if (prefix.startsWith('external')) return CATEGORIES[0]
-  if (prefix.startsWith('internal')) return CATEGORIES[1]
-  if (prefix.startsWith('abstract')) return CATEGORIES[2]
-  return null
-}
+const CATEGORIES = EXERCISE_CATEGORIES
 
 export default function ExerciseGrid({ exercises }: { exercises: Exercise[] }) {
-  const [filter, setFilter] = useState<'All' | Category>('All')
-  const visible = filter === 'All' ? exercises : exercises.filter((e) => categoryOf(e.title) === filter)
+  const [filter, setFilter] = useState<'All' | ExerciseCategory>('All')
+  const visible = filter === 'All' ? exercises : exercises.filter((e) => e.category === filter)
 
   return (
     <>
@@ -51,7 +40,7 @@ export default function ExerciseGrid({ exercises }: { exercises: Exercise[] }) {
       {visible.length > 0 ? (
         <div className="grid gap-4 mt-8" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
           {visible.map((e) => {
-            const cat = categoryOf(e.title)
+            const cat = e.category
             const meta = ['Text', e.audio_url && 'Audio', e.video_url && 'Video'].filter(Boolean).join(' · ')
             return (
               <Link key={e.id} href={`/exercises/${e.id}`} className="ny-card block">
