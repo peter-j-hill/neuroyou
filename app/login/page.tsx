@@ -9,7 +9,7 @@ import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = searchParams.get('next')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -25,7 +25,15 @@ function LoginForm() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push(next)
+      // An explicit ?next= wins. Otherwise the admin lands in the admin area, everyone else on their account.
+      let dest = next ?? '/dashboard'
+      if (!next) {
+        try {
+          const res = await fetch('/api/is-admin', { cache: 'no-store' })
+          if (res.ok && (await res.json()).admin) dest = '/admin'
+        } catch { /* fall back to the account page */ }
+      }
+      router.push(dest)
       router.refresh()
     }
   }

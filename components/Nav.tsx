@@ -19,6 +19,7 @@ const LINKS = [
 export default function Nav() {
   const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -32,6 +33,17 @@ export default function Nav() {
       return () => subscription.unsubscribe()
     })
   }, [])
+
+  // The Admin link is only offered to the admin. The server decides; /admin re-checks on arrival.
+  useEffect(() => {
+    if (!user) return
+    let cancelled = false
+    fetch('/api/is-admin', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : { admin: false }))
+      .then((d) => { if (!cancelled) setIsAdmin(!!d.admin) })
+      .catch(() => { if (!cancelled) setIsAdmin(false) })
+    return () => { cancelled = true }
+  }, [user])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -56,6 +68,7 @@ export default function Nav() {
   }, [open])
 
   // Transparent with white text over a hero; an open menu always uses the solid glass bar.
+  const showAdmin = !!user && isAdmin
   const overHero = HERO_PAGES.includes(pathname) && !scrolled && !open
 
   const navTheme = overHero
@@ -97,13 +110,24 @@ export default function Nav() {
           ))}
 
           {user ? (
-            <Link
-              href="/dashboard"
-              className="ml-2 px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300"
-              style={{ color: navTheme.ink, opacity: pathname === '/dashboard' ? 1 : 0.78 }}
-            >
-              Account
-            </Link>
+            <>
+              {showAdmin && (
+                <Link
+                  href="/admin"
+                  className="ml-2 px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300"
+                  style={{ color: navTheme.ink, opacity: 0.78 }}
+                >
+                  Admin
+                </Link>
+              )}
+              <Link
+                href="/dashboard"
+                className={`${showAdmin ? '' : 'ml-2 '}px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300`}
+                style={{ color: navTheme.ink, opacity: pathname === '/dashboard' ? 1 : 0.78 }}
+              >
+                Account
+              </Link>
+            </>
           ) : (
             <>
               <Link
@@ -165,7 +189,10 @@ export default function Nav() {
             fontWeight: 400,
           }}
         >
-          {[...LINKS, user ? { href: '/dashboard', label: 'Account' } : { href: '/login', label: 'Sign in' }].map((l) => (
+          {[
+            ...LINKS,
+            ...(user ? [...(showAdmin ? [{ href: '/admin', label: 'Admin' }] : []), { href: '/dashboard', label: 'Account' }] : [{ href: '/login', label: 'Sign in' }]),
+          ].map((l) => (
             <Link
               key={l.href}
               href={l.href}
