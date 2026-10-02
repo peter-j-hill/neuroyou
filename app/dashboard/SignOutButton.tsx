@@ -14,10 +14,7 @@ export default function SignOutButton() {
   }
 
   return (
-    <button
-      onClick={handleSignOut}
-      className="text-xs tracking-widest uppercase text-[var(--muted)] hover:text-[var(--white)] transition-colors"
-    >
+    <button type="button" onClick={handleSignOut} className="ny-btn ny-btn-secondary">
       Sign out
     </button>
   )
