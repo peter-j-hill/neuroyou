@@ -19,7 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Nav />
-        <main className="flex-1">{children}</main>
+        {/* pt-14 offsets the fixed 56px nav. Hero pages cancel this with a
+            negative top margin on their hero section so it can bleed
+            underneath — see the design handoff README. */}
+        <main className="flex-1 pt-14">{children}</main>
         <Footer />
       </body>
     </html>
