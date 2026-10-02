@@ -280,11 +280,18 @@ textarea.ny-field { height: auto; padding: 12px 14px; }
 .ny-chip[data-on="true"] { background: var(--ny-ink); color: #fff; border-color: var(--ny-ink); }
 
 /* Media card */
-.ny-card { border-radius: var(--ny-r-card); background: var(--ny-mist); overflow: hidden; }
-.ny-card:hover { transform: translateY(-4px); transition: transform .4s var(--ny-ease); }
+.ny-card { border-radius: var(--ny-r-card); background: var(--ny-mist); overflow: hidden; transition: transform .4s var(--ny-ease); }
+.ny-card:hover { transform: translateY(-4px); }
 
 /* Motion */
 @media (prefers-reduced-motion: no-preference) {
   .ny-reveal { animation: ny-rise .4s var(--ny-ease) both; }
 }
 @keyframes ny-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Ken Burns drift on hero/full-bleed stills */
+@keyframes ny-drift { from { transform: scale(1.04); } to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); } }
+.ny-ken-burns { animation: ny-drift 40s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .ny-ken-burns { animation: none !important; }
+}
