@@ -18,6 +18,36 @@
   --accent:      var(--blue);
   --accent-glow: rgba(0, 179, 255, 0.15);
   --tension:     var(--magenta);
+
+  /* === Redesign tokens (light theme, "NeuroYou v2") ===
+     Namespaced --ny-* so the existing dark theme above is untouched.
+     See design_handoff_neuroyou_redesign/README.md for the source spec.
+     Rolled out page-by-page on the redesign/light-theme branch; the
+     global body background/font switch to these at final cutover. */
+  --ny-ink:         #1D1D1F;
+  --ny-ink-2:       #424245;
+  --ny-ink-3:       #6E6E73;
+  --ny-ink-4:       #86868B;
+  --ny-line:        #E8E8ED;
+  --ny-line-strong: #D2D2D7;
+  --ny-mist:        #F5F5F7;
+  --ny-paper:       #FFFFFF;
+  --ny-tide:        #0A6C8C;
+  --ny-tide-deep:   #08536B;
+  --ny-tide-tint:   #E6F1F5;
+  --ny-sun:         #F2B33D;
+  --ny-leaf:        #3F8F5B;
+  --ny-coral:       #C2453D;
+  --ny-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --ny-r-input: 8px;
+  --ny-r-field: 10px;
+  --ny-r-card:  18px;
+  --ny-r-media: 28px;
+  --ny-r-pill:  999px;
+  --ny-ease: cubic-bezier(.22, .61, .36, 1);
+  --ny-glass: rgba(255, 255, 255, .8);
+  --ny-blur: saturate(180%) blur(20px);
+  --ny-focus: 0 0 0 4px rgba(10, 108, 140, .15);
 }
 
 @theme inline {
@@ -182,3 +212,79 @@ textarea::placeholder {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: #1A1D24; border-radius: 2px; }
+
+/* =========================================================
+   Redesign component primitives ("NeuroYou v2", light theme)
+   Scoped under .ny- so they never collide with the dark-theme
+   classes above. Used only by pages/components that have been
+   migrated to the redesign. See design handoff README for spec.
+   ========================================================= */
+
+.ny-scope {
+  font-family: var(--ny-font);
+  color: var(--ny-ink);
+}
+
+/* Type scale */
+.ny-eyebrow { font-size: 15px; font-weight: 500; letter-spacing: 0.01em; color: var(--ny-tide); }
+.ny-caption { font-size: 13px; color: var(--ny-ink-4); }
+.ny-body { font-size: 17px; line-height: 1.55; font-weight: 400; color: var(--ny-ink-2); }
+.ny-article-body { font-size: 19px; line-height: 1.7; font-weight: 400; color: var(--ny-ink-2); }
+.ny-lede { font-size: 21px; line-height: 1.45; font-weight: 400; color: var(--ny-ink-3); }
+.ny-headline { font-size: 24px; line-height: 1.25; font-weight: 600; letter-spacing: -0.015em; color: var(--ny-ink); }
+.ny-title { font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; color: var(--ny-ink); }
+.ny-page-title { font-size: 56px; line-height: 1.02; font-weight: 600; letter-spacing: -0.045em; color: var(--ny-ink); }
+.ny-display { font-size: 56px; line-height: 1.05; font-weight: 600; letter-spacing: -0.035em; color: var(--ny-ink); }
+.ny-hero { font-size: 88px; line-height: 1.0; font-weight: 600; letter-spacing: -0.045em; color: var(--ny-ink); }
+@media (max-width: 640px) {
+  .ny-page-title, .ny-display { font-size: 34px; }
+  .ny-hero { font-size: 44px; }
+  .ny-title { font-size: 28px; }
+}
+
+/* Buttons (pill) */
+.ny-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--ny-r-pill); font-size: 17px; cursor: pointer;
+  padding: 13px 24px; border: 0; transition: background .2s var(--ny-ease), border-color .2s var(--ny-ease), color .2s var(--ny-ease);
+  font-family: var(--ny-font);
+}
+.ny-btn-primary { background: var(--ny-tide); color: #fff; }
+.ny-btn-primary:hover { background: var(--ny-tide-deep); }
+.ny-btn-secondary { background: #fff; color: var(--ny-ink); border: 1px solid var(--ny-line-strong); }
+.ny-btn-secondary:hover { border-color: var(--ny-ink); }
+.ny-btn-glass { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.ny-btn-on-video { background: #fff; color: var(--ny-ink); }
+
+/* Text link */
+.ny-text-link { color: var(--ny-tide); font-size: 17px; text-decoration: none; }
+.ny-text-link:hover { color: var(--ny-tide-deep); }
+.ny-text-link::after { content: ' \203A'; }
+
+/* Field */
+.ny-field {
+  height: 48px; border: 1px solid var(--ny-line-strong); border-radius: var(--ny-r-field);
+  font-size: 17px; padding: 0 14px; background: #fff; color: var(--ny-ink); font-family: var(--ny-font);
+  transition: border-color .2s var(--ny-ease), box-shadow .2s var(--ny-ease);
+}
+.ny-field:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
+.ny-field::placeholder { color: var(--ny-ink-4); }
+textarea.ny-field { height: auto; padding: 12px 14px; }
+
+/* Chip */
+.ny-chip {
+  display: inline-flex; align-items: center; border-radius: var(--ny-r-pill);
+  font-size: 14px; padding: 8px 16px; cursor: pointer; border: 1px solid var(--ny-line-strong);
+  background: #fff; color: var(--ny-ink); transition: all .2s var(--ny-ease); font-family: var(--ny-font);
+}
+.ny-chip[data-on="true"] { background: var(--ny-ink); color: #fff; border-color: var(--ny-ink); }
+
+/* Media card */
+.ny-card { border-radius: var(--ny-r-card); background: var(--ny-mist); overflow: hidden; }
+.ny-card:hover { transform: translateY(-4px); transition: transform .4s var(--ny-ease); }
+
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .ny-reveal { animation: ny-rise .4s var(--ny-ease) both; }
+}
+@keyframes ny-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

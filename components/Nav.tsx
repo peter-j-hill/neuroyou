@@ -5,9 +5,13 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 
+// Pages with a full-bleed hero the nav floats transparently over, until scrolled.
+const HERO_PAGES = ['/', '/protocols']
+
 export default function Nav() {
   const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     import('@/lib/supabase/client').then(({ createClient }) => {
@@ -20,50 +24,90 @@ export default function Nav() {
     })
   }, [])
 
-  const isActive = (href: string) =>
-    pathname === href
-      ? 'text-[var(--white)]'
-      : 'text-[var(--muted)] hover:text-[var(--white)] transition-colors'
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Re-check scroll position on route change (a short page starts "unscrolled").
+  useEffect(() => {
+    setScrolled(window.scrollY > 40)
+  }, [pathname])
+
+  const overHero = HERO_PAGES.includes(pathname) && !scrolled
+
+  const navTheme = overHero
+    ? { bg: 'rgba(255,255,255,0)', border: 'transparent', ink: '#fff', btnBg: '#fff', btnInk: '#1D1D1F' }
+    : { bg: 'var(--ny-glass)', border: 'var(--ny-line)', ink: 'var(--ny-ink)', btnBg: 'var(--ny-tide)', btnInk: '#fff' }
+
+  const links = [
+    { href: '/exercises', label: 'Learn' },
+    { href: '/blog', label: 'Explore' },
+    { href: '/protocols', label: 'Protocols' },
+    { href: '/research', label: 'Research' },
+    { href: '/about', label: 'About' },
+  ]
 
   return (
-    <header className="border-b border-[var(--border)] bg-[var(--black)]">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex flex-col leading-none group">
-          <span
-            className="text-sm font-bold tracking-[0.15em] uppercase text-[var(--white)] group-hover:text-[var(--blue)] transition-colors"
-            style={{ fontFamily: 'var(--font-inter), Helvetica Neue, sans-serif' }}
+    <header
+      className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between gap-6 px-8 border-b transition-colors duration-300"
+      style={{
+        background: navTheme.bg,
+        borderColor: navTheme.border,
+        backdropFilter: 'var(--ny-blur)',
+        WebkitBackdropFilter: 'var(--ny-blur)',
+        fontFamily: 'var(--ny-font)',
+      }}
+    >
+      <Link
+        href="/"
+        className="text-[21px] font-semibold tracking-[-0.025em] transition-colors duration-300"
+        style={{ color: navTheme.ink }}
+      >
+        NeuroYou
+      </Link>
+
+      <nav className="flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {links.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300"
+            style={{ color: navTheme.ink, opacity: pathname === l.href ? 1 : 0.78 }}
           >
-            NeuroYou
-          </span>
-          <span className="text-[0.55rem] tracking-[0.18em] uppercase text-[var(--muted)] mt-0.5">
-            Independent Consciousness Laboratory
-          </span>
-        </Link>
+            {l.label}
+          </Link>
+        ))}
 
-        {/* Nav links */}
-        <nav className="flex items-center gap-6 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
-          <Link href="/exercises" className={isActive('/exercises')}>Learn</Link>
-          <Link href="/blog" className={isActive('/blog')}>Explore</Link>
-          <Link href="/protocols" className={isActive('/protocols')}>Protocols</Link>
-          <Link href="/research" className={isActive('/research')}>Research</Link>
-          <Link href="/about" className={isActive('/about')}>About</Link>
-
-          {user ? (
-            <Link href="/dashboard" className={`${isActive('/dashboard')} ml-2`}>Account</Link>
-          ) : (
-            <>
-              <Link href="/login" className={isActive('/login')}>Sign in</Link>
-              <Link
-                href="/connect"
-                className="ml-2 px-4 py-1.5 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
-              >
-                Connect
-              </Link>
-            </>
-          )}
-        </nav>
-      </div>
+        {user ? (
+          <Link
+            href="/dashboard"
+            className="ml-2 px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300"
+            style={{ color: navTheme.ink, opacity: pathname === '/dashboard' ? 1 : 0.78 }}
+          >
+            Account
+          </Link>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="px-3 py-1.5 text-sm whitespace-nowrap transition-colors duration-300"
+              style={{ color: navTheme.ink, opacity: pathname === '/login' ? 1 : 0.78 }}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/connect"
+              className="ml-1 px-4 py-[7px] text-sm whitespace-nowrap rounded-full transition-colors duration-300"
+              style={{ background: navTheme.btnBg, color: navTheme.btnInk }}
+            >
+              Connect
+            </Link>
+          </>
+        )}
+      </nav>
     </header>
   )
 }
