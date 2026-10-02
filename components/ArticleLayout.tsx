@@ -29,7 +29,7 @@ export default function ArticleLayout({
   return (
     <article className="ny-scope bg-white">
       <div className="max-w-[760px] mx-auto px-8 pt-[84px]">
-        <Link href={backHref} className="text-[15px] whitespace-nowrap" style={{ color: 'var(--ny-tide)' }}>
+        <Link href={backHref} className="ny-no-print text-[15px] whitespace-nowrap" style={{ color: 'var(--ny-tide)' }}>
           ‹ {backLabel}
         </Link>
         <div className="mt-10 text-[15px]" style={{ color: 'var(--ny-ink-4)' }}>
@@ -58,7 +58,7 @@ export default function ArticleLayout({
         </div>
       </div>
 
-      {media && <div className="max-w-[760px] mx-auto px-8 mt-10 space-y-6">{media}</div>}
+      {media && <div className="ny-no-print max-w-[760px] mx-auto px-8 mt-10 space-y-6">{media}</div>}
 
       {heroAsset && (
         <div className="max-w-[1120px] mx-auto px-8 mt-14">

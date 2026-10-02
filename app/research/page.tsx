@@ -1,70 +1,85 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import { paperPdf } from '@/lib/paperPdf'
 
 export const dynamic = 'force-dynamic'
+
+// Page copy from the redesign handoff. Previous strings, kept here so they are
+// easy to restore:
+//   heading: "Research"
+//   intro: "The scientific and theoretical foundations of the NeuroYou framework.
+//   Deliberately dense — written for readers who want rigour, not reassurance."
+const COPY = {
+  eyebrow: 'Research',
+  heading: 'Working papers.',
+  intro:
+    'The frameworks behind the NeuroYou protocols, set out for close reading and critique. Each paper can be read online or downloaded as a PDF for print.',
+}
 
 export default async function ResearchPage() {
   const supabase = await createClient()
   const { data: papers } = await supabase
     .from('content')
-    .select('id, title, published_at, excerpt, hero_asset')
+    .select('id, title, pdf_asset')
     .eq('site', 'neuroyou')
     .eq('type', 'paper')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-20">
-      <p className="label mb-10">
-        <span className="node mr-3" style={{ background: 'var(--white)', boxShadow: '0 0 8px rgba(255,255,255,0.4)' }} />
-        Research / White Papers
-      </p>
-      <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
-        Research
-      </h1>
-      <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-xl leading-relaxed">
-        The scientific and theoretical foundations of the NeuroYou framework.
-        Deliberately dense — written for readers who want rigour, not reassurance.
-      </p>
+    <div className="ny-scope bg-white">
+      <div className="max-w-[1120px] mx-auto px-8 pt-24 pb-[120px]">
+        <div className="ny-eyebrow mb-3.5">{COPY.eyebrow}</div>
+        <h1 className="ny-page-title">{COPY.heading}</h1>
+        <p className="ny-lede mt-5 max-w-[640px]" style={{ fontSize: 'clamp(19px, 2.6vw, 24px)', lineHeight: 1.4 }}>
+          {COPY.intro}
+        </p>
 
-      {papers && papers.length > 0 ? (
-        <div className="divide-y divide-[var(--border)]">
-          {papers.map((paper) => (
-            <Link
-              key={paper.id}
-              href={`/research/${paper.id}`}
-              className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
-            >
-              <div className="flex gap-6 items-start w-full">
-                {paper.hero_asset && (
-                  <img src={paper.hero_asset} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
-                )}
-                <div className="min-w-0 flex-1">
-                  <time className="label block mb-4">
-                    {new Date(paper.published_at).toLocaleDateString('en-GB', {
-                      day: 'numeric', month: 'long', year: 'numeric',
-                    })}
-                  </time>
-                  <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
-                    {paper.title}
-                  </h2>
-                  {paper.excerpt && (
-                    <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
-                      {paper.excerpt}
-                    </p>
-                  )}
+        {papers && papers.length > 0 ? (
+          <div className="mt-[72px] border-t" style={{ borderColor: 'var(--ny-line)' }}>
+            {papers.map((paper, i) => {
+              const pdf = paperPdf(paper.id, paper.pdf_asset)
+              return (
+                <div
+                  key={paper.id}
+                  className="relative grid grid-cols-[40px_minmax(0,1fr)] sm:grid-cols-[64px_minmax(0,1fr)_auto] gap-x-6 gap-y-3 items-baseline py-8 border-b transition-colors hover:bg-[#FAFAFC]"
+                  style={{ borderColor: 'var(--ny-line)' }}
+                >
+                  <span className="text-[15px] tabular-nums" style={{ color: 'var(--ny-ink-4)' }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    {/* stretched link: the whole row opens the paper */}
+                    <Link
+                      href={`/research/${paper.id}`}
+                      className="text-xl sm:text-2xl leading-tight font-semibold after:absolute after:inset-0"
+                      style={{ letterSpacing: '-0.015em', color: 'var(--ny-ink)' }}
+                    >
+                      {paper.title}
+                    </Link>
+                    <div className="text-[15px] mt-1.5" style={{ color: 'var(--ny-ink-3)' }}>Working paper · PDF</div>
+                  </div>
+                  <div className="relative z-10 col-start-2 sm:col-start-auto flex items-center gap-2.5">
+                    <a
+                      href={pdf.href}
+                      {...(pdf.isFile ? { download: true } : {})}
+                      className="rounded-full border px-3.5 py-2 text-sm whitespace-nowrap transition-colors hover:border-[var(--ny-ink)]"
+                      style={{ borderColor: 'var(--ny-line-strong)', color: 'var(--ny-ink)', background: '#fff' }}
+                    >
+                      ↓ PDF
+                    </a>
+                    <span className="text-[17px] whitespace-nowrap" style={{ color: 'var(--ny-tide)' }}>Read ›</span>
+                  </div>
                 </div>
-              </div>
-              <span className="text-[var(--blue)] text-sm shrink-0 mt-1">→</span>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className="py-24 text-center border border-[var(--border)]">
-          <p className="label">Papers loading</p>
-          <p className="text-xs text-[var(--muted)] mt-3 font-light">Research content will appear here once published.</p>
-        </div>
-      )}
+              )
+            })}
+          </div>
+        ) : (
+          <p className="ny-body mt-16" style={{ color: 'var(--ny-ink-3)' }}>
+            Papers will appear here once published.
+          </p>
+        )}
+      </div>
     </div>
   )
 }

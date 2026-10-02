@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer
       className="border-t"
-      style={{ borderColor: 'var(--ny-line)', background: 'var(--ny-mist)', fontFamily: 'var(--ny-font)' }}
+      style={{ borderColor: 'var(--ny-line)', background: 'var(--ny-mist)', fontFamily: 'var(--ny-font)', fontWeight: 400 }}
     >
       <div
         className="max-w-[1120px] mx-auto px-8 pt-12 pb-14 flex flex-wrap gap-8 justify-between text-[13px]"
