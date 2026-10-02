@@ -25,6 +25,8 @@ export default async function ResearchPage() {
     .eq('type', 'paper')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true })
+    .order('id')
 
   return (
     <div className="ny-scope bg-white">

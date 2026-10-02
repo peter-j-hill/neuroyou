@@ -28,6 +28,8 @@ export default async function ExercisesPage() {
     .eq('type', 'exercise')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true })
+    .order('id')
 
   // Category = the exercise's tag that is one of the three Learn categories.
   type Row = Omit<Exercise, 'category'> & { content_tags: { tags: { title: string } | null }[] | null }

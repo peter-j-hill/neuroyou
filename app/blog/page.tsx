@@ -29,6 +29,8 @@ export default async function BlogPage() {
     .eq('type', 'article')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
+    .order('published_at', { ascending: false })
+    .order('id')
 
   // The first post (current sort order) is featured; there is no separate
   // "featured" flag in the CMS.
