@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import MdxEditor from '@/components/MdxEditor'
+import { EXERCISE_CATEGORIES, categoryFromTags } from '@/lib/categories'
 
 type Post = { id: string; title: string; type: string; status: string; published_at: string; sort_order?: number }
 
@@ -11,6 +12,30 @@ const CONTENT_TYPES = ['article', 'paper', 'exercise'] as const
 
 const slugify = (title: string) =>
   title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+
+// Learn categories live in the existing tags / content_tags tables. Replace this
+// exercise's category tag (at most one of the three category tags) with the chosen
+// one; any other tags on the item are left alone. Returns an error message or null.
+async function saveCategory(
+  supabase: ReturnType<typeof createClient>,
+  contentId: string,
+  category: string,
+): Promise<string | null> {
+  const { data: catTags, error: tagErr } = await supabase
+    .from('tags').select('id, title').in('title', [...EXERCISE_CATEGORIES])
+  if (tagErr) return tagErr.message
+  const ids = (catTags ?? []).map((t) => t.id)
+  if (ids.length) {
+    const { error } = await supabase.from('content_tags').delete().eq('content_id', contentId).in('tag_id', ids)
+    if (error) return error.message
+  }
+  const chosen = (catTags ?? []).find((t) => t.title === category)
+  if (chosen) {
+    const { error } = await supabase.from('content_tags').insert({ content_id: contentId, tag_id: chosen.id })
+    if (error) return error.message
+  }
+  return null
+}
 
 export default function AdminClient({ posts }: { posts: Post[] }) {
   const router = useRouter()
@@ -22,6 +47,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [status, setStatus] = useState<'draft' | 'published'>('published')
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
   const [excerpt, setExcerpt] = useState('')
+  const [category, setCategory] = useState('')
   const [body, setBody] = useState('')
   const [heroAsset, setHeroAsset] = useState('')
   const [heroUploading, setHeroUploading] = useState(false)
@@ -37,7 +63,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const reset = () => {
     setTitle(''); setSlug(''); setSlugTouched(false); setType('article'); setStatus('published')
     setPublishedAt(new Date().toISOString().slice(0, 10))
-    setExcerpt(''); setBody(''); setHeroAsset(''); setVideoUrl(''); setAudioUrl(''); setSortOrder(0); setMsg('')
+    setExcerpt(''); setCategory(''); setBody(''); setHeroAsset(''); setVideoUrl(''); setAudioUrl(''); setSortOrder(0); setMsg('')
   }
 
   const startNew = () => { reset(); setEditing('new') }
@@ -60,6 +86,13 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setAudioUrl(data.audio_url ?? '')
     setSortOrder(data.sort_order ?? 0)
     setMsg('')
+    setCategory('')
+    if (data.type === 'exercise') {
+      const { data: tagRows } = await supabase.from('content_tags').select('tags(title)').eq('content_id', id)
+      const titles = ((tagRows ?? []) as unknown as { tags: { title: string } | null }[])
+        .flatMap((r) => (r.tags ? [r.tags.title] : []))
+      setCategory(categoryFromTags(titles) ?? '')
+    }
   }
 
   const handleTitleChange = (value: string) => {
@@ -82,13 +115,20 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
       sort_order: sortOrder,
       published_at: new Date(publishedAt).toISOString(),
     }
+    let contentId: string | null = null
+    let message = ''
     if (editing === 'new') {
       const { data, error } = await supabase.from('content').insert(payload).select('id').single()
-      if (error) { setMsg(`Error: ${error.message}`) } else { setEditing(data.id); setMsg('Published.') }
+      if (error) { message = `Error: ${error.message}` } else { contentId = data.id; setEditing(data.id); message = 'Published.' }
     } else {
       const { error } = await supabase.from('content').update(payload).eq('id', editing!)
-      setMsg(error ? `Error: ${error.message}` : 'Saved.')
+      if (error) { message = `Error: ${error.message}` } else { contentId = editing; message = 'Saved.' }
     }
+    if (contentId && type === 'exercise') {
+      const catErr = await saveCategory(supabase, contentId, category)
+      if (catErr) message = `Saved, but the category was not updated: ${catErr}`
+    }
+    setMsg(message)
     setSaving(false)
     router.refresh()
   }
@@ -224,6 +264,19 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
               <input type="text" value={slug} onChange={(e) => { setSlug(e.target.value); setSlugTouched(true) }}
                 className="w-full px-4 py-3 text-sm font-light rounded-none" />
             </div>
+
+            {/* Category (exercises only) */}
+            {type === 'exercise' && (
+              <div>
+                <label className="label block mb-2">Category <span className="normal-case text-[var(--muted)]">— groups this exercise on the Learn page</span></label>
+                <select value={category} onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-4 py-3 text-sm font-light rounded-none text-[var(--white)]"
+                  style={{ background: '#1A2035', border: '1px solid #2E3348' }}>
+                  <option value="">None</option>
+                  {EXERCISE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+            )}
 
             {/* Excerpt */}
             <div>

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import ExerciseGrid from '@/components/ExerciseGrid'
+import ExerciseGrid, { type Exercise } from '@/components/ExerciseGrid'
+import { categoryFromTags } from '@/lib/categories'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,13 +21,20 @@ const COPY = {
 
 export default async function ExercisesPage() {
   const supabase = await createClient()
-  const { data: exercises } = await supabase
+  const { data } = await supabase
     .from('content')
-    .select('id, title, excerpt, hero_asset, audio_url, video_url')
+    .select('id, title, excerpt, hero_asset, audio_url, video_url, content_tags(tags(title))')
     .eq('site', 'neuroyou')
     .eq('type', 'exercise')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
+
+  // Category = the exercise's tag that is one of the three Learn categories.
+  type Row = Omit<Exercise, 'category'> & { content_tags: { tags: { title: string } | null }[] | null }
+  const exercises: Exercise[] = ((data ?? []) as unknown as Row[]).map(({ content_tags, ...ex }) => ({
+    ...ex,
+    category: categoryFromTags((content_tags ?? []).flatMap((ct) => (ct.tags ? [ct.tags.title] : []))),
+  }))
 
   return (
     <div className="ny-scope bg-white">
@@ -37,7 +45,7 @@ export default async function ExercisesPage() {
           {COPY.intro}
         </p>
 
-        {exercises && exercises.length > 0 ? (
+        {exercises.length > 0 ? (
           <ExerciseGrid exercises={exercises} />
         ) : (
           <p className="ny-body mt-16" style={{ color: 'var(--ny-ink-3)' }}>
