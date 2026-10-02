@@ -1,12 +1,28 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import SignOutButton from './SignOutButton'
+import { type AccessItem } from './AccessCard'
+import DashboardView, { type LogEntry } from './DashboardView'
+
+// The dashboard shows a signed-in person what they have access to: purchased
+// courses (with links), their progress, and a shortcut to Admin for the admin.
+//
+// Courses are listed in `items` below. Today the only one is Neutralize, switched
+// on by profiles.purchased_neutralize. When purchasing is built and the hosting
+// decision is made (on this site or elsewhere), add the new courses here and set
+// `external: true` with a full URL for any that live off-site.
+//
+// Previous page (dark theme): "Account" eyebrow, name, "Neutralize" section with a
+// completion log and "Begin Module 1 →" / "View the course →", and a "Free content"
+// section with "Exercises library" and "Research articles" links.
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'peter.j.hill@live.com'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  if (!user) redirect('/login?next=/dashboard')
+
+  const isAdmin = user.email === ADMIN_EMAIL
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -20,88 +36,46 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .order('completed_at', { ascending: false })
 
+  const { data: modules } = await supabase
+    .from('neutralize_modules')
+    .select('id, order_index')
+    .order('order_index', { ascending: true })
+
+  const items: AccessItem[] = []
+  if (profile?.purchased_neutralize) {
+    const done = new Set((progress ?? []).map((p) => p.module_id))
+    const total = modules?.length ?? 0
+    const next = (modules ?? []).find((m) => !done.has(m.id))
+    const started = done.size > 0
+    items.push({
+      id: 'neutralize',
+      title: 'Neutralize',
+      summary: total
+        ? started
+          ? `${done.size} of ${total} modules complete.`
+          : `${total} modules, taken in order.`
+        : 'Full access.',
+      status: 'Full access',
+      href: next ? `/neutralize/${next.id}` : '/neutralize',
+      cta: !next && total ? 'Review the course' : started ? 'Continue' : 'Begin Module 1',
+    })
+  }
+
+  const log: LogEntry[] = profile?.purchased_neutralize
+    ? (progress ?? []).map((p) => {
+        const mod = p.neutralize_modules as unknown as { order_index: number; title: string } | null
+        return { moduleId: p.module_id, order: mod?.order_index ?? null, title: mod?.title ?? null, completedAt: p.completed_at }
+      })
+    : []
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
-      <div className="flex items-start justify-between mb-12">
-        <div>
-          <p className="text-sm font-sans text-[var(--muted)] tracking-widest uppercase mb-2">
-            Account
-          </p>
-          <h1 className="text-2xl font-normal">
-            {profile?.full_name ?? user.email}
-          </h1>
-          <p className="text-sm text-[var(--muted)] font-sans mt-1">{user.email}</p>
-        </div>
-        <SignOutButton />
-      </div>
-
-      {/* Neutralize access */}
-      <section className="mb-12 pb-12 border-b border-[var(--border)]">
-        <h2 className="text-base font-normal mb-6">Neutralize</h2>
-        {profile?.purchased_neutralize ? (
-          <div>
-            <p className="text-sm font-sans text-[var(--muted)] mb-6">
-              You have full access.
-            </p>
-            {progress && progress.length > 0 ? (
-              <div className="space-y-2">
-                <p className="text-xs font-sans text-[var(--muted)] uppercase tracking-wider mb-3">
-                  Completion log
-                </p>
-                {progress.map((p) => {
-                  const mod = p.neutralize_modules as unknown as { order_index: number; title: string } | null
-                  return (
-                    <div key={p.module_id} className="flex items-center justify-between text-sm font-sans py-2 border-b border-[var(--border)]">
-                      <span className="text-[var(--foreground)]">
-                        Module {mod?.order_index} — {mod?.title}
-                      </span>
-                      <span className="text-[var(--muted)]">
-                        {new Date(p.completed_at).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </span>
-                    </div>
-                  )
-                })}
-              </div>
-            ) : (
-              <Link
-                href="/neutralize/1"
-                className="text-sm font-sans text-[var(--accent)] hover:underline underline-offset-4"
-              >
-                Begin Module 1 →
-              </Link>
-            )}
-          </div>
-        ) : (
-          <div>
-            <p className="text-sm font-sans text-[var(--muted)] mb-4">
-              You don&apos;t have access to Neutralize yet.
-            </p>
-            <Link
-              href="/neutralize"
-              className="text-sm font-sans text-[var(--accent)] hover:underline underline-offset-4"
-            >
-              View the course →
-            </Link>
-          </div>
-        )}
-      </section>
-
-      {/* Free content */}
-      <section>
-        <h2 className="text-base font-normal mb-4">Free content</h2>
-        <div className="flex gap-4 text-sm font-sans">
-          <Link href="/exercises" className="text-[var(--accent)] hover:underline underline-offset-4">
-            Exercises library
-          </Link>
-          <Link href="/blog" className="text-[var(--accent)] hover:underline underline-offset-4">
-            Research articles
-          </Link>
-        </div>
-      </section>
-    </div>
+    <DashboardView
+      name={profile?.full_name || user.email || 'Your account'}
+      email={user.email ?? ''}
+      showEmail={!!profile?.full_name}
+      isAdmin={isAdmin}
+      items={items}
+      log={log}
+    />
   )
 }
