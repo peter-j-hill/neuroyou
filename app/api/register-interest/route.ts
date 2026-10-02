@@ -13,7 +13,10 @@ export async function POST(request: Request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
+  // interest_registrations is shared with peterjonathanhill.com; `origin` (required)
+  // says which site a row came from.
   const { error } = await admin.from('interest_registrations').insert({
+    origin: 'neuroyou',
     name: name.trim(),
     organization: organization?.trim() || null,
     email: email.trim(),
