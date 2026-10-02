@@ -1,6 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { MdxContent } from '@/lib/mdx'
+import ArticleLayout from '@/components/ArticleLayout'
+import PrintButton from '@/components/PrintButton'
+import PrintOnLoad from '@/components/PrintOnLoad'
+import { paperPdf } from '@/lib/paperPdf'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,31 +21,46 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
 
   if (!paper) notFound()
 
-  return (
-    <div className="max-w-5xl mx-auto px-6 py-20">
-      <a href="/research" className="label hover:text-[var(--white)] transition-colors mb-12 inline-flex items-center gap-2">
-        ← Research
-      </a>
+  const pdf = paperPdf(paper.id, paper.pdf_asset)
+  const downloadBtn = { fontSize: 15, padding: '10px 18px' }
 
-      {paper.hero_asset && (
-        <img src={paper.hero_asset} alt="" className="w-full max-h-72 object-cover border border-[var(--border)] mt-12" />
-      )}
-
-      <div className="grid sm:grid-cols-[1fr_2fr] gap-16 mt-12">
-        <div className="sm:sticky sm:top-12 self-start">
-          <p className="label mb-6">White Paper</p>
-          <h1 className="text-2xl font-light text-[var(--white)] tracking-tight leading-snug mb-6" style={{ letterSpacing: '-0.02em' }}>
-            {paper.title}
-          </h1>
-          <time className="label block">
-            {new Date(paper.published_at).toLocaleDateString('en-GB', {
-              day: 'numeric', month: 'long', year: 'numeric',
-            })}
-          </time>
+  const media = (
+    <div
+      className="flex flex-wrap gap-3 items-center justify-between rounded-[14px] px-5 py-[18px]"
+      style={{ background: 'var(--ny-mist)' }}
+    >
+      <div>
+        <div className="text-[15px] font-semibold">Download for print</div>
+        <div className="text-[13px] mt-0.5" style={{ color: 'var(--ny-ink-3)' }}>
+          {pdf.isFile ? 'PDF · A4 / Letter' : 'Opens your print dialog. Choose “Save as PDF”.'}
         </div>
-
-        {paper.body_mdx && <MdxContent source={paper.body_mdx} />}
+      </div>
+      <div className="flex gap-2">
+        {pdf.isFile ? (
+          <a href={pdf.href} download className="ny-btn ny-btn-primary" style={downloadBtn}>↓ Download PDF</a>
+        ) : (
+          <PrintButton className="ny-btn ny-btn-primary" style={downloadBtn}>↓ Download PDF</PrintButton>
+        )}
+        <PrintButton className="ny-btn ny-btn-secondary" style={downloadBtn}>Print</PrintButton>
       </div>
     </div>
+  )
+
+  return (
+    <>
+      <PrintOnLoad />
+      <ArticleLayout
+        backHref="/research"
+        backLabel="Research"
+        kind="Research paper"
+        date={new Date(paper.published_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+        title={paper.title}
+        excerpt={paper.excerpt}
+        heroAsset={paper.hero_asset}
+        media={media}
+      >
+        {paper.body_mdx && <MdxContent source={paper.body_mdx} variant="light" />}
+      </ArticleLayout>
+    </>
   )
 }
