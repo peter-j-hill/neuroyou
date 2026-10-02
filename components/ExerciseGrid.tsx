@@ -9,6 +9,7 @@ export type Exercise = {
   title: string
   excerpt: string | null
   hero_asset: string | null
+  hero_focal: string | null
   audio_url: string | null
   video_url: string | null
   category: ExerciseCategory | null
@@ -47,7 +48,12 @@ export default function ExerciseGrid({ exercises }: { exercises: Exercise[] }) {
                 <div className="h-[220px]" style={{ background: 'var(--ny-tide-tint)' }}>
                   {e.hero_asset && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={e.hero_asset} alt="" className="w-full h-full object-cover" />
+                    <img
+                      src={e.hero_asset}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      style={e.hero_focal ? { objectPosition: e.hero_focal } : undefined}
+                    />
                   )}
                 </div>
                 <div className="px-6 pt-5 pb-[26px]">

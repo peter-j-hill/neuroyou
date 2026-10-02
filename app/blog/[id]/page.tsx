@@ -27,6 +27,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       title={post.title}
       excerpt={post.excerpt}
       heroAsset={post.hero_asset}
+      heroAlt={post.hero_alt}
+      heroFocal={post.hero_focal}
     >
       {post.body_mdx && <MdxContent source={post.body_mdx} variant="light" />}
     </ArticleLayout>

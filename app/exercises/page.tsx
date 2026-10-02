@@ -23,7 +23,7 @@ export default async function ExercisesPage() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('content')
-    .select('id, title, excerpt, hero_asset, audio_url, video_url, content_tags(tags(title))')
+    .select('id, title, excerpt, hero_asset, hero_focal, audio_url, video_url, content_tags(tags(title))')
     .eq('site', 'neuroyou')
     .eq('type', 'exercise')
     .eq('status', 'published')
