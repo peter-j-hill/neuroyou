@@ -20,7 +20,7 @@ export default async function ResearchPage() {
   const supabase = await createClient()
   const { data: papers } = await supabase
     .from('content')
-    .select('id, title, pdf_asset')
+    .select('id, title, pdf_asset, show_download')
     .eq('site', 'neuroyou')
     .eq('type', 'paper')
     .eq('status', 'published')
@@ -57,17 +57,21 @@ export default async function ResearchPage() {
                     >
                       {paper.title}
                     </Link>
-                    <div className="text-[15px] mt-1.5" style={{ color: 'var(--ny-ink-3)' }}>Working paper · PDF</div>
+                    <div className="text-[15px] mt-1.5" style={{ color: 'var(--ny-ink-3)' }}>
+                      Working paper{paper.show_download !== false && ' · PDF'}
+                    </div>
                   </div>
                   <div className="relative z-10 col-start-2 sm:col-start-auto flex items-center gap-2.5">
-                    <a
-                      href={pdf.href}
-                      {...(pdf.isFile ? { download: true } : {})}
-                      className="rounded-full border px-3.5 py-2 text-sm whitespace-nowrap transition-colors hover:border-[var(--ny-ink)]"
-                      style={{ borderColor: 'var(--ny-line-strong)', color: 'var(--ny-ink)', background: '#fff' }}
-                    >
-                      ↓ PDF
-                    </a>
+                    {paper.show_download !== false && (
+                      <a
+                        href={pdf.href}
+                        {...(pdf.isFile ? { download: true } : {})}
+                        className="rounded-full border px-3.5 py-2 text-sm whitespace-nowrap transition-colors hover:border-[var(--ny-ink)]"
+                        style={{ borderColor: 'var(--ny-line-strong)', color: 'var(--ny-ink)', background: '#fff' }}
+                      >
+                        ↓ PDF
+                      </a>
+                    )}
                     <span className="text-[17px] whitespace-nowrap" style={{ color: 'var(--ny-tide)' }}>Read ›</span>
                   </div>
                 </div>

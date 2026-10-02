@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Montserrat } from 'next/font/google'
 import './globals.css'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import SiteChrome from '@/components/SiteChrome'
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'], weight: ['300', '400', '500', '700'] })
 const montserrat = Montserrat({ variable: '--font-montserrat', subsets: ['latin'], weight: ['300', '400', '700'] })
@@ -18,12 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Nav />
-        {/* pt-14 offsets the fixed 56px nav. Hero pages cancel this with a
-            negative top margin on their hero section so it can bleed
-            underneath — see the design handoff README. */}
-        <main className="flex-1 pt-14">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )

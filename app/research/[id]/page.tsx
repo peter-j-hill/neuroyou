@@ -57,7 +57,7 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
         title={paper.title}
         excerpt={paper.excerpt}
         heroAsset={paper.hero_asset}
-        media={media}
+        media={paper.show_download === false ? undefined : media}
       >
         {paper.body_mdx && <MdxContent source={paper.body_mdx} variant="light" />}
       </ArticleLayout>

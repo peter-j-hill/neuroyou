@@ -16,12 +16,12 @@ function DiagramNodeView({ node, updateAttributes, deleteNode }: NodeViewProps) 
   }
 
   return (
-    <NodeViewWrapper className="my-6 border border-[var(--border)] p-6 text-center" contentEditable={false}>
-      <p className="label mb-2">Diagram</p>
-      <p className="text-sm text-[var(--muted)]">{node.attrs.caption || node.attrs.slug || '(empty — click Edit)'}</p>
+    <NodeViewWrapper className="my-6 rounded-[14px] p-6 text-center" style={{ background: 'var(--ny-mist)' }} contentEditable={false}>
+      <p className="ny-caption mb-2">Diagram</p>
+      <p className="text-[15px]" style={{ color: 'var(--ny-ink-3)' }}>{node.attrs.caption || node.attrs.slug || '(empty — click Edit)'}</p>
       <div className="mt-3 flex items-center justify-center gap-4">
-        <button type="button" onClick={edit} className="text-xs text-[var(--blue)] hover:underline">Edit</button>
-        <button type="button" onClick={() => deleteNode()} className="text-xs text-[var(--muted)] hover:text-[var(--magenta)]">Remove</button>
+        <button type="button" onClick={edit} className="text-[13px] hover:underline" style={{ color: 'var(--ny-tide)' }}>Edit</button>
+        <button type="button" onClick={() => deleteNode()} className="text-[13px] hover:underline" style={{ color: 'var(--ny-coral)' }}>Remove</button>
       </div>
     </NodeViewWrapper>
   )
