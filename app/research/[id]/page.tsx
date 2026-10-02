@@ -52,7 +52,7 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
       <ArticleLayout
         backHref="/research"
         backLabel="Research"
-        kind="Research paper"
+        kind="Working paper"
         date={new Date(paper.published_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
         title={paper.title}
         excerpt={paper.excerpt}

@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 //   Deliberately dense — written for readers who want rigour, not reassurance."
 const COPY = {
   eyebrow: 'Research',
-  heading: 'Research papers.',
+  heading: 'Working papers.',
   intro:
     'The frameworks behind the NeuroYou protocols, set out for close reading and critique. Each paper can be read online or downloaded as a PDF for print.',
 }
@@ -57,7 +57,7 @@ export default async function ResearchPage() {
                     >
                       {paper.title}
                     </Link>
-                    <div className="text-[15px] mt-1.5" style={{ color: 'var(--ny-ink-3)' }}>Research paper · PDF</div>
+                    <div className="text-[15px] mt-1.5" style={{ color: 'var(--ny-ink-3)' }}>Working paper · PDF</div>
                   </div>
                   <div className="relative z-10 col-start-2 sm:col-start-auto flex items-center gap-2.5">
                     <a
