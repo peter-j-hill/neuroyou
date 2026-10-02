@@ -1,69 +1,50 @@
 import { createClient } from '@/lib/supabase/server'
-import Link from 'next/link'
+import ExerciseGrid from '@/components/ExerciseGrid'
 
 export const dynamic = 'force-dynamic'
+
+// Page copy from the redesign handoff. Previous strings, kept here so they are
+// easy to restore:
+//   heading: "Learn"
+//   intro: "Start your personal consciousness lab with these simple, free exercises.
+//   Most can be done in just a few minutes, wherever you are right now. They can be
+//   done in any order. The exercises help you reconnect with your senses, and start
+//   your exploration of consciousness. Making notes about your insights is highly
+//   recommended — there are optional self reflection prompts in each exercise."
+const COPY = {
+  eyebrow: 'Learn · Free',
+  heading: 'Practices.',
+  intro:
+    'Short text and audio practices for attention, sensation, and emotional state. No sequence. Begin anywhere.',
+}
 
 export default async function ExercisesPage() {
   const supabase = await createClient()
   const { data: exercises } = await supabase
     .from('content')
-    .select('id, title, published_at, excerpt, hero_asset')
+    .select('id, title, excerpt, hero_asset, audio_url, video_url')
     .eq('site', 'neuroyou')
     .eq('type', 'exercise')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-20">
-      <p className="label mb-10">
-        <span className="node mr-3" />
-        Learn / Free Exercises
-      </p>
-      <h1 className="text-4xl font-light text-[var(--white)] tracking-tight mb-4" style={{ letterSpacing: '-0.02em' }}>
-        Learn
-      </h1>
-      <p className="text-sm text-[var(--muted)] font-light mb-16 max-w-md leading-relaxed">
-        Start your personal consciousness lab with these simple, free exercises. Most can be done in just a few minutes, wherever you are right now. They can be done in any order. The exercises help you reconnect with your senses, and start your exploration of consciousness. Making notes about your insights is highly recommended — there are optional self reflection prompts in each exercise.
-      </p>
+    <div className="ny-scope bg-white">
+      <div className="max-w-[1120px] mx-auto px-8 pt-24 pb-[120px]">
+        <div className="ny-eyebrow mb-3.5">{COPY.eyebrow}</div>
+        <h1 className="ny-page-title">{COPY.heading}</h1>
+        <p className="ny-lede mt-5 max-w-[640px]" style={{ fontSize: 'clamp(19px, 2.6vw, 24px)', lineHeight: 1.4 }}>
+          {COPY.intro}
+        </p>
 
-      {exercises && exercises.length > 0 ? (
-        <div className="divide-y divide-[var(--border)]">
-          {exercises.map((ex) => (
-            <Link
-              key={ex.id}
-              href={`/exercises/${ex.id}`}
-              className="group flex items-start justify-between gap-8 py-10 hover:text-[var(--blue)] transition-colors"
-            >
-              <div className="flex gap-6 items-start w-full">
-                {ex.hero_asset && (
-                  <img src={ex.hero_asset} alt="" className="w-24 h-24 object-cover border border-[var(--border)] shrink-0 hidden sm:block" />
-                )}
-                <div className="min-w-0 flex-1">
-                  <time className="label block mb-4">
-                    {new Date(ex.published_at).toLocaleDateString('en-GB', {
-                      day: 'numeric', month: 'long', year: 'numeric',
-                    })}
-                  </time>
-                  <h2 className="text-xl font-light text-[var(--white)] group-hover:text-[var(--blue)] transition-colors tracking-tight mb-3">
-                    {ex.title}
-                  </h2>
-                  {ex.excerpt && (
-                    <p className="text-xs text-[var(--muted)] font-light leading-relaxed line-clamp-2 max-w-xl">
-                      {ex.excerpt}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <span className="text-[var(--blue)] text-sm shrink-0 mt-1">→</span>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className="py-24 text-center border border-[var(--border)]">
-          <p className="label">Exercises loading</p>
-          <p className="text-xs text-[var(--muted)] mt-3 font-light">Content will appear here once published.</p>
-        </div>
-      )}
+        {exercises && exercises.length > 0 ? (
+          <ExerciseGrid exercises={exercises} />
+        ) : (
+          <p className="ny-body mt-16" style={{ color: 'var(--ny-ink-3)' }}>
+            Practices will appear here once published.
+          </p>
+        )}
+      </div>
     </div>
   )
 }
