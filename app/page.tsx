@@ -1,220 +1,163 @@
 import Link from 'next/link'
+import HomeHero from '@/components/HomeHero'
+
+const PILLARS = [
+  { n: '01', title: 'Experience Over Explanation', body: 'Understanding comes from doing, not from adopting narratives. Concepts matter only when they support direct observation.' },
+  { n: '02', title: 'Structure Over Story', body: 'Emotions, beliefs, and insights are treated as patterns, not identities. The goal is structural flexibility, not meaning-making.' },
+  { n: '03', title: 'Skill Over Faith', body: 'Attention, abstraction, and non-identification are trainable. Progress is measured by capability, not conviction.' },
+  { n: '04', title: 'Humility Over Certainty', body: 'Claims are provisional and experiences are not universalised. Limits, risks, and failure modes are stated plainly.' },
+]
+
+const MOSAIC = [
+  { img: '/redesign-placeholders/surf.jpg', label: 'Flow', span: 'row-span-2' },
+  { img: '/redesign-placeholders/woman.jpg', label: 'Awe', span: '' },
+  { img: '/redesign-placeholders/forest.jpg', label: 'Depth', span: '' },
+  { img: '/redesign-placeholders/lab.jpg', label: 'Focus', span: 'col-span-2' },
+]
+
+const PROTOCOLS = [
+  { n: '01', name: 'Neutralize', tag: 'Foundational', img: '/redesign-placeholders/hand.jpg' },
+  { n: '02', name: 'NeuroGoal', tag: 'Tangible results', img: '/redesign-placeholders/forest.jpg' },
+  { n: '03', name: 'Reality Distortion', tag: 'Advanced', img: '/redesign-placeholders/grass.jpg' },
+  { n: '04', name: 'NeuroFinity', tag: 'The frontier', img: '/redesign-placeholders/sunwater.jpg' },
+]
 
 export default function HomePage() {
   return (
-    <div className="max-w-5xl mx-auto px-6">
+    <div className="ny-scope bg-white">
+      <HomeHero />
 
-      {/* Hero */}
-      <section className="pt-28 pb-24 border-b border-[var(--border)]">
-        <p className="label mb-10">
-          <span className="node mr-3" />
-          Consciousness Research / Active
-        </p>
-
-        <h1
-          className="text-5xl sm:text-7xl font-light leading-none tracking-tight mb-6 text-[var(--white)]"
-          style={{ letterSpacing: '-0.03em' }}
-        >
-          Modify your
-          <br />
-          <span className="text-[var(--blue)] text-glow-blue">perceptual</span>
-          <br />
-          architecture.
-        </h1>
-
-        <p className="text-sm font-light text-[var(--muted)] max-w-md leading-relaxed mt-8 mb-12" style={{ letterSpacing: '0.02em' }}>
-          NeuroYou is an independent laboratory for personal consciousness research.
-          Not spiritual. Not wellness. Not religion. It&apos;s a place to explore your senses, attention,
-          observation, and skills at direct perceptual investigation.
-        </p>
-
-        <div className="flex flex-wrap gap-4">
-          <Link
-            href="/start-here"
-            className="px-6 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
-          >
-            Start Here
-          </Link>
-          <Link
-            href="/exercises"
-            className="px-6 py-3 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors"
-          >
-            Learn
-          </Link>
+      {/* Commitments */}
+      <section className="max-w-[1120px] mx-auto px-8 pt-[140px] pb-[120px]">
+        <div className="ny-eyebrow mb-3.5">NeuroYou Commitments</div>
+        <h2 className="ny-display max-w-[780px]" style={{ textWrap: 'balance' }}>
+          Four commitments. No belief required.
+        </h2>
+        <div className="grid gap-x-10 gap-y-12 mt-[72px]" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))' }}>
+          {PILLARS.map((p) => (
+            <div key={p.n}>
+              <div className="ny-caption font-medium">{p.n}</div>
+              <h3 className="mt-2.5 mb-2.5 text-2xl leading-tight font-semibold" style={{ letterSpacing: '-0.015em', color: 'var(--ny-ink)' }}>
+                {p.title}
+              </h3>
+              <p className="ny-body">{p.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-
-      {/* Orientation */}
-      <section className="py-24 border-b border-[var(--border)]">
-        <p className="label mb-12"><span className="node mr-3" />NeuroYou Commitments</p>
-        <div className="grid sm:grid-cols-2 gap-12">
-          {[
-            {
-              index: '01',
-              title: 'Experience Over Explanation',
-              body: 'Understanding arises from doing, not from adopting narratives. Concepts are useful only insofar as they support direct observation.',
-            },
-            {
-              index: '02',
-              title: 'Structure Over Story',
-              body: 'Emotional events, beliefs, and insights are treated as patterns, not identities. The goal is not meaning-making, but structural flexibility.',
-            },
-            {
-              index: '03',
-              title: 'Skill Over Faith',
-              body: 'Abstraction, attention, and non-identification are trainable capacities. Progress is measured by capability, not conviction.',
-            },
-            {
-              index: '04',
-              title: 'Humility Over Certainty',
-              body: 'Claims are provisional. Experiences are not universalized. Limits, risks, and failure modes are acknowledged explicitly.',
-            },
-          ].map((item) => (
-            <div key={item.index}>
-              <p className="text-[var(--blue)] text-xs tracking-widest font-light mb-4">{item.index}</p>
-              <h3 className="text-sm font-medium text-[var(--white)] tracking-wide mb-3 uppercase" style={{ letterSpacing: '0.08em' }}>
-                {item.title}
-              </h3>
-              <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
-                {item.body}
-              </p>
+      {/* Image mosaic */}
+      <section className="px-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" style={{ gridTemplateRows: 'repeat(2, 300px)' }}>
+          {MOSAIC.map((m) => (
+            <div key={m.label} className={`relative rounded-[28px] overflow-hidden ${m.span}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={m.img} alt="" className="w-full h-full object-cover" />
+              <div
+                className="absolute left-6 bottom-5 text-white font-semibold text-lg pointer-events-none"
+                style={{ textShadow: '0 1px 12px rgba(0,0,0,.35)' }}
+              >
+                {m.label}
+              </div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Protocols */}
-      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
-        <div>
-          <p className="label mb-6">
-            <span className="node mr-3" style={{ background: 'var(--magenta)', boxShadow: '0 0 8px var(--magenta)' }} />
-            The NeuroYou Protocols
+      <section className="max-w-[1120px] mx-auto px-8 pt-[160px] pb-[120px]">
+        <div className="flex flex-wrap gap-8 sm:gap-16 justify-between items-end">
+          <div className="max-w-[640px]">
+            <div className="ny-eyebrow mb-3.5">The NeuroYou Protocols</div>
+            <h2 className="ny-display">Four Protocols. One Direction: Inward.</h2>
+          </div>
+          <p className="ny-body max-w-[400px]">
+            Structured courses, taken in sequence. Each develops the skill the next one needs. Built from thirty years of direct practice.
           </p>
-          <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Four Protocols.<br />One Direction: <span className="text-[var(--blue)] text-glow-blue">Inward.</span>
-          </h2>
-          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
-            The NeuroYou protocols are a highly advanced set of sequential, experiential consciousness
-            exploration exercises. Not therapy, not wellness. Consciousness engineering. The result of
-            30 years of direct practice and thousands of hours of experimentation and observation in
-            meditation and consciousness work, and only available from NeuroYou. Designed to be
-            sequential, each requires the skills that are developed in the earlier protocols.
-          </p>
-          <Link
-            href="/protocols"
-            className="text-xs tracking-widest uppercase text-[var(--blue)] hover:text-glow-blue transition-colors border-b border-[var(--blue)] pb-0.5"
-          >
-            View the protocols →
-          </Link>
         </div>
-        <div className="border border-[var(--border)] p-8 space-y-px">
-          {[
-            { n: '01', title: 'Neutralize', note: 'Foundational — entry point' },
-            { n: '02', title: 'NeuroGoal', note: 'First application — tangible results' },
-            { n: '03', title: 'Reality Distortion', note: 'Advanced generalisation' },
-            { n: '04', title: 'NeuroFinity', note: 'The frontier' },
-          ].map((p) => (
-            <div key={p.n} className="flex items-center justify-between gap-4 py-4 border-b border-[var(--border)] last:border-0">
-              <div className="flex items-center gap-4">
-                <span className="text-[0.6rem] tracking-widest text-[var(--blue)] font-light">{p.n}</span>
-                <span className="text-sm font-light text-[var(--white)]">{p.title}</span>
+        <div className="grid gap-4 mt-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+          {PROTOCOLS.map((p) => (
+            <Link key={p.n} href="/protocols" className="ny-card block">
+              <div className="h-[260px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={p.img} alt="" className="w-full h-full object-cover" />
               </div>
-              <span className="text-[0.6rem] tracking-wider text-[var(--muted)] font-light text-right">{p.note}</span>
-            </div>
+              <div className="px-6 pt-5 pb-7">
+                <div className="ny-caption font-medium" style={{ color: 'var(--ny-tide)' }}>{p.n} · {p.tag}</div>
+                <div className="text-2xl font-semibold mt-1.5" style={{ letterSpacing: '-0.02em', color: 'var(--ny-ink)' }}>{p.name}</div>
+              </div>
+            </Link>
           ))}
+        </div>
+        <div className="mt-9">
+          <Link href="/protocols" className="ny-text-link text-lg">View the protocols</Link>
         </div>
       </section>
 
       {/* Book */}
-      <section className="py-24 border-b border-[var(--border)] grid sm:grid-cols-2 gap-16 items-start">
-        <div>
-          <p className="label mb-6">
-            <span className="node mr-3" style={{ background: 'var(--violet)', boxShadow: '0 0 8px var(--violet)' }} />
-            The book
-          </p>
-          <h2 className="text-4xl font-light text-[var(--white)] tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-            Reality Check: <span className="text-[var(--blue)]">The Book</span>
-          </h2>
-          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
-            In just a few short decades, meditation and mindfulness has evolved from an obscure
-            eastern mystical practice, to magazines at supermarket checkouts and the go-to practice
-            of Silicon Valley billionaires and Hollywood celebrities.
-          </p>
-          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-4 max-w-sm">
-            What fueled this unstoppable trend and cultural phenomena? In this groundbreaking book,
-            Peter J Hill reveals how a seemingly random series of connections brought together the
-            ideas of German philosophers, atomic physicists, psychologists, LSD tripping hippies,
-            New Age dreamers, eastern gurus and cognitive neuroscientists, to end up as the modern
-            practice of meditation, one that increasingly is framed by neuroscience, not mysticism.
-          </p>
-          <p className="text-sm text-[var(--muted)] font-light leading-relaxed mb-8 max-w-sm">
-            Drawing on thousands of hours of his own explorations in consciousness over thirty years
-            of daily meditation practice using dozens of different techniques, Peter Hill explains
-            the mysteries of binaural beats, the dangers of getting &lsquo;puddled&rsquo;, and the reasons
-            why seeking enlightenment is not nearly as difficult or elusive as many meditation
-            teachers or gurus might have led you to believe. In his precise, clear, no-nonsense
-            style, meditation is broken down into the senses, skills and habits of consciousness.
-            With simple yet powerful exercises, and a detailed insight into the research behind the
-            NeuroFinity protocol, this book shows anyone with a few minutes a day how to profoundly
-            influence their thoughts and emotions for the better, understand and explore their own
-            consciousness, and perhaps, for some, to find enlightenment.
-          </p>
-          <Link
-            href="/connect"
-            className="text-xs tracking-widest uppercase text-[var(--violet)] font-light border-b pb-0.5 hover:text-white transition-colors inline-block"
-            style={{ borderColor: 'var(--violet)' }}
-          >
-            Register Interest
-          </Link>
-        </div>
-        <div className="border border-[var(--border)] p-8" style={{ borderColor: 'rgba(140,92,255,0.3)' }}>
-          <p className="text-[0.6rem] tracking-widest uppercase font-light mb-6" style={{ color: 'var(--violet)' }}>
-            From the author
-          </p>
-          <p className="text-sm font-light text-[var(--white)] leading-relaxed mb-4" style={{ fontStyle: 'italic' }}>
-            &ldquo;Meditation is not a retreat from reality. It is a more careful encounter with the
-            consciousness that defines it. The techniques described in this book do not ask you to
-            believe anything. They simply ask you to observe — precisely, repeatedly, and deliberately
-            about what exactly it is that creates your experience of this world.&rdquo;
-          </p>
-          <p className="text-xs text-[var(--muted)] font-light">Peter J Hill, Author of Reality Check, Founder of NeuroYou, and inventor of the NeuroYou Protocols</p>
+      <section style={{ background: 'var(--ny-mist)' }}>
+        <div className="max-w-[1120px] mx-auto px-8 py-[140px] grid gap-16 items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
+          <div className="h-[520px] rounded-[28px] overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/redesign-placeholders/notebook.jpg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <div className="ny-eyebrow mb-3.5">The book</div>
+            <h2 className="ny-title">Reality Check</h2>
+            <p className="ny-body mt-6" style={{ textWrap: 'pretty' }}>
+              How meditation moved from eastern mysticism to Silicon Valley, and why it is now framed by neuroscience. Peter J Hill breaks consciousness into senses, skills, and habits, with simple exercises that take a few minutes a day.
+            </p>
+            <div className="mt-8">
+              <Link href="/connect" className="ny-btn ny-btn-primary">Register Interest</Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Free content */}
-      <section className="py-24">
-        <p className="label mb-10">Access points</p>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <Link
-            href="/exercises"
-            className="group block p-8 border border-[var(--border)] hover:border-[var(--blue)] hover:bg-[var(--accent-glow)] transition-all"
-          >
-            <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
-            <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
-              Learn
-            </h3>
-            <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
-              Text and audio practices. Attention, sensation, and emotional state.
-              No sequence — begin anywhere.
-            </p>
-          </Link>
-          <Link
-            href="/blog"
-            className="group block p-8 border border-[var(--border)] hover:border-[var(--blue)] hover:bg-[var(--accent-glow)] transition-all"
-          >
-            <p className="text-[var(--blue)] text-xs tracking-widest uppercase mb-4 font-light">Free</p>
-            <h3 className="text-base font-light text-[var(--white)] tracking-tight mb-3 group-hover:text-[var(--blue)] transition-colors">
-              Explore
-            </h3>
-            <p className="text-xs text-[var(--muted)] leading-relaxed font-light">
-              Deep reads on consciousness, perception, and the neuroscience of emotion.
-              No cosmic swirls. No chakras.
-            </p>
-          </Link>
+      {/* Quote */}
+      <section className="relative h-[640px] overflow-hidden" style={{ background: '#2C6E7F' }}>
+        <div className="absolute inset-0 ny-ken-burns">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/redesign-placeholders/sunwater.jpg" alt="" className="w-full h-full object-cover" />
+        </div>
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,.32)' }} />
+        <div className="absolute inset-0 flex items-center justify-center px-8 pointer-events-none">
+          <figure className="m-0 max-w-[900px] text-center text-white">
+            <blockquote className="m-0 font-medium" style={{ fontSize: 40, lineHeight: 1.2, letterSpacing: '-0.025em', textWrap: 'balance' }}>
+              &ldquo;The techniques do not ask you to believe anything. They simply ask you to observe — precisely, repeatedly, and deliberately.&rdquo;
+            </blockquote>
+            <figcaption className="mt-7 text-[15px] opacity-90">Peter J Hill, founder of NeuroYou</figcaption>
+          </figure>
         </div>
       </section>
 
+      {/* Access cards */}
+      <section className="max-w-[1120px] mx-auto px-8 py-[140px]">
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
+          <Link href="/exercises" className="ny-card block">
+            <div className="h-[340px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/redesign-placeholders/hand.jpg" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="px-8 pt-7 pb-[34px]">
+              <div className="ny-caption font-medium" style={{ color: 'var(--ny-tide)' }}>Free</div>
+              <div className="text-[32px] font-semibold mt-1" style={{ letterSpacing: '-0.03em', color: 'var(--ny-ink)' }}>Learn</div>
+              <p className="ny-body mt-2.5">Short text and audio practices for attention, sensation, and emotional state. Begin anywhere.</p>
+            </div>
+          </Link>
+          <Link href="/blog" className="ny-card block">
+            <div className="h-[340px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/redesign-placeholders/grass.jpg" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="px-8 pt-7 pb-[34px]">
+              <div className="ny-caption font-medium" style={{ color: 'var(--ny-tide)' }}>Free</div>
+              <div className="text-[32px] font-semibold mt-1" style={{ letterSpacing: '-0.03em', color: 'var(--ny-ink)' }}>Explore</div>
+              <p className="ny-body mt-2.5">Essays on consciousness, perception, and the neuroscience of emotion.</p>
+            </div>
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }
