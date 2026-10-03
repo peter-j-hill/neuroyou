@@ -13,6 +13,8 @@ export default function ArticleLayout({
   title,
   excerpt,
   heroAsset,
+  heroAlt,
+  heroFocal,
   media,
   children,
 }: {
@@ -23,6 +25,8 @@ export default function ArticleLayout({
   title: string
   excerpt?: string | null
   heroAsset?: string | null
+  heroAlt?: string | null
+  heroFocal?: string | null
   media?: ReactNode
   children: ReactNode
 }) {
@@ -64,7 +68,12 @@ export default function ArticleLayout({
         <div className="max-w-[1120px] mx-auto px-8 mt-14">
           <div className="h-[260px] sm:h-[560px] rounded-[28px] overflow-hidden" style={{ background: 'var(--ny-mist)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroAsset} alt="" className="w-full h-full object-cover" />
+            <img
+              src={heroAsset}
+              alt={heroAlt ?? ''}
+              className="w-full h-full object-cover"
+              style={heroFocal ? { objectPosition: heroFocal } : undefined}
+            />
           </div>
         </div>
       )}

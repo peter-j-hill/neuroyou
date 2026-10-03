@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import MdxEditor from '@/components/MdxEditor'
+import ImageEditor from '@/components/admin/ImageEditor'
 import { EXERCISE_CATEGORIES, categoryFromTags } from '@/lib/categories'
 
 type Post = { id: string; title: string; type: string; status: string; published_at: string; sort_order?: number }
@@ -136,7 +137,10 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [category, setCategory] = useState('')
   const [body, setBody] = useState('')
   const [heroAsset, setHeroAsset] = useState('')
+  const [heroAlt, setHeroAlt] = useState('')
+  const [heroFocal, setHeroFocal] = useState('')
   const [heroUploading, setHeroUploading] = useState(false)
+  const [imageEditing, setImageEditing] = useState(false)
   const [videoUrl, setVideoUrl] = useState('')
   const [audioUrl, setAudioUrl] = useState('')
   const [audioUploading, setAudioUploading] = useState(false)
@@ -162,7 +166,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const reset = (newType: ContentType = 'article') => {
     setTitle(''); setSlug(''); setSlugTouched(false); setSlugEdit(false); setType(newType); setStatus('published')
     setPublishedAt(new Date().toISOString().slice(0, 10))
-    setExcerpt(''); setCategory(''); setBody(''); setHeroAsset(''); setVideoUrl(''); setAudioUrl('')
+    setExcerpt(''); setCategory(''); setBody(''); setHeroAsset(''); setHeroAlt(''); setHeroFocal(''); setImageEditing(false); setVideoUrl(''); setAudioUrl('')
     setPdfAsset(''); setShowDownload(true); setSortOrder(0); setNotice(null)
   }
 
@@ -183,6 +187,9 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
     setExcerpt(data.excerpt ?? '')
     setBody(data.body_mdx ?? '')
     setHeroAsset(data.hero_asset ?? '')
+    setHeroAlt(data.hero_alt ?? '')
+    setHeroFocal(data.hero_focal ?? '')
+    setImageEditing(false)
     setVideoUrl(data.video_url ?? '')
     setAudioUrl(data.audio_url ?? '')
     setPdfAsset(data.pdf_asset ?? '')
@@ -213,6 +220,8 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
       excerpt: excerpt || null,
       body_mdx: body || null,
       hero_asset: heroAsset || null,
+      hero_alt: heroAsset ? heroAlt || null : null,
+      hero_focal: heroAsset ? heroFocal || null : null,
       video_url: videoUrl || null,
       audio_url: audioUrl || null,
       sort_order: sortOrder,
@@ -271,7 +280,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
       const text = await res.text()
       let data: { url?: string; error?: string }
       try { data = JSON.parse(text) } catch { alert('Upload error: ' + text.slice(0, 200)); setHeroUploading(false); return }
-      if (data.url) setHeroAsset(data.url)
+      if (data.url) { setHeroAsset(data.url); setHeroAlt(''); setHeroFocal('') }
       else alert('Upload failed: ' + (data.error ?? 'unknown') + ' (status ' + res.status + ')')
     } catch (err) { alert('Upload error: ' + (err instanceof Error ? err.message : JSON.stringify(err))) }
     setHeroUploading(false); e.target.value = ''
@@ -336,7 +345,24 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   )
   const published = status === 'published'
   const saveLabel = saving ? 'Saving…' : published ? (editing === 'new' ? 'Publish' : 'Save & keep published') : 'Save draft'
-  const shortTitle = title.length > 34 ? title.slice(0, 34) + '…' : title || 'Untitled'
+
+  // The image editor takes over the whole pane; all post state above stays mounted.
+  if (imageEditing && heroAsset) {
+    return (
+      <ImageEditor
+        key={heroAsset}
+        src={heroAsset}
+        title={title}
+        initialAlt={heroAlt}
+        initialFocal={heroFocal}
+        onBack={() => setImageEditing(false)}
+        onApply={({ url, alt, focal }) => {
+          setHeroAsset(url); setHeroAlt(alt); setHeroFocal(focal); setImageEditing(false)
+          say('Cover image updated. Save the post to publish it.')
+        }}
+      />
+    )
+  }
 
   return (
     <div className="h-full grid lg:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] min-h-0 min-w-0">
@@ -610,6 +636,21 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
                     <button type="button" onClick={() => setHeroAsset('')} className="px-2.5 py-2 text-[13px]" style={{ color: 'var(--ny-coral)' }}>Remove</button>
                   )}
                 </div>
+                {heroAsset && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setImageEditing(true)}
+                      className={pillSecondary}
+                      style={{ borderColor: 'var(--ny-line-strong)' }}
+                    >
+                      Edit image
+                    </button>
+                    <div className="text-xs" style={{ color: heroAlt ? 'var(--ny-ink-3)' : 'var(--ny-ink-4)' }}>
+                      {heroAlt ? `Alt text: ${heroAlt}` : 'No alt text yet. Add it under Edit image › Details.'}
+                    </div>
+                  </>
+                )}
               </Card>
 
               {editing !== 'new' && (

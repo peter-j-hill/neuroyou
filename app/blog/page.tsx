@@ -24,11 +24,13 @@ export default async function BlogPage() {
   const supabase = await createClient()
   const { data: posts } = await supabase
     .from('content')
-    .select('id, title, published_at, excerpt, hero_asset')
+    .select('id, title, published_at, excerpt, hero_asset, hero_focal')
     .eq('site', 'neuroyou')
     .eq('type', 'article')
     .eq('status', 'published')
     .order('sort_order', { ascending: true })
+    .order('published_at', { ascending: false })
+    .order('id')
 
   // The first post (current sort order) is featured; there is no separate
   // "featured" flag in the CMS.
@@ -53,7 +55,12 @@ export default async function BlogPage() {
               <div className="h-[300px] sm:h-[440px] rounded-[28px] overflow-hidden" style={{ background: 'var(--ny-tide-tint)' }}>
                 {featured.hero_asset && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={featured.hero_asset} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={featured.hero_asset}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    style={featured.hero_focal ? { objectPosition: featured.hero_focal } : undefined}
+                  />
                 )}
               </div>
               <div>
@@ -78,7 +85,12 @@ export default async function BlogPage() {
                     <div className="h-[220px] rounded-[18px] overflow-hidden" style={{ background: 'var(--ny-tide-tint)' }}>
                       {post.hero_asset && (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={post.hero_asset} alt="" className="w-full h-full object-cover" />
+                        <img
+                          src={post.hero_asset}
+                          alt=""
+                          className="w-full h-full object-cover"
+                          style={post.hero_focal ? { objectPosition: post.hero_focal } : undefined}
+                        />
                       )}
                     </div>
                     <div className="ny-caption">{fmtDate(post.published_at)}</div>

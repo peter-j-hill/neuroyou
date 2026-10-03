@@ -15,6 +15,8 @@ export default async function AdminPage() {
     .select('id, title, type, status, published_at, sort_order')
     .eq('site', 'neuroyou')
     .order('sort_order', { ascending: true })
+    .order('published_at', { ascending: false })
+    .order('id')
 
   return <AdminClient posts={posts ?? []} />
 }

@@ -52,6 +52,8 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
       title={exercise.title}
       excerpt={exercise.excerpt}
       heroAsset={exercise.hero_asset}
+      heroAlt={exercise.hero_alt}
+      heroFocal={exercise.hero_focal}
       media={media}
     >
       {exercise.body_mdx && <MdxContent source={exercise.body_mdx} variant="light" />}
