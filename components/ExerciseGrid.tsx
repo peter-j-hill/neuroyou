@@ -42,7 +42,6 @@ export default function ExerciseGrid({ exercises }: { exercises: Exercise[] }) {
         <div className="grid gap-4 mt-8" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
           {visible.map((e) => {
             const cat = e.category
-            const meta = ['Text', e.audio_url && 'Audio', e.video_url && 'Video'].filter(Boolean).join(' · ')
             return (
               <Link key={e.id} href={`/exercises/${e.id}`} className="ny-card block">
                 <div className="h-[220px]" style={{ background: 'var(--ny-tide-tint)' }}>
@@ -68,7 +67,6 @@ export default function ExerciseGrid({ exercises }: { exercises: Exercise[] }) {
                       {e.excerpt}
                     </p>
                   )}
-                  <div className="text-sm mt-3" style={{ color: 'var(--ny-ink-4)' }}>{meta}</div>
                 </div>
               </Link>
             )
