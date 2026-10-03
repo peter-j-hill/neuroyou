@@ -3,6 +3,10 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+// Previous hero subtitle, kept here so it is easy to restore:
+//   "Neuroscience-grounded training for attention, perception, and emotional state.
+//   Not spiritual. Not wellness. A skill you can measure."
+
 const THEMES = [
   { name: 'Focus', line: 'Clear attention under pressure', img: '/redesign-placeholders/lab.jpg' },
   { name: 'Flow', line: 'Perform with less interference', img: '/redesign-placeholders/surf.jpg' },
@@ -53,7 +57,7 @@ export default function HomeHero() {
           See more. Feel more. Perform better.
         </h1>
         <p className="mt-4 sm:mt-6 text-base sm:text-xl leading-relaxed max-w-[620px] opacity-95" style={{ textWrap: 'pretty' }}>
-          Neuroscience-grounded training for attention, perception, and emotional state. Not spiritual. Not wellness. A skill you can measure.
+          Neuroscience-grounded training for attention, perception and emotional regulation. Not meditation. Not spiritual. Not wellness. Experiential skills you can feel.
         </p>
         <div className="flex flex-wrap justify-center gap-3 mt-6 sm:mt-8 pointer-events-auto">
           <Link href="/start-here" className="ny-btn" style={{ background: '#fff', color: '#1D1D1F', fontWeight: 500 }}>
