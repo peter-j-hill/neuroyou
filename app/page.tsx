@@ -16,6 +16,10 @@ const PROTOCOLS = [
   { n: '04', name: 'NeuroFinity', tag: 'The frontier', img: '/redesign-placeholders/sunwater.jpg' },
 ]
 
+// Previous wording, kept here so it is easy to restore:
+//   Book button: "Register Interest"
+//   Quote: "The techniques do not ask you to believe anything. They simply ask you to
+//   observe — precisely, repeatedly, and deliberately."
 export default function HomePage() {
   return (
     <div className="ny-scope bg-white">
@@ -102,7 +106,7 @@ export default function HomePage() {
               How meditation moved from eastern mysticism to Silicon Valley, and why it is now framed by neuroscience. Peter J Hill breaks consciousness into senses, skills, and habits, with simple exercises that take a few minutes a day.
             </p>
             <div className="mt-8">
-              <Link href="/connect" className="ny-btn ny-btn-primary">Register Interest</Link>
+              <Link href="/connect" className="ny-btn ny-btn-primary">Let me know when it&rsquo;s out</Link>
             </div>
           </div>
         </div>
@@ -118,7 +122,7 @@ export default function HomePage() {
         <div className="absolute inset-0 flex items-center justify-center px-8 pointer-events-none">
           <figure className="m-0 max-w-[900px] text-center text-white">
             <blockquote className="m-0 font-medium" style={{ fontSize: 40, lineHeight: 1.2, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-              &ldquo;The techniques do not ask you to believe anything. They simply ask you to observe — precisely, repeatedly, and deliberately.&rdquo;
+              &ldquo;NeuroYou techniques do not ask you to believe anything. They simply ask you to observe — precisely, repeatedly, and deliberately.&rdquo;
             </blockquote>
             <figcaption className="mt-7 text-[15px] opacity-90">Peter J Hill, founder of NeuroYou</figcaption>
           </figure>
