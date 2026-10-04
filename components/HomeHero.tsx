@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react'
 // Previous hero subtitle, kept here so it is easy to restore:
 //   "Neuroscience-grounded training for attention, perception, and emotional state.
 //   Not spiritual. Not wellness. A skill you can measure."
+// Previous Awe line: "Notice what is already here"
 
 const THEMES = [
   { name: 'Focus', line: 'Clear attention under pressure', img: '/redesign-placeholders/lab.jpg' },
   { name: 'Flow', line: 'Perform with less interference', img: '/redesign-placeholders/surf.jpg' },
-  { name: 'Awe', line: 'Notice what is already here', img: '/redesign-placeholders/woman.jpg' },
+  { name: 'Awe', line: 'Be inspired by the life you have', img: '/redesign-placeholders/woman.jpg' },
   { name: 'Depth', line: 'Go further than meditation took you', img: '/redesign-placeholders/forest.jpg' },
 ]
 
