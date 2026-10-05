@@ -18,6 +18,8 @@ const PROTOCOLS = [
 
 // Previous wording, kept here so it is easy to restore:
 //   Book image: /redesign-placeholders/notebook.jpg (placeholder)
+//   Book text: one paragraph only (the second paragraph "But attention management is only
+//   the beginning..." was added 2026-10-05)
 //   Book button: "Register Interest"
 //   Quote: "The techniques do not ask you to believe anything. They simply ask you to
 //   observe — precisely, repeatedly, and deliberately."
@@ -109,6 +111,9 @@ export default function HomePage() {
             <h2 className="ny-title">Reality Check</h2>
             <p className="ny-body mt-6" style={{ textWrap: 'pretty' }}>
               How meditation moved from eastern mysticism to Silicon Valley, and why it is now framed by neuroscience. Peter J Hill breaks consciousness into senses, skills, and habits, with simple exercises that take a few minutes a day.
+            </p>
+            <p className="ny-body mt-4" style={{ textWrap: 'pretty' }}>
+              But attention management is only the beginning. Once you have learnt to more effectively manage your attention, the book explores how the ordinary structure of waking consciousness can be deliberately taken apart, one sense at a time, and what it feels like on the other side. It is the full journey, from the first exercise to the deepest states, with the scientist&rsquo;s hat firmly on.
             </p>
             <div className="mt-8">
               <Link href="/connect" className="ny-btn ny-btn-primary">Let me know when it&rsquo;s out</Link>
