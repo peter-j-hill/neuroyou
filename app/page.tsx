@@ -17,6 +17,7 @@ const PROTOCOLS = [
 ]
 
 // Previous wording, kept here so it is easy to restore:
+//   Book image: /redesign-placeholders/notebook.jpg (placeholder)
 //   Book button: "Register Interest"
 //   Quote: "The techniques do not ask you to believe anything. They simply ask you to
 //   observe — precisely, repeatedly, and deliberately."
@@ -95,9 +96,13 @@ export default function HomePage() {
       {/* Book */}
       <section style={{ background: 'var(--ny-mist)' }}>
         <div className="max-w-[1120px] mx-auto px-8 py-[140px] grid gap-16 items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
-          <div className="h-[520px] rounded-[28px] overflow-hidden">
+          <div className="h-[520px] rounded-[28px] overflow-hidden bg-white">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/redesign-placeholders/notebook.jpg" alt="" className="w-full h-full object-cover" />
+            <img
+              src="/reality-check-cover.webp"
+              alt="Reality Check by Peter J Hill. How meditation moved from mysticism to neuroscience."
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
             <div className="ny-eyebrow mb-3.5">The book</div>
