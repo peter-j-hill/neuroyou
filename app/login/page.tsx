@@ -4,11 +4,12 @@ import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = searchParams.get('next')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -24,71 +25,71 @@ function LoginForm() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push(next)
+      // An explicit ?next= wins. Otherwise the admin lands in the admin area, everyone else on their account.
+      let dest = next ?? '/dashboard'
+      if (!next) {
+        try {
+          const res = await fetch('/api/is-admin', { cache: 'no-store' })
+          if (res.ok && (await res.json()).admin) dest = '/admin'
+        } catch { /* fall back to the account page */ }
+      }
+      router.push(dest)
       router.refresh()
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label htmlFor="email" className="label block mb-2">Email</label>
-        <input
-          id="email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 text-sm font-light rounded-none"
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="label block mb-2">Password</label>
-        <input
-          id="password"
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 text-sm font-light rounded-none"
-        />
-      </div>
-      <div className="text-right">
-        <Link href="/forgot-password" className="text-xs text-[var(--muted)] hover:text-[var(--white)] transition-colors">
-          Forgot password?
-        </Link>
-      </div>
-      {error && (
-        <p className="text-xs font-light" style={{ color: 'var(--magenta)' }}>{error}</p>
-      )}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-9">
+      <label htmlFor="email" className="sr-only">Email</label>
+      <input
+        id="email"
+        type="email"
+        required
+        autoComplete="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="ny-field"
+      />
+      <label htmlFor="password" className="sr-only">Password</label>
+      <input
+        id="password"
+        type="password"
+        required
+        autoComplete="current-password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="ny-field"
+      />
+      <AuthError message={error} />
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
+        className="ny-btn ny-btn-primary w-full mt-2 disabled:opacity-50"
+        style={{ height: 48, padding: 0 }}
       >
         {loading ? 'Authenticating…' : 'Sign in'}
       </button>
+      <div className="text-center mt-1">
+        <Link href="/forgot-password" className="text-sm" style={{ color: 'var(--ny-tide)' }}>
+          Forgot password?
+        </Link>
+      </div>
     </form>
   )
 }
 
 export default function LoginPage() {
   return (
-    <div className="max-w-md mx-auto px-6 py-24">
-      <p className="label mb-8">
-        <span className="node mr-3" />
-        Authentication
-      </p>
-      <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-2">Sign in</h1>
-      <p className="text-xs text-[var(--muted)] font-light mb-10">
-        No account?{' '}
-        <Link href="/signup" className="text-[var(--blue)] hover:underline underline-offset-4">
-          Create one
-        </Link>
-      </p>
+    <AuthShell>
+      <AuthTitle
+        title="Sign in."
+        sub={<>No account? <Link href="/signup" style={{ color: 'var(--ny-tide)' }}>Create one</Link></>}
+      />
       <Suspense>
         <LoginForm />
       </Suspense>
-    </div>
+    </AuthShell>
   )
 }

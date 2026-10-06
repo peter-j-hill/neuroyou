@@ -18,7 +18,9 @@ function parseAttrs(attrString: string): Record<string, string> {
   return attrs
 }
 
-export function MdxContent({ source }: { source: string }) {
+// variant="light" is the redesign typography; the default stays the original
+// dark `.prose` so pages not yet migrated (e.g. research) are unaffected.
+export function MdxContent({ source, variant = 'dark' }: { source: string; variant?: 'dark' | 'light' }) {
   const parts: ReactNode[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -30,7 +32,7 @@ export function MdxContent({ source }: { source: string }) {
     if (before) parts.push(<div key={key++} dangerouslySetInnerHTML={{ __html: before }} />)
 
     const attrs = parseAttrs(match[1])
-    parts.push(<Diagram key={key++} slug={attrs.slug ?? ''} caption={attrs.caption} />)
+    parts.push(<Diagram key={key++} slug={attrs.slug ?? ''} caption={attrs.caption} variant={variant} />)
 
     lastIndex = match.index + match[0].length
   }
@@ -38,5 +40,5 @@ export function MdxContent({ source }: { source: string }) {
   const rest = source.slice(lastIndex)
   if (rest) parts.push(<div key={key++} dangerouslySetInnerHTML={{ __html: rest }} />)
 
-  return <div className="prose">{parts}</div>
+  return <div className={variant === 'light' ? 'ny-prose' : 'prose'}>{parts}</div>
 }

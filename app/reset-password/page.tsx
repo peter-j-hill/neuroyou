@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
 
 export default function ResetPasswordPage() {
   const router = useRouter()
@@ -40,64 +42,56 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto px-6 py-24">
-      <p className="label mb-8">
-        <span className="node mr-3" />
-        Authentication
-      </p>
-      <h1 className="text-3xl font-light text-[var(--white)] tracking-tight mb-10">Set new password</h1>
+    <AuthShell>
+      <AuthTitle title="Set new password." />
 
       {done ? (
-        <div className="border border-[var(--border)] p-8">
-          <p className="text-sm font-light text-[var(--white)] mb-3">Password updated</p>
-          <p className="text-xs text-[var(--muted)] font-light">Redirecting you to your account…</p>
+        <div className="mt-9 rounded-[14px] p-6" style={{ background: 'var(--ny-mist)' }}>
+          <p className="text-[17px] font-semibold m-0 mb-2">Password updated</p>
+          <p className="text-[15px] m-0" style={{ color: 'var(--ny-ink-3)' }}>Redirecting you to your account…</p>
         </div>
       ) : !ready ? (
-        <div className="border border-[var(--border)] p-8">
-          <p className="text-xs text-[var(--muted)] font-light leading-relaxed">
+        <div className="mt-9 rounded-[14px] p-6" style={{ background: 'var(--ny-mist)' }}>
+          <p className="text-[15px] leading-relaxed m-0" style={{ color: 'var(--ny-ink-3)' }}>
             Verifying reset link… If nothing happens, the link may have expired.{' '}
-            <a href="/forgot-password" className="text-[var(--blue)] hover:underline underline-offset-4">
-              Request a new one.
-            </a>
+            <Link href="/forgot-password" style={{ color: 'var(--ny-tide)' }}>Request a new one.</Link>
           </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="password" className="label block mb-2">New password</label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 text-sm font-light rounded-none"
-              placeholder="Minimum 8 characters"
-            />
-          </div>
-          <div>
-            <label htmlFor="confirm" className="label block mb-2">Confirm password</label>
-            <input
-              id="confirm"
-              type="password"
-              required
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              className="w-full px-4 py-3 text-sm font-light rounded-none"
-            />
-          </div>
-          {error && (
-            <p className="text-xs font-light" style={{ color: 'var(--magenta)' }}>{error}</p>
-          )}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-9">
+          <label htmlFor="password" className="sr-only">New password</label>
+          <input
+            id="password"
+            type="password"
+            required
+            autoComplete="new-password"
+            placeholder="New password (minimum 8 characters)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="ny-field"
+          />
+          <label htmlFor="confirm" className="sr-only">Confirm password</label>
+          <input
+            id="confirm"
+            type="password"
+            required
+            autoComplete="new-password"
+            placeholder="Confirm password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            className="ny-field"
+          />
+          <AuthError message={error} />
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors disabled:opacity-40"
+            className="ny-btn ny-btn-primary w-full mt-2 disabled:opacity-50"
+            style={{ height: 48, padding: 0 }}
           >
             {loading ? 'Updating…' : 'Set new password'}
           </button>
         </form>
       )}
-    </div>
+    </AuthShell>
   )
 }

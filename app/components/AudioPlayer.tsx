@@ -42,15 +42,17 @@ export default function AudioPlayer({ src, filename }: { src: string; filename?:
     return `${m}:${sec.toString().padStart(2, '0')}`
   }
 
+  // Light redesign styling. Playback, seek and download behaviour are unchanged.
   return (
-    <div className="border border-[var(--border)] p-5" style={{ background: '#0B0D10' }}>
+    <div className="rounded-[18px] p-5" style={{ background: 'var(--ny-mist)', fontFamily: 'var(--ny-font)' }}>
       <audio ref={audioRef} src={src} preload="metadata" />
 
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-4">
         {/* Play/pause button */}
         <button
           onClick={toggle}
-          className="w-10 h-10 flex items-center justify-center border border-[var(--blue)] text-[var(--blue)] hover:bg-[var(--accent-glow)] transition-colors shrink-0"
+          className="w-11 h-11 rounded-full flex items-center justify-center text-white shrink-0 transition-colors hover:bg-[var(--ny-tide-deep)]"
+          style={{ background: 'var(--ny-tide)' }}
           aria-label={playing ? 'Pause' : 'Play'}
         >
           {playing ? (
@@ -58,27 +60,25 @@ export default function AudioPlayer({ src, filename }: { src: string; filename?:
               <rect x="0" y="0" width="4" height="14" /><rect x="8" y="0" width="4" height="14" />
             </svg>
           ) : (
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" style={{ marginLeft: 2 }}>
               <polygon points="0,0 12,7 0,14" />
             </svg>
           )}
         </button>
 
-        {/* Progress bar */}
-        <div className="flex-1 flex flex-col gap-1.5">
-          <div
-            className="w-full h-1 cursor-pointer relative"
-            style={{ background: '#1A1D24' }}
-            onClick={seek}
-          >
-            <div
-              className="absolute left-0 top-0 h-full transition-all"
-              style={{ width: `${progress}%`, background: 'var(--blue)' }}
-            />
+        {/* Progress bar (taller click target around a thin bar) */}
+        <div className="flex-1 flex flex-col">
+          <div className="w-full py-2 cursor-pointer" onClick={seek}>
+            <div className="w-full h-1 rounded-full relative" style={{ background: 'var(--ny-line-strong)' }}>
+              <div
+                className="absolute left-0 top-0 h-full rounded-full"
+                style={{ width: `${progress}%`, background: 'var(--ny-tide)' }}
+              />
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span className="text-[0.6rem] tracking-wider text-[var(--muted)] font-light">{fmt(currentTime)}</span>
-            <span className="text-[0.6rem] tracking-wider text-[var(--muted)] font-light">{fmt(duration)}</span>
+          <div className="flex justify-between text-[13px]" style={{ color: 'var(--ny-ink-4)' }}>
+            <span>{fmt(currentTime)}</span>
+            <span>{fmt(duration)}</span>
           </div>
         </div>
       </div>
@@ -87,9 +87,10 @@ export default function AudioPlayer({ src, filename }: { src: string; filename?:
       <a
         href={src}
         download={filename ?? 'audio.mp3'}
-        className="text-[0.6rem] tracking-widest uppercase text-[var(--muted)] hover:text-[var(--blue)] transition-colors flex items-center gap-2"
+        className="mt-4 inline-flex items-center gap-2 text-[15px] transition-colors hover:text-[var(--ny-tide-deep)]"
+        style={{ color: 'var(--ny-tide)' }}
       >
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+        <svg width="12" height="12" viewBox="0 0 10 10" fill="currentColor">
           <path d="M5 0v7M2 5l3 3 3-3M0 9h10" stroke="currentColor" strokeWidth="1.2" fill="none" />
         </svg>
         Download MP3

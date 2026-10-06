@@ -1,110 +1,91 @@
+import Link from 'next/link'
+
+// Page copy from the redesign handoff. Previous wording, kept here so it is easy to
+// restore (also in git history before the Phase 5 commit):
+//
+//   Eyebrow: "Orientation protocol". Heading: "This is not mindfulness."
+//   "Most consciousness content shares an assumption: that what you need is more — more
+//   motivation, more discipline, more positive thinking. NeuroYou starts from a different
+//   premise." / "Your nervous system is already doing something, right now, in every
+//   moment. The question is not how to add things on top of it — it's how to understand
+//   what is actually happening, and work with it rather than against it."
+//   "What consciousness research means here": "Consciousness — your direct, first-person
+//   experience of being here, in your body, with your thoughts, your emotion, your belief,
+//   your identity, and your life — is the subject matter. Not productivity. Not spiritual
+//   development. Not making more money. Not happiness optimization." / "The techniques are
+//   drawn from neuroscience, phenomenology, and decades of first-person investigation into
+//   how experience actually works. They are practical: things you do, in your body, with
+//   your actual senses, right now."
+//   "What to expect": "The free exercises are a starting point. They are short, specific,
+//   and instruction-based — you will be asked to notice something, or to direct your
+//   attention in a particular way, and then observe what happens." / "After you've done
+//   some of the free exercises, if you are still curious, take a look at the NeuroYou
+//   Protocols. These are more structured, committing courses where you will learn powerful
+//   new ways to manage your consciousness more effectively."
+//   "What is not here": "No streaks. No badges. No progress bars. No cosmic swirls. No
+//   chakras. No galaxy backgrounds. No lotus poses."
+//   "Begin": "Browse the exercises library. Pick one that interests you. Do it once.
+//   Notice what happens. That's all."
+//   Side cards: We are not: "Awaken your inner light." / We are: "Modify your perceptual
+//   architecture." / Axiom: "Your experience of being alive is the most direct data you
+//   have. Everything here starts from that."
+//   Buttons: "Exercises library" (/exercises), "Create account" (/signup).
+const COPY = {
+  eyebrow: 'Start Here',
+  heading: 'Three steps. Ten minutes to begin.',
+  intro: 'Consciousness is a set of trainable skills. This is the quickest way to find out what that means for you.',
+}
+
+const STEPS = [
+  {
+    n: '01', title: 'Try a practice', img: '/redesign-placeholders/hand.jpg',
+    body: 'Pick any free practice in Learn. Each takes about ten minutes and needs nothing but your attention.',
+    cta: 'Go to Learn', href: '/exercises',
+  },
+  {
+    n: '02', title: 'Read the thinking', img: '/redesign-placeholders/grass.jpg',
+    body: 'Explore short essays on why consciousness is a matter of structure, not story.',
+    cta: 'Go to Explore', href: '/blog',
+  },
+  {
+    n: '03', title: 'Begin Neutralize', img: '/redesign-placeholders/surf.jpg',
+    body: 'When you want results rather than insights, start the foundational protocol.',
+    cta: 'View the Protocols', href: '/protocols',
+  },
+]
+
 export default function StartHerePage() {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-20">
-      <p className="label mb-10">
-        <span className="node mr-3" />
-        Orientation protocol
-      </p>
+    <div className="ny-scope bg-white">
+      <section className="max-w-[1120px] mx-auto px-8 pt-24 pb-24 text-center">
+        <div className="ny-eyebrow mb-3.5">{COPY.eyebrow}</div>
+        <h1 className="ny-page-title mx-auto max-w-[880px]" style={{ textWrap: 'balance' }}>{COPY.heading}</h1>
+        <p className="ny-lede mx-auto mt-6 max-w-[640px]" style={{ fontSize: 'clamp(19px, 2.6vw, 24px)', lineHeight: 1.4 }}>
+          {COPY.intro}
+        </p>
+      </section>
 
-      <h1 className="text-5xl sm:text-6xl font-light text-[var(--white)] tracking-tight mb-16" style={{ letterSpacing: '-0.03em' }}>
-        This is not<br />
-        <span className="text-[var(--blue)] text-glow-blue">mindfulness.</span>
-      </h1>
-
-      <div className="grid sm:grid-cols-2 gap-16 mb-20">
-        <div className="prose">
-          <p>
-            Most consciousness content shares an assumption: that what you need is
-            <em> more</em> — more motivation, more discipline, more positive
-            thinking. NeuroYou starts from a different premise.
-          </p>
-          <p>
-            Your nervous system is already doing something, right now, in every moment.
-            The question is not how to add things on top of it — it&apos;s how to understand
-            what is actually happening, and work with it rather than against it.
-          </p>
-
-          <h2>What consciousness research means here</h2>
-          <p>
-            Consciousness — your direct, first-person experience of being here, in your body,
-            with your thoughts, your emotion, your belief, your identity, and your life — is the
-            subject matter. Not productivity. Not spiritual development. Not making more money.
-            Not happiness optimization.
-          </p>
-          <p>
-            The techniques are drawn from neuroscience, phenomenology, and decades of
-            first-person investigation into how experience actually works.
-            They are practical: things you do, in your body, with your actual senses,
-            right now.
-          </p>
-
-          <h2>What to expect</h2>
-          <p>
-            The <a href="/exercises">free exercises</a> are a starting point. They are short, specific, and
-            instruction-based — you will be asked to notice something, or to direct
-            your attention in a particular way, and then observe what happens.
-          </p>
-          <p>
-            After you&apos;ve done some of the free exercises, if you are still curious, take a look
-            at the <a href="/protocols">NeuroYou Protocols</a>. These are more structured, committing
-            courses where you will learn powerful new ways to manage your consciousness more effectively.
-          </p>
-
-          <h2>What is not here</h2>
-          <p>
-            No streaks. No badges. No progress bars. No cosmic swirls.
-            No chakras. No galaxy backgrounds. No lotus poses.
-          </p>
-
-          <h2>Begin</h2>
-          <p>
-            Browse the exercises library. Pick one that interests you.
-            Do it once. Notice what happens. That&apos;s all.
-          </p>
-        </div>
-
-        {/* Punch card */}
-        <div className="space-y-6">
-          {[
-            { q: 'We are not:', a: '"Awaken your inner light."' },
-            { q: 'We are:', a: '"Modify your perceptual architecture."' },
-          ].map((item, i) => (
-            <div key={i} className="border border-[var(--border)] p-8">
-              <p className="label mb-3">{item.q}</p>
-              <p
-                className={`text-lg font-light tracking-tight ${
-                  i === 1 ? 'text-[var(--blue)] text-glow-blue' : 'text-[var(--muted)] line-through'
-                }`}
-              >
-                {item.a}
-              </p>
+      <section
+        className="max-w-[1120px] mx-auto px-8 pb-[140px] grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}
+      >
+        {STEPS.map((s) => (
+          <div key={s.n} className="rounded-[28px] overflow-hidden flex flex-col" style={{ background: 'var(--ny-mist)' }}>
+            <div className="h-[280px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.img} alt="" className="w-full h-full object-cover" />
             </div>
-          ))}
-
-          <div className="border border-[var(--border)] p-8 mt-8">
-            <p className="label mb-4">Axiom</p>
-            <p className="text-sm font-light text-[var(--muted)] leading-relaxed">
-              Your experience of being alive is the most direct data you have.
-              Everything here starts from that.
-            </p>
+            <div className="flex flex-col gap-2.5 flex-1 px-7 pt-7 pb-8">
+              <div className="text-5xl font-semibold leading-none" style={{ letterSpacing: '-0.04em', color: 'var(--ny-tide)' }}>{s.n}</div>
+              <h2 className="text-2xl m-0" style={{ letterSpacing: '-0.015em', color: 'var(--ny-ink)' }}>{s.title}</h2>
+              <p className="m-0 flex-1 text-[17px] leading-relaxed" style={{ color: 'var(--ny-ink-3)' }}>{s.body}</p>
+              <Link href={s.href} className="ny-btn ny-btn-primary self-start mt-3" style={{ fontSize: 15, padding: '11px 20px' }}>
+                {s.cta}
+              </Link>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div className="flex gap-4">
-        <a
-          href="/exercises"
-          className="px-6 py-3 border border-[var(--blue)] text-[var(--blue)] text-xs tracking-widest uppercase hover:bg-[var(--accent-glow)] transition-colors"
-        >
-          Exercises library
-        </a>
-        <a
-          href="/signup"
-          className="px-6 py-3 border border-[var(--border)] text-[var(--muted)] text-xs tracking-widest uppercase hover:border-[var(--white)] hover:text-[var(--white)] transition-colors"
-        >
-          Create account
-        </a>
-      </div>
+        ))}
+      </section>
     </div>
   )
 }

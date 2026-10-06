@@ -1,11 +1,32 @@
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
-export async function POST(request: Request) {
-  const { name, organization, email, interest, marketingConsent } = await request.json()
+const INTERESTS = ['The Protocols', 'Reality Check (book)', 'New articles', 'Research papers', 'Workshops']
 
-  if (!name?.trim() || !email?.trim()) {
-    return NextResponse.json({ error: 'Name and email are required' }, { status: 400 })
+const text = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
+
+export async function POST(request: Request) {
+  const body = await request.json().catch(() => null)
+  if (!body || typeof body !== 'object') {
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+  }
+
+  // Older form versions posted a single `name`; keep accepting it.
+  const firstName = text(body.firstName, 200) || text(body.name, 200)
+  const lastName = text(body.lastName, 200)
+  const email = text(body.email, 320)
+  const organization = text(body.organization, 300)
+  // The free-text note is stored in `interest`; older versions called it `interest` too.
+  const message = text(body.message ?? body.interest, 4000)
+  const interests = Array.isArray(body.interests)
+    ? body.interests.filter((i: unknown): i is string => typeof i === 'string' && INTERESTS.includes(i))
+    : []
+
+  if (!firstName || !email) {
+    return NextResponse.json({ error: 'First name and email are required' }, { status: 400 })
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return NextResponse.json({ error: 'Please enter a valid email address' }, { status: 400 })
   }
 
   const admin = createServiceClient(
@@ -17,11 +38,14 @@ export async function POST(request: Request) {
   // says which site a row came from.
   const { error } = await admin.from('interest_registrations').insert({
     origin: 'neuroyou',
-    name: name.trim(),
-    organization: organization?.trim() || null,
-    email: email.trim(),
-    interest: interest?.trim() || null,
-    marketing_consent: !!marketingConsent,
+    name: [firstName, lastName].filter(Boolean).join(' '),
+    first_name: firstName,
+    last_name: lastName || null,
+    organization: organization || null,
+    email,
+    interest: message || null,
+    interests,
+    marketing_consent: !!body.marketingConsent,
   })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

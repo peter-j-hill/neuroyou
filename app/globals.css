@@ -18,6 +18,36 @@
   --accent:      var(--blue);
   --accent-glow: rgba(0, 179, 255, 0.15);
   --tension:     var(--magenta);
+
+  /* === Redesign tokens (light theme, "NeuroYou v2") ===
+     Namespaced --ny-* so the existing dark theme above is untouched.
+     See design_handoff_neuroyou_redesign/README.md for the source spec.
+     Rolled out page-by-page on the redesign/light-theme branch; the
+     global body background/font switch to these at final cutover. */
+  --ny-ink:         #1D1D1F;
+  --ny-ink-2:       #424245;
+  --ny-ink-3:       #6E6E73;
+  --ny-ink-4:       #86868B;
+  --ny-line:        #E8E8ED;
+  --ny-line-strong: #D2D2D7;
+  --ny-mist:        #F5F5F7;
+  --ny-paper:       #FFFFFF;
+  --ny-tide:        #0A6C8C;
+  --ny-tide-deep:   #08536B;
+  --ny-tide-tint:   #E6F1F5;
+  --ny-sun:         #F2B33D;
+  --ny-leaf:        #3F8F5B;
+  --ny-coral:       #C2453D;
+  --ny-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --ny-r-input: 8px;
+  --ny-r-field: 10px;
+  --ny-r-card:  18px;
+  --ny-r-media: 28px;
+  --ny-r-pill:  999px;
+  --ny-ease: cubic-bezier(.22, .61, .36, 1);
+  --ny-glass: rgba(255, 255, 255, .8);
+  --ny-blur: saturate(180%) blur(20px);
+  --ny-focus: 0 0 0 4px rgba(10, 108, 140, .15);
 }
 
 @theme inline {
@@ -182,3 +212,181 @@ textarea::placeholder {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: #1A1D24; border-radius: 2px; }
+
+/* =========================================================
+   Redesign component primitives ("NeuroYou v2", light theme)
+   Scoped under .ny- so they never collide with the dark-theme
+   classes above. Used only by pages/components that have been
+   migrated to the redesign. See design handoff README for spec.
+   ========================================================= */
+
+.ny-scope {
+  font-family: var(--ny-font);
+  font-weight: 400; /* the old dark theme sets body to 300; the redesign body weight is 400 */
+  color: var(--ny-ink);
+}
+/* The old dark theme has an unlayered `h1…h6 { font-weight: 300 }` rule, which beats
+   Tailwind utilities like font-semibold (they live in a cascade layer). Redesign
+   headings are all semibold, so set it here, where it wins. Remove with the old theme. */
+.ny-scope :is(h1, h2, h3, h4, h5, h6) { font-weight: 600; }
+
+/* Type scale */
+.ny-eyebrow { font-size: 15px; font-weight: 500; letter-spacing: 0.01em; color: var(--ny-tide); }
+.ny-caption { font-size: 13px; color: var(--ny-ink-4); }
+.ny-body { font-size: 17px; line-height: 1.55; font-weight: 400; color: var(--ny-ink-2); }
+.ny-article-body { font-size: 19px; line-height: 1.7; font-weight: 400; color: var(--ny-ink-2); }
+.ny-lede { font-size: 21px; line-height: 1.45; font-weight: 400; color: var(--ny-ink-3); }
+.ny-headline { font-size: 24px; line-height: 1.25; font-weight: 600; letter-spacing: -0.015em; color: var(--ny-ink); }
+.ny-title { font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; color: var(--ny-ink); }
+.ny-page-title { font-size: 80px; line-height: 1.02; font-weight: 600; letter-spacing: -0.045em; color: var(--ny-ink); }
+.ny-article-title { font-size: 56px; line-height: 1.05; font-weight: 600; letter-spacing: -0.04em; color: var(--ny-ink); text-wrap: balance; }
+.ny-display { font-size: 56px; line-height: 1.05; font-weight: 600; letter-spacing: -0.035em; color: var(--ny-ink); }
+.ny-hero { font-size: 88px; line-height: 1.0; font-weight: 600; letter-spacing: -0.045em; color: var(--ny-ink); }
+@media (max-width: 640px) {
+  .ny-page-title { font-size: 48px; }
+  .ny-article-title, .ny-display { font-size: 36px; }
+  .ny-hero { font-size: 44px; }
+  .ny-title { font-size: 28px; }
+  .ny-lede { font-size: 19px; }
+}
+
+/* Buttons (pill) */
+.ny-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--ny-r-pill); font-size: 17px; cursor: pointer;
+  padding: 13px 24px; border: 0; transition: background .2s var(--ny-ease), border-color .2s var(--ny-ease), color .2s var(--ny-ease);
+  font-family: var(--ny-font);
+}
+.ny-btn-primary { background: var(--ny-tide); color: #fff; }
+.ny-btn-primary:hover { background: var(--ny-tide-deep); }
+.ny-btn-secondary { background: #fff; color: var(--ny-ink); border: 1px solid var(--ny-line-strong); }
+.ny-btn-secondary:hover { border-color: var(--ny-ink); }
+.ny-btn-glass { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.ny-btn-on-video { background: #fff; color: var(--ny-ink); }
+
+/* Text link */
+.ny-text-link { color: var(--ny-tide); font-size: 17px; text-decoration: none; }
+.ny-text-link:hover { color: var(--ny-tide-deep); }
+.ny-text-link::after { content: ' \203A'; }
+
+/* Field. Written as input.ny-field / textarea.ny-field so these out-rank the old dark
+   theme's `input[type="email"]` etc. rules (same specificity, and these come later). */
+input.ny-field, textarea.ny-field {
+  width: 100%; border: 1px solid var(--ny-line-strong); border-radius: var(--ny-r-field);
+  font-size: 17px; font-weight: 400; background: #fff; color: var(--ny-ink); font-family: var(--ny-font);
+  transition: border-color .2s var(--ny-ease), box-shadow .2s var(--ny-ease);
+}
+input.ny-field { height: 48px; padding: 0 14px; min-width: 0; }
+textarea.ny-field { padding: 12px 14px; resize: vertical; }
+input.ny-field:focus, textarea.ny-field:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
+input.ny-field::placeholder, textarea.ny-field::placeholder { color: var(--ny-ink-4); }
+
+/* Compact controls for the admin. Same specificity trick as .ny-field above. */
+input.ny-sm, select.ny-sm, textarea.ny-sm {
+  width: 100%; min-width: 0; height: 34px; padding: 0 10px; font-size: 13px; font-weight: 400;
+  background: #fff; color: var(--ny-ink); border: 1px solid var(--ny-line-strong); border-radius: 8px;
+  font-family: var(--ny-font);
+  transition: border-color .2s var(--ny-ease), box-shadow .2s var(--ny-ease);
+}
+input.ny-sm.ny-mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+input.ny-sm[readonly] { background: #FAFAFC; color: var(--ny-ink-2); border-color: var(--ny-line); }
+input.ny-sm:focus, select.ny-sm:focus, textarea.ny-sm:focus { outline: none; border-color: var(--ny-tide); box-shadow: var(--ny-focus); }
+input.ny-search {
+  width: 100%; height: 34px; padding: 0 12px; font-size: 14px; font-weight: 400; border: 0; border-radius: 8px;
+  background: var(--ny-mist); color: var(--ny-ink); font-family: var(--ny-font);
+}
+input.ny-search:focus { outline: none; box-shadow: 0 0 0 3px rgba(10, 108, 140, .2); }
+/* Borderless, auto-growing textareas (admin title and excerpt) */
+textarea.ny-bare {
+  display: block; width: 100%; padding: 0; margin: 0; border: 0; border-radius: 0; background: transparent;
+  resize: none; overflow: hidden; outline: none; box-shadow: none; font-family: var(--ny-font); font-weight: inherit;
+}
+textarea.ny-bare:focus { border: 0; outline: none; box-shadow: none; }
+textarea.ny-bare::placeholder { color: var(--ny-ink-4); font-weight: 400; }
+
+/* Chip */
+.ny-chip {
+  display: inline-flex; align-items: center; border-radius: var(--ny-r-pill);
+  font-size: 14px; padding: 8px 16px; cursor: pointer; border: 1px solid var(--ny-line-strong);
+  background: #fff; color: var(--ny-ink); transition: all .2s var(--ny-ease); font-family: var(--ny-font);
+}
+.ny-chip[data-on="true"] { background: var(--ny-ink); color: #fff; border-color: var(--ny-ink); }
+/* Multi-select chips (e.g. interests): Tide tint instead of solid ink */
+.ny-chip[data-variant="tint"][data-on="true"] { background: var(--ny-tide-tint); color: var(--ny-tide); border-color: var(--ny-tide); }
+
+/* Media card */
+.ny-card { border-radius: var(--ny-r-card); background: var(--ny-mist); overflow: hidden; transition: transform .4s var(--ny-ease); }
+.ny-card:hover { transform: translateY(-4px); }
+
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .ny-reveal { animation: ny-rise .4s var(--ny-ease) both; }
+}
+@keyframes ny-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* The old dark theme paints a black scrollbar track. On light pages (and inside the
+   admin's scrolling panes) use a quiet grey thumb on a transparent track instead. */
+html:has(.ny-scope), .ny-scope * { scrollbar-width: thin; scrollbar-color: #C7C7CC transparent; }
+
+/* Any page wrapped in .ny-scope gets a white page background, so short
+   pages don't show the (still-dark) global body above the footer. */
+main:has(> .ny-scope) { background: #fff; }
+
+/* Long-form body typography for CMS content (articles, exercises, papers).
+   Typography only — the HTML itself is rendered verbatim. */
+.ny-prose { font-family: var(--ny-font); font-size: 19px; line-height: 1.7; font-weight: 400; color: var(--ny-ink); }
+.ny-prose p { margin: 0 0 28px; }
+.ny-prose h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; margin: 56px 0 20px; color: var(--ny-ink); }
+.ny-prose h2 { font-size: 32px; line-height: 1.15; letter-spacing: -0.025em; font-weight: 600; margin: 56px 0 20px; color: var(--ny-ink); }
+.ny-prose h3 { font-size: 24px; line-height: 1.25; letter-spacing: -0.015em; font-weight: 600; margin: 40px 0 16px; color: var(--ny-ink); }
+.ny-prose strong { font-weight: 600; }
+.ny-prose a { color: var(--ny-tide); text-decoration: underline; text-underline-offset: 3px; }
+.ny-prose a:hover { color: var(--ny-tide-deep); }
+.ny-prose ul, .ny-prose ol { margin: 0 0 28px; padding-left: 1.4em; }
+.ny-prose ul { list-style: disc; }
+.ny-prose ol { list-style: decimal; }
+.ny-prose li { margin-bottom: 8px; }
+.ny-prose li p { margin-bottom: 8px; }
+/* Quote blocks stay body-sized (Peter's call — the handoff's 28px pull-quote was
+   too large for CMS content): a tide side rule with quieter italic text, like the
+   original dark theme. */
+.ny-prose blockquote { margin: 32px 0; padding: 0 0 0 1.25em; border-left: 2px solid var(--ny-tide); font-size: inherit; line-height: inherit; font-style: italic; font-weight: 400; color: var(--ny-ink-3); }
+.ny-prose blockquote p { margin: 0 0 16px; font-size: inherit; line-height: inherit; color: inherit; }
+.ny-prose blockquote > :last-child { margin-bottom: 0; }
+.ny-prose hr { border: 0; border-top: 1px solid var(--ny-line); margin: 56px 0; }
+.ny-prose img { max-width: 100%; height: auto; border-radius: 18px; margin: 40px 0; }
+.ny-prose code { font-size: 0.9em; background: var(--ny-mist); padding: 2px 6px; border-radius: 6px; }
+.ny-prose pre { background: var(--ny-mist); padding: 16px 20px; border-radius: 14px; overflow-x: auto; margin: 0 0 28px; }
+.ny-prose pre code { background: none; padding: 0; }
+.ny-prose > div:first-child > :first-child { margin-top: 0; }
+/* The admin's Tiptap editor renders the same body styles, but as direct children */
+.ProseMirror.ny-prose > :first-child { margin-top: 0; }
+.ProseMirror.ny-prose > :last-child { margin-bottom: 0; }
+.ProseMirror.ny-prose img.ProseMirror-selectednode { outline: 2px solid var(--ny-tide); }
+.ny-prose > div:last-child > :last-child { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .ny-prose { font-size: 18px; }
+  .ny-prose h2 { font-size: 26px; }
+}
+
+/* Clean print / "Save as PDF" output for articles and research papers. */
+@media print {
+  @page { margin: 18mm; }
+  html, body { background: #fff !important; }
+  body > header, body > footer, .ny-no-print { display: none !important; }
+  main { padding-top: 0 !important; background: #fff !important; }
+  article > div { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
+  .ny-article-title { font-size: 26pt; }
+  .ny-lede { font-size: 13pt !important; }
+  .ny-prose { font-size: 11pt; line-height: 1.55; }
+  .ny-prose h1, .ny-prose h2, .ny-prose h3 { break-after: avoid; }
+  .ny-prose img, .ny-prose blockquote, .ny-prose pre, .ny-prose li { break-inside: avoid; }
+  .ny-prose a { color: inherit; text-decoration: none; }
+}
+
+/* Ken Burns drift on hero/full-bleed stills */
+@keyframes ny-drift { from { transform: scale(1.04); } to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); } }
+.ny-ken-burns { animation: ny-drift 40s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .ny-ken-burns { animation: none !important; }
+}
