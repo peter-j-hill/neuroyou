@@ -131,7 +131,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   const [slugTouched, setSlugTouched] = useState(false)
   const [slugEdit, setSlugEdit] = useState(false)
   const [type, setType] = useState<ContentType>('article')
-  const [status, setStatus] = useState<'draft' | 'published'>('published')
+  const [status, setStatus] = useState<'draft' | 'published'>('draft')
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
   const [excerpt, setExcerpt] = useState('')
   const [category, setCategory] = useState('')
@@ -164,7 +164,7 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
   }
 
   const reset = (newType: ContentType = 'article') => {
-    setTitle(''); setSlug(''); setSlugTouched(false); setSlugEdit(false); setType(newType); setStatus('published')
+    setTitle(''); setSlug(''); setSlugTouched(false); setSlugEdit(false); setType(newType); setStatus('draft')
     setPublishedAt(new Date().toISOString().slice(0, 10))
     setExcerpt(''); setCategory(''); setBody(''); setHeroAsset(''); setHeroAlt(''); setHeroFocal(''); setImageEditing(false); setVideoUrl(''); setAudioUrl('')
     setPdfAsset(''); setShowDownload(true); setSortOrder(0); setNotice(null)
