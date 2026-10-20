@@ -15,7 +15,7 @@ export type LogEntry = { moduleId: string; order: number | null; title: string |
 
 // Presentational part of the dashboard (see page.tsx for where the data comes from).
 export default function DashboardView({
-  name, email, showEmail, isAdmin, items, log,
+  name, email, showEmail, isAdmin, items, log, welcome,
 }: {
   name: string
   email: string
@@ -23,6 +23,8 @@ export default function DashboardView({
   isAdmin: boolean
   items: AccessItem[]
   log: LogEntry[]
+  /** Title of a course the person has just bought (shows a quiet thank-you). */
+  welcome?: string | null
 }) {
   return (
     <div className="ny-scope bg-white">
@@ -37,6 +39,15 @@ export default function DashboardView({
           </div>
           <SignOutButton />
         </div>
+
+        {welcome && (
+          <div className="mt-12 rounded-[18px] p-7" role="status" style={{ background: 'var(--ny-tide-tint)' }}>
+            <div className="ny-caption font-medium" style={{ color: 'var(--ny-tide)' }}>Thank you</div>
+            <p className="m-0 mt-1 text-[17px]" style={{ color: 'var(--ny-ink)' }}>
+              You now have access to {welcome}. It is listed below.
+            </p>
+          </div>
+        )}
 
         {isAdmin && (
           <div

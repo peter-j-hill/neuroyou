@@ -5,11 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
+import { safeNext } from '@/lib/safeNext'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const next = searchParams.get('next')
+  const next = safeNext(searchParams.get('next'))
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')

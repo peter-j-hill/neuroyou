@@ -38,6 +38,9 @@
   --ny-sun:         #F2B33D;
   --ny-leaf:        #3F8F5B;
   --ny-coral:       #C2453D;
+  /* Dark panels used by the Protocols pages (offer hero, practice rooms). Not for page backgrounds. */
+  --ny-night:       #0B0D10;
+  --ny-night-2:     #1A1D24;
   --ny-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
   --ny-r-input: 8px;
   --ny-r-field: 10px;
