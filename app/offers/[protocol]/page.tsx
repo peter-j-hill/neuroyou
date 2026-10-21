@@ -42,8 +42,8 @@ export default async function OfferPage({ params, searchParams }: { params: Para
   const protocol = await getProtocol(supabase, slug)
   if (!protocol) notFound()
 
-  // Someone who already bought it has no use for the sales page.
-  if (user && (await hasActivePurchase(user.id, protocol.id))) redirect('/dashboard')
+  // Someone who already bought it has no use for the sales page. (The admin always sees it, to review the copy.)
+  if (user && !isAdminUser(user) && (await hasActivePurchase(user.id, protocol.id))) redirect('/dashboard')
 
   const isDraft = protocol.status === 'draft'
   const payment = first(sp.payment)
