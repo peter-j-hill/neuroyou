@@ -1,4 +1,9 @@
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
+import { PROTOCOL_CARDS } from '@/content/protocols'
+
+// Statuses change rarely; re-read at most once a minute.
+export const revalidate = 60
 
 export const metadata = {
   title: 'Protocols — NeuroYou',
@@ -49,34 +54,28 @@ const COPY = {
   intro: 'Four structured courses for direct consciousness work. Taken in sequence, with no shortcuts. Built for results.',
 }
 
-const PROTOCOLS = [
-  {
-    n: '01', tag: 'Foundational', full: 'The Neutralize Protocol', img: '/redesign-placeholders/hand.jpg',
-    lede: 'Work directly with the structure of emotion.',
-    body: 'Most emotional suffering is not a character flaw or a chemical imbalance. It is a structural feature of how consciousness processes experience. Neutralize is a rigorous, neuroscience-informed method for dissolving the architecture that generates unwanted emotional states. It is the core skill everything else builds on.',
-    req: 'Entry point',
-  },
-  {
-    n: '02', tag: 'Tangible results', full: 'The NeuroGoal Protocol', img: '/redesign-placeholders/forest.jpg',
-    lede: 'Achieving goals is a consciousness problem.',
-    body: 'NeuroGoal aligns intention and attention precisely on an outcome, then applies Neutralize to remove the fear, self-doubt, and ambivalence that derail most effort before it begins. It works at the level of the consciousness that generates behaviour.',
-    req: 'Requires Neutralize',
-  },
-  {
-    n: '03', tag: 'Advanced', full: 'The Reality Distortion Protocol', img: '/redesign-placeholders/grass.jpg',
-    lede: 'Explore every layer of consciousness.',
-    body: 'An advanced technique for exploring the full architecture of consciousness, personal, interpersonal, and collective, and bringing subconscious programming into alignment. The result is a measurable shift in how you perceive and engage with your life.',
-    req: 'Requires NeuroGoal',
-  },
-  {
-    n: '04', tag: 'The frontier', full: 'The NeuroFinity Protocol', img: '/redesign-placeholders/sunwater.jpg',
-    lede: 'Transcendent states, made systematic.',
-    body: 'The most advanced instrument in the NeuroYou system. A precise, reproducible method for temporarily suspending ordinary consciousness to access deeply transcendent states, through technique rather than belief.',
-    req: 'Requires Reality Distortion',
-  },
-]
 
-export default function ProtocolsPage() {
+// Buttons follow each protocol's status in the database: a live protocol links to its offer page
+// ("See the protocol"), a waitlist one to its waitlist page ("Join the waitlist"), anything else
+// keeps the original "Coming Soon" button to the Connect form. So nothing links to a page that
+// is not open to the public yet. (Anonymous reads only ever see live and waitlist protocols.)
+async function loadStatuses(): Promise<Record<string, string>> {
+  try {
+    const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+    const { data } = await db.from('protocols').select('slug, status')
+    return Object.fromEntries((data ?? []).map((r) => [r.slug, r.status]))
+  } catch {
+    return {}
+  }
+}
+
+const BUTTON = {
+  live: { label: 'See the protocol', href: (slug: string) => `/offers/${slug}` },
+  waitlist: { label: 'Join the waitlist', href: (slug: string) => `/offers/${slug}` },
+} as const
+
+export default async function ProtocolsPage() {
+  const statuses = await loadStatuses()
   return (
     <div className="ny-scope bg-white">
       {/* Hero — bleeds under the fixed nav (cancels main's pt-14) */}
@@ -102,7 +101,7 @@ export default function ProtocolsPage() {
         </div>
       </section>
 
-      {PROTOCOLS.map((p, i) => (
+      {PROTOCOL_CARDS.map((p, i) => (
         <section
           key={p.n}
           className={`max-w-[1120px] mx-auto px-8 pt-[120px] flex flex-wrap gap-14 items-center ${i % 2 ? 'flex-row-reverse' : ''}`}
@@ -127,7 +126,14 @@ export default function ProtocolsPage() {
             </p>
             <p className="mt-4 text-[17px] leading-relaxed" style={{ color: 'var(--ny-ink-3)' }}>{p.body}</p>
             <div className="flex flex-wrap gap-4 mt-7 items-center">
-              <Link href="/connect" className="ny-btn ny-btn-primary" style={{ padding: '12px 22px' }}>Coming Soon</Link>
+              {(() => {
+                const b = BUTTON[statuses[p.slug] as keyof typeof BUTTON]
+                return (
+                  <Link href={b ? b.href(p.slug) : '/connect'} className="ny-btn ny-btn-primary" style={{ padding: '12px 22px' }}>
+                    {b ? b.label : 'Coming Soon'}
+                  </Link>
+                )
+              })()}
               <span className="text-sm" style={{ color: 'var(--ny-ink-4)' }}>{p.req}</span>
             </div>
           </div>

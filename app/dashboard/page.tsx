@@ -17,7 +17,8 @@ import DashboardView, { type LogEntry } from './DashboardView'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'peter.j.hill@live.com'
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ welcome?: string }> }) {
+  const { welcome } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login?next=/dashboard')
@@ -76,6 +77,7 @@ export default async function DashboardPage() {
       isAdmin={isAdmin}
       items={items}
       log={log}
+      welcome={items.find((i) => i.id === welcome)?.title ?? null}
     />
   )
 }

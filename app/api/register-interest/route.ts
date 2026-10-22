@@ -1,7 +1,11 @@
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
-const INTERESTS = ['The Protocols', 'Reality Check (book)', 'New articles', 'Research papers', 'Workshops']
+const INTERESTS = [
+  'The Protocols', 'Reality Check (book)', 'New articles', 'Research papers', 'Workshops',
+  // Protocol waitlists (/offers/neurogoal and so on)
+  'Waitlist: NeuroGoal', 'Waitlist: Reality Distortion', 'Waitlist: NeuroFinity',
+]
 
 const text = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
 
