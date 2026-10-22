@@ -7,95 +7,96 @@
 
 export const OFFER = {
   hero: {
-    eyebrow: '01 · Foundational',
+    eyebrow: '01 · Foundation',
     title: 'The Neutralize Protocol.',
-    lede: 'Work directly with the structure of emotion.',
+    lede: 'Work directly with the structure of emotions.',
     body:
-      'A short, precise technique for dissolving the uninvited emotions that stall you — irritation, dread, procrastination, overwhelm. You learn it in a few hours. You use it for the rest of your life.',
-    facts: ['7 modules', 'About 4 hours, then practice', 'Video, audio, guided practice', 'Self-paced, lifetime access'],
+      'A short, precise technique for dissolving the uninvited emotions that stop you taking action — irritation, dread, procrastination, overwhelm. Learn it in a few hours. Use it for the rest of your life.',
+    facts: ['7 modules', 'About 4 hours course content then practice', 'Video, audio, guided practice pages, online journal', 'Self-paced, lifetime access'],
     image: '/redesign-placeholders/hand.jpg', // placeholder, as on /protocols
   },
 
   problem: {
     eyebrow: 'The problem',
-    title: 'You know what to do. Something stops you doing it.',
+    title: 'You know what you need to do. Yet something stops you doing it.',
     body:
-      'Every goal follows the same three steps. The trouble is rarely the plan — it is the emotion that turns up at step three and quietly drains the energy you need.',
+      'Every goal in life follows the same basic steps. The trouble is rarely your plan — it is the emotion that turns up when you start taking action, and drains your focus, energy and motivation.',
     steps: [
-      { label: 'Step 1', title: 'Picture the outcome', body: 'Say it, write it, see it.' },
-      { label: 'Step 2', title: 'Plan the action', body: 'Work out what gets you from here to there.' },
+      { label: 'Step 1', title: 'Picture the outcome', body: 'Visualize it, write it down. you know all this and already do it.' },
+      { label: 'Step 2', title: 'Make a Plan', body: 'Figure out what gets you from here to there.' },
       {
-        label: 'Step 3 · where it stalls',
+        label: 'Step 3 · where you get stuck',
         title: 'Take the action',
-        body: 'Fear, reluctance, overwhelm, “later”. Each block burns attention — and attention is a limited resource.',
+        body: 'Fear, reluctance, pracrastination, overwhelm, lack of energy. These are just some of emotions that block you from taking action by exhausting your attention — and attention is our most limited resource.',
         stall: true,
       },
     ],
   },
 
   approach: {
-    eyebrow: 'The approach',
-    title: 'Stop working with what it means. Work with how it is built.',
+    eyebrow: 'The NeuroYou approach',
+    title: 'Stop working with what emotion means. Work with how it is built in consciousness.',
     most: {
-      label: 'Most methods · the meaning level',
+      label: 'Most self-development works at the level of meaning',
       title: 'Talk about the feeling.',
       body:
-        'Where did it come from? What does it say about you? Useful for understanding — but you can talk for months and still feel exactly the same.',
+        'Where did it come from? What does it say about you? Your answers might be useful for understanding — but after hours or months of talking you are still stuck.',
     },
     neutralize: {
-      label: 'Neutralize · the structural level',
+      label: 'Neutralize works at the structural level',
       title: 'Feel it fully. Then see it as information.',
       body:
-        'Every feeling is a pattern of neurons firing. Imagine it that way and it becomes neutral — just information. Then you deliberately switch the pattern off.',
+        'Every emotion is a pattern of neurons firing in the brain. When we magine it that way it becomes neutral information. That gives you the choice to deliberately back control and switch the pattern off at its source.',
     },
   },
 
   outcomes: {
-    eyebrow: 'What you will be able to do',
-    title: 'One skill. Everything else builds on it.',
+    eyebrow: 'What you will learn to do',
+    title: 'Learn One skill. Everything else builds from there.',
     items: [
-      { title: 'Name it', body: 'Spot an uninvited emotion as it arrives, instead of hours later.' },
-      { title: 'Feel it, without the story', body: 'Hold full attention on the feeling and leave the explanations aside.' },
-      { title: 'Dissolve it in minutes', body: 'Run the seven steps anywhere quiet. Repeat until it is lighter.' },
-      { title: 'Get back to the work', body: 'Free the attention the block was using, and act.' },
+      { title: 'Find it', body: 'Spot an uninvited emotion as it arrives, instead of hours later on your therapists couch.' },
+      { title: 'Feel it, without the story', body: 'Hold full attention on the feeling while leaving the meaning and story aside.' },
+      { title: 'Dissolve it in minutes', body: 'Run the seven Neurtralize steps anywhere quiet. Repeat until it is gone.' },
+      { title: 'Get back to work', body: 'Once you have freed the attention the emotion was block, take action.' },
     ],
   },
 
   inside: {
     eyebrow: 'Inside the protocol',
-    title: 'Short lessons. Practice straight after every idea.',
+    title: 'Short lessons. Practice immediately.',
     body:
-      'Two founder lectures, short pause-and-try exercises, a guided audio practice, and a private journal for your own observations.',
+      'Two founder lectures, short preparation exercises, the guided neutralize practice, and a private online journal for your own observations.',
     // Marketing summary from the canvas. Lesson counts and minutes are the plan's targets, not read from
     // the database, so this stays accurate to the sales promise even while lessons are placeholders.
     modules: [
       { n: '0', title: 'Before you begin', meta: '3 lessons · 10 min' },
       { n: '1', title: 'Why emotion blocks action', meta: '3 lessons · 35 min' },
       { n: '2', title: 'The insight', meta: '5 lessons · 60 min' },
-      { n: '3', title: 'The protocol — seven steps', meta: '3 lessons · 40 min' },
+      { n: '3', title: 'The Neutralize Protocol in seven steps', meta: '3 lessons · 40 min' },
       { n: '4', title: 'Practice', meta: 'open-ended' },
-      { n: '5', title: 'When it does not shift', meta: '2 lessons · 25 min' },
-      { n: '6', title: 'Advanced practice — beyond emotion', meta: '1 lecture · open-ended' },
+      { n: '5', title: 'Troubleshooting', meta: '2 lessons · 25 min' },
+      { n: '6', title: 'Taking Neurtralize beyond emotion', meta: '1 lecture · 30 min' },
+      { n: '7', title: 'Advanced Practice', meta: 'custom-practice room · open-ended' }
     ],
   },
 
   expect: {
     label: 'What to expect',
-    title: 'Results are felt, not figured out.',
+    title: 'Results that you feel, not figure out.',
     body:
-      'Most people notice lightness, relief, or a spontaneous breath out. Some feel a brief jolt along the neck or spine as the nervous system settles. Both are normal. You may not gain new insight — the emotion may simply stop being there.',
+      'Neurtalize is experience consciousness work, not academic theory. Most people notice lightness, relief, or a spontaneous breath in and out as tension releases. Some feel a brief jolt as the nervous system resets. your experience will be unique, because you are unique. You may not gain new insight, but the emotion that blocked you before may simply stop being there.',
   },
   care: {
     label: 'Before you buy',
     title: 'This is real work with emotion.',
     body:
-      'It can feel hard at first. If you are in therapy, under psychiatric care, or take medication for a psychological condition, please check with your professional before starting. Neutralize is not therapy and not a treatment.',
+      'Consciousness work with emotions can trigger some people. If you are in therapy, under psychiatric care, or take medication for a psychological condition, please check with your professional before starting. Neutralize is not therapy and not a treatment. It is self-directed consciousness exploration, so you take responsibility for the result',
   },
 
   founder: {
     quote:
-      '“I spent thousands of hours meditating so you don’t have to. In the next few hours, I’ll share ideas you have probably never thought about.”',
-    byline: 'Peter J Hill · Founder, NeuroYou · thirty years of direct practice',
+      '“I spent thousands of hours meditating so you don’t have to. In the next few hours, I’ll share a way of experiencing how your you have probably never thought about.”',
+    byline: 'Peter J Hill · Founder of NeuroYou and creator of the Neutralize Protocol',
     portrait: '/peter-hill.jpg',
   },
 
@@ -104,10 +105,11 @@ export const OFFER = {
     title: 'Start the Neutralize Protocol.',
     includes: [
       '7 modules, video and audio',
-      'Guided practice room, any time',
+      'Guided practice rooms, accessable time',
+      'Deskstop, mobile, tablet',
       'Private practice journal',
       'Lifetime access, including updates',
-      'Unlocks NeuroGoal when it opens',
+      'Enables access to NeuroGoal once completed',
     ],
     // [pending] Peter to supply. When null, the sentence is simply left out (nothing like
     // "[YOUR REFUND POLICY]" can ever reach the public page).
@@ -117,23 +119,27 @@ export const OFFER = {
   faqs: [
     {
       q: 'Do I need to do the free exercises first?',
-      a: 'It helps. The free Learn exercises train the attention skills Neutralize uses, especially Abstraction. The course links to them where they matter.',
+      a: 'Yes, for best results. The free Learn exercises train the attention skills Neutralize uses, especially Abstraction. You can enroll first, the free exercises are always available',
     },
     {
       q: 'How long does it take?',
-      a: 'About four hours of lessons, at your own pace. Learning the steps is quick. Mastering them in daily life takes repetition, which is what the practice room is for.',
+      a: 'About four hours of lessons, at your own pace. Learning the Neutralize steps is quick. Mastering them in daily life takes repetition a some discipline, which is what the practice room is for.',
     },
     {
       q: 'Is this therapy?',
-      a: 'No. It is personal attention training. If you are in therapy or under medical care, please check with your professional before you start.',
+      a: 'No. It is personal consciousness and attention training informed by neuroscience. If you are in therapy or under medical care, please check with your health professional before you start.',
     },
     {
       q: 'Do I have to read the research paper?',
-      a: 'No. It is written in precise academic language for those who want it. The course explains everything you need in plain words.',
+      a: 'No. It is written in precise academic language for those who want to think more deeply about the concepts behind Neutralize. The course explains everything you need in clear language and and action steps.',
     },
     {
       q: 'What if it does not work for me?',
-      a: 'Experiences vary, and we say so openly. Module 5 covers the most common reason it stalls — layered emotions — and what to do.',
+      a: 'Experiences vary, and yours will be as unique as you are. Module 5 is an additional lecture for troubleshooting the most common reason for getting stuck and what to do.',
+    },
+    {
+      q: 'What is the refund policy?',
+      a: 'If for any reason, you are not happy with your Neutralize experience, NeuroYou will provide a full refund, no questions asked. The only request is you complete an short survey so your experience can help improve the technique for others. ',
     },
   ],
 
