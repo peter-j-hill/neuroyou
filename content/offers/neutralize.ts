@@ -22,12 +22,12 @@ export const OFFER = {
     body:
       'Every goal in life follows the same basic steps. The trouble is rarely your plan — it is the emotion that turns up when you start taking action, and drains your focus, energy and motivation.',
     steps: [
-      { label: 'Step 1', title: 'Picture the outcome', body: 'Visualize it, write it down. you know all this and already do it.' },
+      { label: 'Step 1', title: 'Picture the outcome', body: 'Visualize it, write it down. You know all this and already do it.' },
       { label: 'Step 2', title: 'Make a Plan', body: 'Figure out what gets you from here to there.' },
       {
         label: 'Step 3 · where you get stuck',
         title: 'Take the action',
-        body: 'Fear, reluctance, pracrastination, overwhelm, lack of energy. These are just some of emotions that block you from taking action by exhausting your attention — and attention is our most limited resource.',
+        body: 'Fear, reluctance, procrastination, overwhelm, lack of energy. These are just some of emotions that block you from taking action by exhausting your attention — and attention is our most limited resource.',
         stall: true,
       },
     ],
@@ -46,7 +46,7 @@ export const OFFER = {
       label: 'Neutralize works at the structural level',
       title: 'Feel it fully. Then see it as information.',
       body:
-        'Every emotion is a pattern of neurons firing in the brain. When we magine it that way it becomes neutral information. That gives you the choice to deliberately back control and switch the pattern off at its source.',
+        'Every emotion is a pattern of neurons firing in the brain. When we imagine it that way it becomes neutral information. That gives you the choice to deliberately back control and switch the pattern off at its source.',
     },
   },
 
@@ -54,9 +54,9 @@ export const OFFER = {
     eyebrow: 'What you will learn to do',
     title: 'Learn One skill. Everything else builds from there.',
     items: [
-      { title: 'Find it', body: 'Spot an uninvited emotion as it arrives, instead of hours later on your therapists couch.' },
+      { title: 'Find it', body: 'Spot an uninvited emotion as it arrives, instead of hours later on your therapist’s couch.' },
       { title: 'Feel it, without the story', body: 'Hold full attention on the feeling while leaving the meaning and story aside.' },
-      { title: 'Dissolve it in minutes', body: 'Run the seven Neurtralize steps anywhere quiet. Repeat until it is gone.' },
+      { title: 'Dissolve it in minutes', body: 'Run the seven Neutralize steps anywhere quiet. Repeat until it is gone.' },
       { title: 'Get back to work', body: 'Once you have freed the attention the emotion was block, take action.' },
     ],
   },
@@ -75,7 +75,7 @@ export const OFFER = {
       { n: '3', title: 'The Neutralize Protocol in seven steps', meta: '3 lessons · 40 min' },
       { n: '4', title: 'Practice', meta: 'open-ended' },
       { n: '5', title: 'Troubleshooting', meta: '2 lessons · 25 min' },
-      { n: '6', title: 'Taking Neurtralize beyond emotion', meta: '1 lecture · 30 min' },
+      { n: '6', title: 'Taking Neutralize beyond emotion', meta: '1 lecture · 30 min' },
       { n: '7', title: 'Advanced Practice', meta: 'custom-practice room · open-ended' }
     ],
   },
@@ -84,13 +84,13 @@ export const OFFER = {
     label: 'What to expect',
     title: 'Results that you feel, not figure out.',
     body:
-      'Neurtalize is experience consciousness work, not academic theory. Most people notice lightness, relief, or a spontaneous breath in and out as tension releases. Some feel a brief jolt as the nervous system resets. your experience will be unique, because you are unique. You may not gain new insight, but the emotion that blocked you before may simply stop being there.',
+      'Neutralize is experience consciousness work, not academic theory. Most people notice lightness, relief, or a spontaneous breath in and out as tension releases. Some feel a brief jolt as the nervous system resets. Your experience will be unique, because you are unique. You may not gain new insight, but the emotion that blocked you before may simply stop being there.',
   },
   care: {
     label: 'Before you buy',
     title: 'This is real work with emotion.',
     body:
-      'Consciousness work with emotions can trigger some people. If you are in therapy, under psychiatric care, or take medication for a psychological condition, please check with your professional before starting. Neutralize is not therapy and not a treatment. It is self-directed consciousness exploration, so you take responsibility for the result',
+      'Consciousness work with emotions can trigger some people. If you are in therapy, under psychiatric care, or take medication for a psychological condition, please check with your professional before starting. Neutralize is not therapy and not a treatment. It is self-directed consciousness exploration, so you take responsibility for the result.',
   },
 
   founder: {
@@ -105,8 +105,8 @@ export const OFFER = {
     title: 'Start the Neutralize Protocol.',
     includes: [
       '7 modules, video and audio',
-      'Guided practice rooms, accessable time',
-      'Deskstop, mobile, tablet',
+      'Guided practice rooms, accessible time',
+      'Desktop, mobile, tablet',
       'Private practice journal',
       'Lifetime access, including updates',
       'Enables access to NeuroGoal once completed',
@@ -119,11 +119,11 @@ export const OFFER = {
   faqs: [
     {
       q: 'Do I need to do the free exercises first?',
-      a: 'Yes, for best results. The free Learn exercises train the attention skills Neutralize uses, especially Abstraction. You can enroll first, the free exercises are always available',
+      a: 'Yes, for best results. The free Learn exercises train the attention skills Neutralize uses, especially Abstraction. You can enroll first, the free exercises are always available.',
     },
     {
       q: 'How long does it take?',
-      a: 'About four hours of lessons, at your own pace. Learning the Neutralize steps is quick. Mastering them in daily life takes repetition a some discipline, which is what the practice room is for.',
+      a: 'About four hours of lessons, at your own pace. Learning the Neutralize steps is quick. Mastering them in daily life takes repetition and some discipline, which is what the practice room is for.',
     },
     {
       q: 'Is this therapy?',
@@ -131,7 +131,7 @@ export const OFFER = {
     },
     {
       q: 'Do I have to read the research paper?',
-      a: 'No. It is written in precise academic language for those who want to think more deeply about the concepts behind Neutralize. The course explains everything you need in clear language and and action steps.',
+      a: 'No. It is written in precise academic language for those who want to think more deeply about the concepts behind Neutralize. The course explains everything you need in clear language and action steps.',
     },
     {
       q: 'What if it does not work for me?',
@@ -139,7 +139,7 @@ export const OFFER = {
     },
     {
       q: 'What is the refund policy?',
-      a: 'If for any reason, you are not happy with your Neutralize experience, NeuroYou will provide a full refund, no questions asked. The only request is you complete an short survey so your experience can help improve the technique for others. ',
+      a: 'If for any reason, you are not happy with your Neutralize experience, NeuroYou will provide a full refund, no questions asked. The only request is you complete a short survey so your experience can help improve the technique for others.',
     },
   ],
 
