@@ -2,29 +2,21 @@ import Link from 'next/link'
 import SignOutButton from './SignOutButton'
 import AccessCard, { type AccessItem } from './AccessCard'
 
-const fmtDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-
 const FREE = [
   { href: '/exercises', title: 'Learn', blurb: 'Free practices for attention, sensation and emotional state.' },
   { href: '/blog', title: 'Explore', blurb: 'Articles on how consciousness works.' },
   { href: '/research', title: 'Research', blurb: 'Working papers, with PDF downloads.' },
 ]
 
-export type LogEntry = { moduleId: string; order: number | null; title: string | null; completedAt: string }
-
 // Presentational part of the dashboard (see page.tsx for where the data comes from).
 export default function DashboardView({
-  name, email, showEmail, isAdmin, items, log, welcome,
+  name, email, showEmail, isAdmin, items,
 }: {
   name: string
   email: string
   showEmail: boolean
   isAdmin: boolean
   items: AccessItem[]
-  log: LogEntry[]
-  /** Title of a course the person has just bought (shows a quiet thank-you). */
-  welcome?: string | null
 }) {
   return (
     <div className="ny-scope bg-white">
@@ -39,15 +31,6 @@ export default function DashboardView({
           </div>
           <SignOutButton />
         </div>
-
-        {welcome && (
-          <div className="mt-12 rounded-[18px] p-7" role="status" style={{ background: 'var(--ny-tide-tint)' }}>
-            <div className="ny-caption font-medium" style={{ color: 'var(--ny-tide)' }}>Thank you</div>
-            <p className="m-0 mt-1 text-[17px]" style={{ color: 'var(--ny-ink)' }}>
-              You now have access to {welcome}. It is listed below.
-            </p>
-          </div>
-        )}
 
         {isAdmin && (
           <div
@@ -77,34 +60,12 @@ export default function DashboardView({
               <p className="m-0 text-[17px]" style={{ color: 'var(--ny-ink-2)' }}>
                 Courses you have access to will appear here, with a link to each.
               </p>
-              <Link href="/neutralize" className="inline-block mt-3 text-[17px] hover:underline" style={{ color: 'var(--ny-tide)' }}>
-                See the Neutralize course ›
+              <Link href="/protocols" className="inline-block mt-3 text-[17px] hover:underline" style={{ color: 'var(--ny-tide)' }}>
+                See the protocols ›
               </Link>
             </div>
           )}
         </section>
-
-        {log.length > 0 && (
-          <section className="mt-16" aria-labelledby="log-h">
-            <h2 id="log-h" className="m-0 text-[28px]" style={{ letterSpacing: '-0.025em', color: 'var(--ny-ink)' }}>
-              Neutralize completion log
-            </h2>
-            <ul className="list-none m-0 p-0 mt-4">
-              {log.map((p) => {
-                return (
-                  <li
-                    key={p.moduleId}
-                    className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5 border-t first:border-t-0 text-[17px]"
-                    style={{ borderColor: 'var(--ny-line)' }}
-                  >
-                    <span style={{ color: 'var(--ny-ink)' }}>Module {p.order} — {p.title}</span>
-                    <span className="ny-caption">{fmtDate(p.completedAt)}</span>
-                  </li>
-                )
-              })}
-            </ul>
-          </section>
-        )}
 
         <section className="mt-16" aria-labelledby="free-h">
           <h2 id="free-h" className="m-0 text-[28px]" style={{ letterSpacing: '-0.025em', color: 'var(--ny-ink)' }}>
