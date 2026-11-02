@@ -1,11 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import AuthShell, { AuthTitle, AuthError } from '@/components/AuthShell'
+import { safeNext } from '@/lib/safeNext'
 
-export default function SignupPage() {
+function SignupForm() {
+  // Where to go once the account is confirmed and signed in (e.g. back to an offer page's checkout).
+  const next = safeNext(useSearchParams().get('next'))
+  const nextQuery = next ? `?next=${encodeURIComponent(next)}` : ''
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -23,7 +28,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: name },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/confirmed`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/confirmed${nextQuery}`,
       },
     })
     if (error) {
@@ -50,7 +55,7 @@ export default function SignupPage() {
     <AuthShell>
       <AuthTitle
         title="Create account."
-        sub={<>Already have an account? <Link href="/login" style={{ color: 'var(--ny-tide)' }}>Sign in</Link></>}
+        sub={<>Already have an account? <Link href={`/login${nextQuery}`} style={{ color: 'var(--ny-tide)' }}>Sign in</Link></>}
       />
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-9">
         <label htmlFor="name" className="sr-only">Name</label>
@@ -98,5 +103,13 @@ export default function SignupPage() {
         </button>
       </form>
     </AuthShell>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupForm />
+    </Suspense>
   )
 }

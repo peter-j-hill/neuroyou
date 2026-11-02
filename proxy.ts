@@ -27,7 +27,9 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (request.nextUrl.pathname.startsWith('/neutralize')) {
+  // Course pages (/protocols/<name> and below, not the public /protocols list): sign-in only here.
+  // Whether the person owns the course is checked in app/protocols/[protocol]/layout.tsx.
+  if (request.nextUrl.pathname.startsWith('/protocols/')) {
     if (!user) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
@@ -49,5 +51,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/neutralize/:path*', '/dashboard/:path*'],
+  matcher: ['/protocols/:slug+', '/dashboard/:path*'],
 }
