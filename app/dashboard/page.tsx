@@ -1,73 +1,58 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { type AccessItem } from './AccessCard'
-import DashboardView, { type LogEntry } from './DashboardView'
+import DashboardView from './DashboardView'
+import { serviceClient } from '@/lib/protocols/purchase'
+import { loadCourseState } from '@/lib/protocols/load'
 
-// The dashboard shows a signed-in person what they have access to: purchased
-// courses (with links), their progress, and a shortcut to Admin for the admin.
-//
-// Courses are listed in `items` below. Today the only one is Neutralize, switched
-// on by profiles.purchased_neutralize. When purchasing is built and the hosting
-// decision is made (on this site or elsewhere), add the new courses here and set
-// `external: true` with a full URL for any that live off-site.
+// The dashboard shows a signed-in person what they have access to: the protocols they have
+// bought (each linking to its course home, with a progress line) and a shortcut to Admin for the admin.
 //
 // Previous page (dark theme): "Account" eyebrow, name, "Neutralize" section with a
 // completion log and "Begin Module 1 →" / "View the course →", and a "Free content"
-// section with "Exercises library" and "Research articles" links.
+// section with "Exercises library" and "Research articles" links. The completion log was
+// retired with the old Neutralize pages; progress now lives on the course home.
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'peter.j.hill@live.com'
 
-export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ welcome?: string }> }) {
-  const { welcome } = await searchParams
+export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login?next=/dashboard')
 
   const isAdmin = user.email === ADMIN_EMAIL
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user.id).single()
 
-  const { data: progress } = await supabase
-    .from('module_progress')
-    .select('module_id, completed_at, neutralize_modules(order_index, title)')
+  // Bought protocols. Titles come from a server-side lookup so a protocol that is still a draft shows too.
+  const { data: purchases } = await supabase
+    .from('protocol_purchases')
+    .select('protocol_id')
     .eq('user_id', user.id)
-    .order('completed_at', { ascending: false })
-
-  const { data: modules } = await supabase
-    .from('neutralize_modules')
-    .select('id, order_index')
-    .order('order_index', { ascending: true })
+    .eq('status', 'active')
+  const ids = (purchases ?? []).map((p) => p.protocol_id as string)
+  const { data: protocols } = ids.length
+    ? await serviceClient().from('protocols').select('id, slug, title').in('id', ids).order('sort_order')
+    : { data: [] }
 
   const items: AccessItem[] = []
-  if (profile?.purchased_neutralize) {
-    const done = new Set((progress ?? []).map((p) => p.module_id))
-    const total = modules?.length ?? 0
-    const next = (modules ?? []).find((m) => !done.has(m.id))
-    const started = done.size > 0
+  for (const p of protocols ?? []) {
+    const state = await loadCourseState(supabase, { protocolId: p.id, userId: user.id, unlockAll: false })
+    const total = state.modules.filter((m) => m.requiredTotal > 0).length
+    const anyProgress = state.modules.some((m) => m.started)
     items.push({
-      id: 'neutralize',
-      title: 'Neutralize',
+      id: p.slug,
+      title: p.title,
       summary: total
-        ? started
-          ? `${done.size} of ${total} modules complete.`
+        ? anyProgress
+          ? `${state.finishedModules} of ${total} modules finished.`
           : `${total} modules, taken in order.`
         : 'Full access.',
       status: 'Full access',
-      href: next ? `/neutralize/${next.id}` : '/neutralize',
-      cta: !next && total ? 'Review the course' : started ? 'Continue' : 'Begin Module 1',
+      href: `/protocols/${p.slug}`,
+      cta: anyProgress ? 'Continue' : 'Begin',
     })
   }
-
-  const log: LogEntry[] = profile?.purchased_neutralize
-    ? (progress ?? []).map((p) => {
-        const mod = p.neutralize_modules as unknown as { order_index: number; title: string } | null
-        return { moduleId: p.module_id, order: mod?.order_index ?? null, title: mod?.title ?? null, completedAt: p.completed_at }
-      })
-    : []
 
   return (
     <DashboardView
@@ -76,8 +61,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       showEmail={!!profile?.full_name}
       isAdmin={isAdmin}
       items={items}
-      log={log}
-      welcome={items.find((i) => i.id === welcome)?.title ?? null}
     />
   )
 }

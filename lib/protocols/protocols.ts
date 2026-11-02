@@ -25,5 +25,5 @@ export async function getProtocol(supabase: SupabaseClient, slug: string): Promi
   return (data as ProtocolRow | null) ?? null
 }
 
-/** Where a student goes after buying. Phase 3 changes this to the course home. */
-export const courseHomeHref = (slug: string) => `/dashboard?welcome=${encodeURIComponent(slug)}`
+/** Where a student goes straight after buying: the course home, with a thank-you note. */
+export const courseHomeHref = (slug: string) => `/protocols/${encodeURIComponent(slug)}?welcome=1`
