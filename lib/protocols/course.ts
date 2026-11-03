@@ -138,6 +138,27 @@ export function buildCourseState(input: {
   }
 }
 
+/** A video lesson counts as finished once this much of it has played. */
+export const VIDEO_FINISHED_FRACTION = 0.9
+
+export function videoFinished(seconds: number, duration: number): boolean {
+  return duration > 0 && seconds / duration >= VIDEO_FINISHED_FRACTION
+}
+
+/**
+ * The lessons either side of this one, in course order, for the Previous / Next buttons.
+ * Only lessons that can be opened count: not in a locked module, and with a page built for them.
+ */
+export function lessonNeighbours(
+  state: CourseState,
+  lessonId: string,
+  canOpen: (lesson: LessonView) => boolean,
+): { prev: LessonView | null; next: LessonView | null } {
+  const openable = state.modules.filter((m) => !m.locked).flatMap((m) => m.lessons).filter((l) => l.id === lessonId || canOpen(l))
+  const i = openable.findIndex((l) => l.id === lessonId)
+  return { prev: i > 0 ? openable[i - 1] : null, next: i >= 0 && i < openable.length - 1 ? openable[i + 1] : null }
+}
+
 export function formatClock(totalSeconds: number): string {
   const s = Math.max(0, Math.floor(totalSeconds))
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
