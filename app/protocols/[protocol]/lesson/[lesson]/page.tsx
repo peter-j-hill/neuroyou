@@ -86,7 +86,7 @@ export default async function LessonPage({ params }: { params: Params }) {
               {LESSON_LABEL[lesson.kind][0]}{LESSON_LABEL[lesson.kind].slice(1).toLowerCase()}
               {lesson.duration_min != null ? ` · ${lesson.duration_min} min` : ''} · Peter J Hill
             </span>
-            <h1 className="m-0 text-[32px] leading-[1.1] sm:text-[40px]" style={{ letterSpacing: '-0.035em' }}>{lesson.title}</h1>
+            <h1 className="m-0 text-[32px] leading-[1.1] sm:text-[40px]" style={{ letterSpacing: '-0.035em', color: 'var(--ny-ink)' }}>{lesson.title}</h1>
           </div>
 
           {src ? (
