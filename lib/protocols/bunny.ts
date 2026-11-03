@@ -11,7 +11,10 @@ const VIDEO_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
 
 export const isBunnyVideoId = (ref: string | null | undefined): ref is string => !!ref && VIDEO_ID.test(ref)
 
-export const bunnyConfigured = () => !!(process.env.BUNNY_STREAM_LIBRARY_ID && process.env.BUNNY_STREAM_TOKEN_KEY)
+// A library id is a number (it is in every embed link). Anything else was pasted into the wrong variable.
+const LIBRARY_ID = /^\d+$/
+
+export const bunnyConfigured = () => LIBRARY_ID.test(process.env.BUNNY_STREAM_LIBRARY_ID ?? '') && !!process.env.BUNNY_STREAM_TOKEN_KEY
 
 /**
  * A signed embed link: token = SHA-256 hex of (token key + video id + expiry), expiry in Unix seconds.
@@ -21,7 +24,7 @@ export const bunnyConfigured = () => !!(process.env.BUNNY_STREAM_LIBRARY_ID && p
 export function signedEmbedUrl(videoId: string, ttlSeconds = 4 * 60 * 60): string | null {
   const library = process.env.BUNNY_STREAM_LIBRARY_ID
   const key = process.env.BUNNY_STREAM_TOKEN_KEY
-  if (!library || !key || !isBunnyVideoId(videoId)) return null
+  if (!library || !LIBRARY_ID.test(library) || !key || !isBunnyVideoId(videoId)) return null
 
   const expires = Math.floor(Date.now() / 1000) + ttlSeconds
   const token = createHash('sha256').update(`${key}${videoId}${expires}`).digest('hex')

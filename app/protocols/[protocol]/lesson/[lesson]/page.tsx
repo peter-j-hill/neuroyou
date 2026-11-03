@@ -105,7 +105,7 @@ export default async function LessonPage({ params }: { params: Params }) {
               <span>This video is not available yet.</span>
               {admin && (
                 <span className="text-sm">
-                  {!hasVideo ? 'Admin: this lesson has no Bunny video attached yet.' : !bunnyConfigured() ? 'Admin: the Bunny library settings are missing on this deployment.' : 'Admin: the video link could not be signed.'}
+                  {!hasVideo ? 'Admin: this lesson has no Bunny video attached yet.' : !bunnyConfigured() ? 'Admin: BUNNY_STREAM_LIBRARY_ID (a number) or BUNNY_STREAM_TOKEN_KEY is missing or wrong on this deployment.' : 'Admin: the video link could not be signed.'}
                 </span>
               )}
             </div>
