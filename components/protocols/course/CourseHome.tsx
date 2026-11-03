@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { LESSON_LABEL, formatClock, lessonHref, type CourseState, type LessonView, type ModuleView } from '@/lib/protocols/course'
-import { FEATURES } from '@/lib/protocols/features'
+import { FEATURES, isLessonBuilt } from '@/lib/protocols/features'
 
 // Course home (design canvas artboard 02). Presentational: all data comes in through props.
 //
@@ -31,7 +31,7 @@ function Segments({ modules }: { modules: ModuleView[] }) {
 
 function LessonRowItem({ protocol, lesson, interactive }: { protocol: string; lesson: LessonView; interactive: boolean }) {
   const isRoom = lesson.kind === 'practice'
-  const built = isRoom ? (lesson.config?.room === 'advanced' ? FEATURES.advancedRoom : FEATURES.practiceRoom) : FEATURES.lessonPlayer
+  const built = isLessonBuilt(lesson)
   const right =
     lesson.state === 'done' ? <span style={{ color: 'var(--ny-leaf)' }}>✓</span>
     : lesson.state === 'started' ? <span style={{ color: 'var(--ny-tide)' }}>In progress</span>
@@ -190,14 +190,14 @@ export default function CourseHome({
               <h2 className="m-0 text-[30px] leading-[1.15]" style={{ letterSpacing: '-0.025em', color: '#fff' }}>{next.lesson.title}</h2>
               <p className="m-0" style={{ color: 'var(--ny-line-strong)' }}>Module {next.module.ordinal} · {next.module.title}</p>
               <div className="flex flex-wrap gap-3 pt-1.5">
-                {FEATURES.lessonPlayer ? (
+                {isLessonBuilt(next.lesson) ? (
                   <Link href={lessonHref(slug, next.lesson)} className="ny-btn" style={{ background: '#fff', color: 'var(--ny-ink)', fontWeight: 500 }}>
                     {next.lesson.state === 'started' && next.lesson.resumeSeconds > 0
                       ? `▶ Resume at ${formatClock(next.lesson.resumeSeconds)}`
                       : next.lesson.state === 'started' ? '▶ Continue' : '▶ Start lesson'}
                   </Link>
                 ) : (
-                  <span className="text-sm" style={{ color: 'var(--ny-ink-4)' }}>Lessons open in the next update.</span>
+                  <span className="text-sm" style={{ color: 'var(--ny-ink-4)' }}>This lesson opens in an upcoming update.</span>
                 )}
               </div>
             </>
