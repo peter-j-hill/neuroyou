@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter, Montserrat } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 
-const inter = Inter({ variable: '--font-inter', subsets: ['latin'], weight: ['300', '400', '500', '700'] })
-const montserrat = Montserrat({ variable: '--font-montserrat', subsets: ['latin'], weight: ['300', '400', '700'] })
+// Fonts are files in the project (app/fonts, SIL Open Font License) rather than fetched from Google at
+// build time: Vercel's build sometimes failed to download them. Variable fonts, latin subset, so one file
+// each covers every weight the site uses (Inter 300-700, Montserrat 300-700).
+const inter = localFont({ src: './fonts/Inter-latin-variable.woff2', variable: '--font-inter', weight: '100 900', display: 'swap' })
+const montserrat = localFont({ src: './fonts/Montserrat-latin-variable.woff2', variable: '--font-montserrat', weight: '100 900', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'NeuroYou — Independent Consciousness Laboratory',
