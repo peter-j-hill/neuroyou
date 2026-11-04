@@ -34,7 +34,7 @@ const FILTER_LABEL: Record<JournalFilter, string> = {
   practice: 'Practice',
   lesson: 'Lessons',
   exercise: 'Exercises',
-  own: 'My notes',
+  own: 'My Notes',
 }
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

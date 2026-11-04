@@ -107,7 +107,7 @@ const SECTIONS: Section[] = [
     body: (
       <ul>
         <li><strong>Download your journal</strong> as a text file from the <Link href="/journal">journal page</Link>.</li>
-        <li><strong>Delete a journal entry</strong> from the same page. It is removed immediately and permanently.</li>
+        <li><strong>Delete a journal note</strong> from the same page. It is removed immediately and permanently.</li>
         <li><strong>Delete your account</strong> and everything stored with it, including your journal and progress, by asking us on the <Link href="/connect">Connect page</Link> from the email address on the account.</li>
         <li><strong>Leave the mailing list</strong> using the unsubscribe link in any email, or by asking us.</li>
         <li>You can also ask what we hold about you, or ask us to correct it.</li>

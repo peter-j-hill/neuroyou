@@ -74,7 +74,7 @@ export default function JournalView({
   }
 
   const remove = (id: string) => {
-    if (!window.confirm('Delete this entry? This cannot be undone.')) return
+    if (!window.confirm('Delete this note? This cannot be undone.')) return
     startTransition(async () => {
       const res = await deleteJournalEntry(id)
       if (!res.ok) return setError(res.error)
@@ -120,7 +120,7 @@ export default function JournalView({
 
         <div className="flex flex-col gap-4 rounded-[28px] p-6 sm:p-8" style={{ background: 'var(--ny-mist)' }}>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="m-0 text-[22px]" style={{ letterSpacing: '-0.02em', color: 'var(--ny-ink)' }}>New entry</h2>
+            <h2 className="m-0 text-[22px]" style={{ letterSpacing: '-0.02em', color: 'var(--ny-ink)' }}>New note</h2>
             <span className="text-sm" style={{ color: 'var(--ny-ink-3)' }} suppressHydrationWarning>{today}</span>
           </div>
           {about && (
@@ -130,7 +130,7 @@ export default function JournalView({
               <button onClick={() => setAbout(null)} className="cursor-pointer border-0 bg-transparent p-0 text-xs underline" style={{ color: 'var(--ny-ink-3)', fontFamily: 'inherit' }}>Remove</button>
             </div>
           )}
-          <label htmlFor="journal-text" className="sr-only">Entry text</label>
+          <label htmlFor="journal-text" className="sr-only">Note text</label>
           <textarea
             id="journal-text"
             rows={4}
@@ -143,7 +143,7 @@ export default function JournalView({
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-[13px]" style={{ color: 'var(--ny-ink-3)' }}>Saved to your account, not this device.</span>
-            <button onClick={save} disabled={pending || !draft.trim()} className="ny-btn ny-btn-primary disabled:opacity-50">Save entry</button>
+            <button onClick={save} disabled={pending || !draft.trim()} className="ny-btn ny-btn-primary disabled:opacity-50">Save note</button>
           </div>
           {error && <p role="alert" className="m-0 text-sm" style={{ color: '#B3261E' }}>{error}</p>}
         </div>

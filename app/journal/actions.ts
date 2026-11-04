@@ -17,7 +17,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 export async function addJournalEntry(input: { text: string; exerciseId?: string | null }): Promise<AddEntryResult> {
   const text = typeof input.text === 'string' ? input.text.trim() : ''
   if (!text) return { ok: false, error: 'Write something first.' }
-  if (text.length > MAX_ENTRY_CHARS) return { ok: false, error: `Entries can be up to ${MAX_ENTRY_CHARS.toLocaleString('en-US')} characters.` }
+  if (text.length > MAX_ENTRY_CHARS) return { ok: false, error: `Notes can be up to ${MAX_ENTRY_CHARS.toLocaleString('en-US')} characters.` }
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -47,12 +47,12 @@ export async function addJournalEntry(input: { text: string; exerciseId?: string
 }
 
 export async function deleteJournalEntry(id: string): Promise<JournalResultState> {
-  if (!UUID.test(id)) return { ok: false, error: 'That entry could not be found.' }
+  if (!UUID.test(id)) return { ok: false, error: 'That note could not be found.' }
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { ok: false, error: 'Please sign in again.' }
 
   const { error } = await supabase.from('protocol_journal_entries').delete().eq('id', id).eq('user_id', user.id)
-  if (error) return { ok: false, error: 'The entry could not be deleted. Please try again.' }
+  if (error) return { ok: false, error: 'The note could not be deleted. Please try again.' }
   return { ok: true }
 }
