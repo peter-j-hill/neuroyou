@@ -150,7 +150,7 @@ export default function JournalView({
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
-            <h2 className="m-0 text-[22px]" style={{ letterSpacing: '-0.02em', color: 'var(--ny-ink)' }}>Entries</h2>
+            <h2 className="m-0 text-[22px]" style={{ letterSpacing: '-0.02em', color: 'var(--ny-ink)' }}>My Notes</h2>
             <div className="flex flex-wrap items-center gap-3">
               {filters.length > 0 && (
                 <div role="group" aria-label="Filter by type" className="flex flex-wrap gap-1.5">
