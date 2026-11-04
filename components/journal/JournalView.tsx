@@ -29,17 +29,22 @@ const dateOf = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day:
 const timeOf = (iso: string) => new Date(iso).toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true })
 
 export default function JournalView({
-  entries,
+  entries: serverEntries,
   exercise,
-  back,
   hasProtocol,
 }: {
   entries: JournalEntry[]
   exercise: { id: string; title: string } | null
-  back: { href: string; label: string }
   hasProtocol: boolean
 }) {
   const router = useRouter()
+  // The list is held here so a save or delete shows at once; it is replaced whenever the server sends a fresh one.
+  const [entries, setEntries] = useState(serverEntries)
+  const [seen, setSeen] = useState(serverEntries)
+  if (serverEntries !== seen) {
+    setSeen(serverEntries)
+    setEntries(serverEntries)
+  }
   const [draft, setDraft] = useState('')
   const [about, setAbout] = useState(exercise)
   const [filter, setFilter] = useState<JournalFilter>('all')
@@ -57,11 +62,13 @@ export default function JournalView({
     startTransition(async () => {
       const res = await addJournalEntry({ text: draft, exerciseId: about?.id })
       if (!res.ok) return setError(res.error)
+      setEntries((list) => [res.entry, ...list])
       setDraft('')
       setAbout(null)
       setFilter('all')
       setTopic('')
-      router.replace('/journal')
+      // Drop ?exercise=... from the address so reloading does not tag the next note to the same exercise.
+      if (window.location.search) window.history.replaceState(null, '', '/journal')
       router.refresh()
     })
   }
@@ -71,6 +78,7 @@ export default function JournalView({
     startTransition(async () => {
       const res = await deleteJournalEntry(id)
       if (!res.ok) return setError(res.error)
+      setEntries((list) => list.filter((e) => e.id !== id))
       router.refresh()
     })
   }
@@ -92,7 +100,7 @@ export default function JournalView({
       <div className="mx-auto flex max-w-[1100px] flex-col gap-10 px-4 pt-12 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex min-w-0 flex-[1_1_520px] flex-col gap-2.5">
-            <Link href={back.href} className="text-sm no-underline" style={{ color: 'var(--ny-tide)' }}>‹ {back.label}</Link>
+            <Link href="/dashboard" className="text-sm no-underline" style={{ color: 'var(--ny-tide)' }}>‹ Account</Link>
             <h1 className="m-0 text-[40px] leading-[1.05] sm:text-[48px]" style={{ letterSpacing: '-0.035em', color: 'var(--ny-ink)' }}>Your journal</h1>
             <p className="m-0 max-w-[600px] text-[17px]" style={{ color: 'var(--ny-ink-2)' }}>
               {hasProtocol

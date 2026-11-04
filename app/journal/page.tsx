@@ -39,7 +39,6 @@ export default async function JournalPage({ searchParams }: { searchParams: Sear
     <JournalView
       entries={entries}
       exercise={exercise.data ? { id: exercise.data.id as string, title: exercise.data.title as string } : null}
-      back={hasProtocol ? { href: '/protocols/neutralize', label: 'The Neutralize Protocol' } : { href: '/dashboard', label: 'Account' }}
       hasProtocol={hasProtocol}
     />
   )
