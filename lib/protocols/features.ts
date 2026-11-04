@@ -6,7 +6,7 @@ import type { LessonKind } from './course'
 export const FEATURES = {
   lessonPlayer: true, // Phase 3b (video lessons so far; other lesson kinds follow)
   practiceRoom: false, // Phase 4
-  journal: false, // Phase 5
+  journal: true, // Phase 5 (journal for everyone, /journal)
   advancedRoom: false, // Phase 6
 } as const
 
