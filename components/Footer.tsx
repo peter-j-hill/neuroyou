@@ -21,6 +21,7 @@ export default function Footer() {
           <Link href="/research" className="hover:text-[var(--ny-ink)] transition-colors">Research</Link>
           <Link href="/about" className="hover:text-[var(--ny-ink)] transition-colors">About</Link>
           <Link href="/start-here" className="hover:text-[var(--ny-ink)] transition-colors">Start Here</Link>
+          <Link href="/privacy" className="hover:text-[var(--ny-ink)] transition-colors">Privacy</Link>
           <a href="https://www.facebook.com/neuroyou" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--ny-ink)] transition-colors">Facebook</a>
           <a href="https://neuroyou.substack.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--ny-ink)] transition-colors">Substack</a>
         </nav>

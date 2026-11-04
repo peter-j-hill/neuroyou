@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import AudioPlayer from '@/app/components/AudioPlayer'
 import { MdxContent } from '@/lib/mdx'
 import ArticleLayout from '@/components/ArticleLayout'
+import JournalCta from '@/components/journal/JournalCta'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,6 +24,8 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
     .single()
 
   if (!exercise) notFound()
+
+  const { data: { user } } = await supabase.auth.getUser()
 
   const vid = exercise.video_url ? vimeoId(exercise.video_url) : null
 
@@ -57,6 +60,7 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
       media={media}
     >
       {exercise.body_mdx && <MdxContent source={exercise.body_mdx} variant="light" />}
+      <JournalCta exerciseId={exercise.id} signedIn={!!user} />
     </ArticleLayout>
   )
 }

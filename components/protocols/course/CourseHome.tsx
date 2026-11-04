@@ -9,7 +9,7 @@ import { FEATURES, isLessonBuilt } from '@/lib/protocols/features'
 
 export type JournalPreview = { id: string; created_at: string; topic: string | null; kind: string; text: string }
 
-const KIND_LABEL: Record<string, string> = { practice: 'Practice', advanced: 'Advanced practice', lesson: 'Lesson', own: 'My note' }
+const KIND_LABEL: Record<string, string> = { practice: 'Practice', advanced: 'Advanced practice', lesson: 'Lesson', own: 'My note', exercise: 'Exercise' }
 
 const shortDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
 
@@ -245,7 +245,7 @@ export default function CourseHome({
             </div>
             {journal.length === 0 && (
               <p className="m-0 text-sm py-2.5 border-t" style={{ borderColor: 'var(--ny-line)', color: 'var(--ny-ink-3)' }}>
-                Nothing here yet. Notes from your practice and lessons are saved here.
+                Nothing here yet. Your own notes, and notes from your practice and lessons, are saved here.
               </p>
             )}
             {journal.map((j) => (
@@ -256,11 +256,7 @@ export default function CourseHome({
                 {j.text && <span className="line-clamp-2" style={{ color: 'var(--ny-ink-2)' }}>{j.text}</span>}
               </div>
             ))}
-            {FEATURES.journal ? (
-              <Link href={`/protocols/${slug}/journal`} className="text-sm" style={{ color: 'var(--ny-tide)' }}>Open journal ›</Link>
-            ) : (
-              <span className="text-sm" style={{ color: 'var(--ny-ink-4)' }}>Journal opens soon</span>
-            )}
+            <Link href="/journal" className="text-sm" style={{ color: 'var(--ny-tide)' }}>Open journal ›</Link>
           </div>
 
           <div className="rounded-[18px] p-6 flex flex-col gap-2 border" style={{ borderColor: 'var(--ny-line)' }}>

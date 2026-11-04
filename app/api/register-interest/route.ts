@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server'
 
 const INTERESTS = [
   'The Protocols', 'Reality Check (book)', 'New articles', 'Research papers', 'Workshops',
+  // Ticked at sign-up (/signup)
+  'NeuroYou updates',
   // Protocol waitlists (/offers/neurogoal and so on)
   'Waitlist: NeuroGoal', 'Waitlist: Reality Distortion', 'Waitlist: NeuroFinity',
 ]

@@ -30,6 +30,12 @@ export default async function DashboardPage() {
     .select('protocol_id')
     .eq('user_id', user.id)
     .eq('status', 'active')
+  // The journal belongs to every account: show how many notes there are and when the latest was written.
+  const [{ count: journalCount }, { data: latestNote }] = await Promise.all([
+    supabase.from('protocol_journal_entries').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
+    supabase.from('protocol_journal_entries').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
+  ])
+
   const ids = (purchases ?? []).map((p) => p.protocol_id as string)
   const { data: protocols } = ids.length
     ? await serviceClient().from('protocols').select('id, slug, title').in('id', ids).order('sort_order')
@@ -61,6 +67,7 @@ export default async function DashboardPage() {
       showEmail={!!profile?.full_name}
       isAdmin={isAdmin}
       items={items}
+      journal={{ count: journalCount ?? 0, latest: latestNote?.created_at ?? null }}
     />
   )
 }

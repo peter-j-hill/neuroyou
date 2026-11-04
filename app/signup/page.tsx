@@ -17,6 +17,8 @@ function SignupForm() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  // Optional, and off by default: a free account does not join the mailing list unless this is ticked.
+  const [mailing, setMailing] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,6 +37,20 @@ function SignupForm() {
       setError(error.message)
       setLoading(false)
     } else {
+      if (mailing) {
+        // Saved with the site's other interest sign-ups. A failure here must not get in the way of the account.
+        fetch('/api/register-interest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: name.trim().split(/\s+/)[0] || email.split('@')[0],
+            lastName: name.trim().split(/\s+/).slice(1).join(' '),
+            email,
+            interests: ['NeuroYou updates'],
+            marketingConsent: true,
+          }),
+        }).catch(() => {})
+      }
       setDone(true)
     }
   }
@@ -92,6 +108,10 @@ function SignupForm() {
           className="ny-field"
         />
         <p className="text-[13px] m-0" style={{ color: 'var(--ny-ink-4)' }}>Minimum 8 characters</p>
+        <label className="mt-2 flex items-start gap-3 text-[14px] leading-snug cursor-pointer" style={{ color: 'var(--ny-ink-2)' }}>
+          <input type="checkbox" checked={mailing} onChange={(e) => setMailing(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>Keep me posted by email about new exercises, articles and protocols. You can unsubscribe at any time.</span>
+        </label>
         <AuthError message={error} />
         <button
           type="submit"
@@ -101,6 +121,10 @@ function SignupForm() {
         >
           {loading ? 'Initializing…' : 'Create account'}
         </button>
+        <p className="text-[13px] m-0 mt-1" style={{ color: 'var(--ny-ink-4)' }}>
+          Every account includes a free, private journal. How we look after your information is in our{' '}
+          <Link href="/privacy" style={{ color: 'var(--ny-tide)' }}>privacy statement</Link>.
+        </p>
       </form>
     </AuthShell>
   )

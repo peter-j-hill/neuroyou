@@ -22,7 +22,6 @@ export default async function CourseHomePage({ params, searchParams }: { params:
       .from('protocol_journal_entries')
       .select('id, created_at, topic, kind, text')
       .eq('user_id', user.id)
-      .eq('protocol_id', protocol.id)
       .order('created_at', { ascending: false })
       .limit(2),
   ])

@@ -10,13 +10,14 @@ const FREE = [
 
 // Presentational part of the dashboard (see page.tsx for where the data comes from).
 export default function DashboardView({
-  name, email, showEmail, isAdmin, items,
+  name, email, showEmail, isAdmin, items, journal,
 }: {
   name: string
   email: string
   showEmail: boolean
   isAdmin: boolean
   items: AccessItem[]
+  journal: { count: number; latest: string | null }
 }) {
   return (
     <div className="ny-scope bg-white">
@@ -46,6 +47,25 @@ export default function DashboardView({
             <Link href="/admin" className="ny-btn ny-btn-primary">Open admin</Link>
           </div>
         )}
+
+        <section className="mt-16" aria-labelledby="journal-h">
+          <h2 id="journal-h" className="m-0 text-[28px]" style={{ letterSpacing: '-0.025em', color: 'var(--ny-ink)' }}>
+            My NeuroYou Journal
+          </h2>
+          <div className="mt-6 rounded-[18px] p-7 flex flex-wrap items-center justify-between gap-5" style={{ background: 'var(--ny-mist)' }}>
+            <div className="min-w-0">
+              <p className="m-0 text-[17px]" style={{ color: 'var(--ny-ink-2)' }}>
+                A private place for your own notes. Only you can see it.
+              </p>
+              <p className="m-0 mt-1 text-sm" style={{ color: 'var(--ny-ink-3)' }} suppressHydrationWarning>
+                {journal.count === 0
+                  ? 'No notes yet.'
+                  : `${journal.count} ${journal.count === 1 ? 'note' : 'notes'}${journal.latest ? `, the latest on ${new Date(journal.latest).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}.`}
+              </p>
+            </div>
+            <Link href="/journal" className="ny-btn ny-btn-primary">Open my journal</Link>
+          </div>
+        </section>
 
         <section className="mt-16" aria-labelledby="courses-h">
           <h2 id="courses-h" className="m-0 text-[28px]" style={{ letterSpacing: '-0.025em', color: 'var(--ny-ink)' }}>
