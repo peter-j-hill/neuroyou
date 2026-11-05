@@ -30,3 +30,23 @@ export function signedEmbedUrl(videoId: string, ttlSeconds = 4 * 60 * 60): strin
   const token = createHash('sha256').update(`${key}${videoId}${expires}`).digest('hex')
   return `${EMBED_BASE}/${encodeURIComponent(library)}/${videoId}?token=${token}&expires=${expires}`
 }
+
+/**
+ * Reads what an editor pasted into a video field: a bare Bunny video id, or any Bunny embed / play link for
+ * one (a pasted link may carry its own token and expiry; those are ignored, because the site signs its own).
+ */
+export function parseBunnyVideo(input: string | null | undefined): { videoId: string; libraryId: string | null } | null {
+  const text = (input ?? '').trim()
+  if (!text) return null
+  if (VIDEO_ID.test(text)) return { videoId: text, libraryId: null }
+  const m = text.match(/^https:\/\/(?:player|iframe)\.mediadelivery\.net\/(?:embed|play|directplay)\/(\d+)\/([0-9a-f-]{36})(?:[/?#]|$)/i)
+  return m && VIDEO_ID.test(m[2]) ? { videoId: m[2], libraryId: m[1] } : null
+}
+
+/** A signed embed link for whatever was pasted in a video field, or null if it is not a video in our library. */
+export function signedEmbedUrlFromInput(input: string | null | undefined): string | null {
+  const video = parseBunnyVideo(input)
+  if (!video) return null
+  if (video.libraryId && video.libraryId !== process.env.BUNNY_STREAM_LIBRARY_ID) return null
+  return signedEmbedUrl(video.videoId)
+}
