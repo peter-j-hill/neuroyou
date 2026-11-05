@@ -553,8 +553,9 @@ export default function AdminClient({ posts }: { posts: Post[] }) {
 
                   <Card title="Video and audio">
                     <label className="flex flex-col gap-1.5 text-xs font-medium" style={{ color: 'var(--ny-ink-3)' }}>
-                      Vimeo video URL
-                      <input type="url" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://vimeo.com/123456789" className="ny-sm" />
+                      Bunny video (ID or link)
+                      <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="Paste the video ID or embed link from Bunny" className="ny-sm" />
+                      <span className="text-[11px] font-normal">The site signs the link itself, so any token in a pasted link is ignored.</span>
                     </label>
                     <div className="text-xs font-medium mt-1" style={{ color: 'var(--ny-ink-3)' }}>Audio (MP3)</div>
                     <input ref={audioInputRef} type="file" accept="audio/*" className="hidden" onChange={uploadAudio} />

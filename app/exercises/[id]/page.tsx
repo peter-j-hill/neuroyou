@@ -4,13 +4,9 @@ import AudioPlayer from '@/app/components/AudioPlayer'
 import { MdxContent } from '@/lib/mdx'
 import ArticleLayout from '@/components/ArticleLayout'
 import JournalCta from '@/components/journal/JournalCta'
+import ExerciseVideo from '@/components/ExerciseVideo'
 
 export const dynamic = 'force-dynamic'
-
-function vimeoId(url: string): string | null {
-  const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)
-  return m ? m[1] : null
-}
 
 export default async function ExercisePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -27,21 +23,10 @@ export default async function ExercisePage({ params }: { params: Promise<{ id: s
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  const vid = exercise.video_url ? vimeoId(exercise.video_url) : null
-
   const media =
-    vid || exercise.audio_url ? (
+    exercise.video_url || exercise.audio_url ? (
       <>
-        {vid && (
-          <div className="relative w-full rounded-[18px] overflow-hidden" style={{ paddingTop: '56.25%', background: 'var(--ny-mist)' }}>
-            <iframe
-              src={`https://player.vimeo.com/video/${vid}?title=0&byline=0&portrait=0&dnt=1`}
-              className="absolute inset-0 w-full h-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        )}
+        {exercise.video_url && <ExerciseVideo videoUrl={exercise.video_url} title={exercise.title} />}
         {exercise.audio_url && <AudioPlayer src={exercise.audio_url} filename={`${exercise.title}.mp3`} />}
       </>
     ) : null

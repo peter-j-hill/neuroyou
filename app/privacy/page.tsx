@@ -81,8 +81,7 @@ const SECTIONS: Section[] = [
           <li><strong>Supabase:</strong> our database and sign-in service. Your account, journal and progress are stored there, in the United States.</li>
           <li><strong>Vercel:</strong> hosts the website.</li>
           <li><strong>Stripe:</strong> takes payments for protocols.</li>
-          <li><strong>Bunny.net:</strong> delivers the course videos. It sees your IP address when a video plays.</li>
-          <li><strong>Vimeo:</strong> plays some of the free exercise videos.</li>
+          <li><strong>Bunny.net:</strong> delivers our videos. It sees your IP address when a video plays.</li>
         </ul>
         <p>
           Because these services are based in or operate from other countries, your information may be processed outside
@@ -97,7 +96,7 @@ const SECTIONS: Section[] = [
     body: (
       <p>
         We use only the cookies needed to keep you signed in. We do not use advertising or tracking cookies. The video
-        players mentioned above may set their own cookies when you play a video.
+        player may set its own cookies when you play a video.
       </p>
     ),
   },
