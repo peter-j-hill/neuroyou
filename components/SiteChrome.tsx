@@ -6,9 +6,14 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
 // The public site's nav + footer wrap every page except the admin, which is a
-// self-contained app with its own sidebar.
+// self-contained app with its own sidebar, and the practice rooms, which are full-screen black.
+const PRACTICE_ROOM = /^\/protocols\/[^/]+\/practice(\/|$)/
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
+
+  if (PRACTICE_ROOM.test(pathname)) {
+    return <main className="flex-1">{children}</main>
+  }
 
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     return <main className="flex-1">{children}</main>
