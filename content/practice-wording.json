@@ -97,7 +97,7 @@
       ],
       "placeholder": "e.g. my alarm",
       "step2": {
-        "main": "Direct all your attention to hearing that sound as cleary as you can.",
+        "main": "Direct all your attention to hearing that sound as clearly as you can.",
         "support": "Keep your attention on that sound, not what it means or what it reminds you of. If a story or explanation starts, gently come back to hearing."
       },
       "step3": {
@@ -205,7 +205,7 @@
       ],
       "placeholder": "e.g. cut grass",
       "step2": {
-        "main": "Direct all your attention to sensation of small as clearly as you can.",
+        "main": "Direct all your attention to sensation of smell as clearly as you can.",
         "support": "Stay with the on that smell, not what it means or what it reminds you of. If a story or explanation starts, gently come back to smelling."
       },
       "step3": {
@@ -349,11 +349,11 @@
       ],
       "placeholder": "e.g. what if I fail",
       "step2": {
-        "main": "Direct all your attention to that thought, as clearly as you can",
+        "main": "Direct all your attention to that thought, as clearly as you can.",
         "support": "Keep your attention on the thought, not what it means or what it reminds you of. If a story or explanation starts, gently come back to thinking."
       },
       "step3": {
-        "main": "Imagine that that thought is produced by instructions in your brain.",
+        "main": "Imagine that the thought is produced by instructions in your brain.",
         "support": "Lines and lines of them, scrolling past, telling your brain exactly how it runs. Do not try to read them. Just notice that they are there.",
         "lines": [
           "think([choice])",
@@ -395,7 +395,7 @@
     "step7Advanced": {
       "label": "Repeat?",
       "main": "Go round again from step 2.",
-      "support": "Senses can be more stubborn than emotions at first, because we rely on them so constantly. Go slowly, and repeat until you notice a change in a the way you are sensing."
+      "support": "Senses can be more stubborn than emotions at first, because we rely on them so constantly. Go slowly, and repeat until you notice a change in the way you are sensing."
     }
   }
 }
