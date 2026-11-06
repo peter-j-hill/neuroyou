@@ -1,0 +1,52 @@
+{
+  "_note": "Interface text for the practice rooms: the words around the steps. Copied from the design canvas (artboard 04) because the wording spreadsheet has no 'Interface text' sheet yet. Items under _new are not on the canvas and need Peter's review. Move this into the spreadsheet when it has an Interface text sheet.",
+  "_new": ["result.saved", "result.saveError", "result.stopHeading", "result.stopNote", "result.openJournal", "result.working"],
+  "room": { "title": "Neutralize · Practice room", "exit": "Exit" },
+  "prep": {
+    "heading": "Before you start.",
+    "checklist": [
+      "Somewhere you will not be disturbed",
+      "Phone silenced, notifications off",
+      "Journal nearby, if you like",
+      "About 10 minutes"
+    ],
+    "note": "You can stop at any point. If it feels like too much today, that is useful to know — come back another time."
+  },
+  "rail": { "label": "Protocol steps", "identify": "Identify", "feel": "Feel", "instructions": "Instructions", "openEyes": "Open eyes" },
+  "kickers": {
+    "step1": "STEP 1 · IDENTIFY AN UNINVITED EMOTION",
+    "step2": "STEP 2 · FEEL IT FULLY",
+    "step3": "STEP 3 · SEE THE INSTRUCTIONS",
+    "step4": "STEP 4 · NEURONS FIRING",
+    "step5": "STEP 5 · ZOOM OUT",
+    "step6": "STEP 6 · OPEN YOUR EYES"
+  },
+  "identify": {
+    "hint": "Take your time. These feelings are often hard to recall precisely because we push them away.",
+    "ownLabel": "Or name your own",
+    "add": "Add",
+    "chosenBlank": "______"
+  },
+  "buttons": {
+    "begin": "Begin",
+    "continue": "Continue",
+    "back": "Back",
+    "ready": "I am ready to open my eyes",
+    "repeat": "Repeat steps 2–6",
+    "another": "Another emotion",
+    "replay": "Replay the zoom",
+    "save": "Save to journal"
+  },
+  "result": {
+    "stepPrefix": "Step 7 · ",
+    "noteHeading": "Notice what changed.",
+    "noteLabel": "What did the release feel like? (saved to your journal)",
+    "notePlaceholder": "A breath out, a lightness, a jolt…",
+    "stopHeading": "Stopping for today?",
+    "stopNote": "You can save a note about this round to your journal first. (saved to your journal)",
+    "saved": "Saved to your journal.",
+    "saveError": "That could not be saved. Please try again.",
+    "openJournal": "Open your journal",
+    "working": "Saving…"
+  }
+}

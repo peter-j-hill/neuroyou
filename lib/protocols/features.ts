@@ -5,7 +5,7 @@ import type { LessonKind } from './course'
 // Each phase turns on its own switch when its pages ship.
 export const FEATURES = {
   lessonPlayer: true, // Phase 3b (video lessons so far; other lesson kinds follow)
-  practiceRoom: false, // Phase 4
+  practiceRoom: true, // Phase 4 (the emotions room; the advanced room has its own switch)
   journal: true, // Phase 5 (journal for everyone, /journal)
   advancedRoom: false, // Phase 6
 } as const

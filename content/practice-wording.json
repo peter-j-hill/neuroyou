@@ -1,0 +1,401 @@
+{
+  "_generated": "Generated from Neutralize_practice_wording.xlsx by scripts/build-practice-wording.mjs. Do not edit by hand: edit the spreadsheet and run the script.",
+  "answerResults": [
+    "lighter",
+    "neutral",
+    "same",
+    "stronger"
+  ],
+  "emotion": {
+    "opening": "Remember the last time I felt",
+    "pills": [
+      "irritated",
+      "scared",
+      "reluctant",
+      "ashamed",
+      "angry",
+      "embarrassed",
+      "frustrated",
+      "humiliated",
+      "vulnerable",
+      "stuck",
+      "procrastinating",
+      "overwhelmed"
+    ],
+    "placeholder": "e.g. resentful",
+    "step2": {
+      "main": "Direct all your attention to feeling that emotion.",
+      "support": "Where is the emotion experienced — in your body, in your mental space? What does it feel like? Explore it slowly and carefully. If a story or explanation starts, gently come back to feeling."
+    },
+    "step3": {
+      "main": "Imagine that the feeling is produced by instructions in your brain.",
+      "support": "Lines and lines of them, scrolling past, telling your brain exactly how this feels. Do not try to read them. Just see that they are there.",
+      "lines": [
+        "feel([emotion])",
+        "chest(tighten)",
+        "heart_rate(increase)",
+        "attention(narrow)",
+        "memory(replay)",
+        "breath(hold)"
+      ]
+    },
+    "step6": {
+      "question": "Recall the situation again. How does [emotion] feel now?",
+      "answers": [
+        "Lighter",
+        "Neutral",
+        "About the same",
+        "Stronger"
+      ]
+    }
+  },
+  "senses": {
+    "sight": {
+      "label": "Sight",
+      "opening": "Direct your attention to the sensation of",
+      "pills": [
+        "a face you know well",
+        "a familiar room",
+        "a sunset",
+        "your own hands"
+      ],
+      "placeholder": "e.g. my front door",
+      "step2": {
+        "main": "Direct all your attention on visualizing as clearly as you can.",
+        "support": "Keep your attention what you are seeing, not what it means or what it reminds you of. If a story or explanation starts, gently come back to seeing."
+      },
+      "step3": {
+        "main": "Imagine that the image is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it looks. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "see([choice])",
+          "colour(render)",
+          "edges(sharpen)",
+          "depth(map)",
+          "light(adjust)",
+          "focus(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "sound": {
+      "label": "Sound",
+      "opening": "Direct your attention to",
+      "pills": [
+        "a familiar voice",
+        "a song stuck in your head",
+        "traffic",
+        "rain on a window"
+      ],
+      "placeholder": "e.g. my alarm",
+      "step2": {
+        "main": "Direct all your attention on hearing that sound as cleary as you can.",
+        "support": "Keep your attention on that sound, not what it means or what it reminds you of. If a story or explanation starts, gently come back to hearing."
+      },
+      "step3": {
+        "main": "Imagine that the sound is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it sounds. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "hear([choice])",
+          "pitch(detect)",
+          "volume(set)",
+          "direction(locate)",
+          "rhythm(track)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "touch": {
+      "label": "Touch",
+      "opening": "Direct your attention to",
+      "pills": [
+        "warm water on your hands",
+        "a hand on your shoulder",
+        "a wool jumper",
+        "cold air on your face"
+      ],
+      "placeholder": "e.g. sand underfoot",
+      "step2": {
+        "main": "Direct all your attention on the sensation of touch as clearly as you can.",
+        "support": "Keep your attention on the sensation of touch, not what it means or what it reminds you of. If a story or explanation starts, gently come back to touching."
+      },
+      "step3": {
+        "main": "Imagine that the sensation of touch is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels on your skin. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "touch([choice])",
+          "pressure(register)",
+          "temperature(sense)",
+          "texture(map)",
+          "skin(respond)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "taste": {
+      "label": "Taste",
+      "opening": "Direct your attention to",
+      "pills": [
+        "coffee",
+        "lemon",
+        "dark chocolate",
+        "salt"
+      ],
+      "placeholder": "e.g. mint tea",
+      "step2": {
+        "main": "Direct all your attention on the sensation of taste as clearly as you can.",
+        "support": "Keep your attention on that taste, not what it means or what it reminds you of. If a story or explanation starts, gently come back to tasting."
+      },
+      "step3": {
+        "main": "Imagine that the taste is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it tastes. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "taste([choice])",
+          "sweetness(detect)",
+          "bitterness(detect)",
+          "tongue(respond)",
+          "saliva(increase)",
+          "memory(match)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "smell": {
+      "label": "Smell",
+      "opening": "Direct your attention to",
+      "pills": [
+        "wet ground after rain",
+        "fresh bread",
+        "woodsmoke",
+        "your favorite perfume"
+      ],
+      "placeholder": "e.g. cut grass",
+      "step2": {
+        "main": "Direct all your attention on sensation of small as clearly as you can.",
+        "support": "Stay with the on that smell, not what it means or what it reminds you of. If a story or explanation starts, gently come back to smelling."
+      },
+      "step3": {
+        "main": "Imagine that the smell is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it smells. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "smell([choice])",
+          "scent(identify)",
+          "breath(deepen)",
+          "memory(match)",
+          "association(recall)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "internal sensation": {
+      "label": "Internal sensation",
+      "opening": "Direct your attention to",
+      "pills": [
+        "hunger",
+        "tension in your shoulders",
+        "your heartbeat",
+        "tiredness"
+      ],
+      "placeholder": "e.g. a tight jaw",
+      "step2": {
+        "main": "Direct all your attention on that body sensation as clearly as you can.",
+        "support": "Keep your attention on that internal sensation, not what it means or what it reminds you of. If a story or explanation starts, gently come back to the body."
+      },
+      "step3": {
+        "main": "Imagine that the sensation is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels inside your body. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "sense([choice])",
+          "body(scan)",
+          "location(map)",
+          "signal(amplify)",
+          "intensity(set)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "memory": {
+      "label": "Memory",
+      "opening": "Direct your attention to",
+      "pills": [
+        "a recent conversation",
+        "a childhood room",
+        "your last holiday",
+        "this morning"
+      ],
+      "placeholder": "e.g. my first job",
+      "step2": {
+        "main": "Direct all your attention on the memory as clearly as you can.",
+        "support": "Keep your attention on that memory, not what it means or what it reminds you of. If a story or explanation starts, gently come back to remembering."
+      },
+      "step3": {
+        "main": "Imagine that the memory is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it is remembered. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "recall([choice])",
+          "scene(rebuild)",
+          "detail(fill)",
+          "emotion(attach)",
+          "timeline(place)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "imagination": {
+      "label": "Imagination",
+      "opening": "Direct your attention to",
+      "pills": [
+        "a place you would like to visit",
+        "a red balloon",
+        "a future conversation",
+        "your ideal workspace"
+      ],
+      "placeholder": "e.g. a quiet beach",
+      "step2": {
+        "main": "Direct all your attention on imagining it, as clearly as you can.",
+        "support": "Keep your attention on what you are imagining, not what it means or what it reminds you of. If a story or explanation starts, gently come back to imagining."
+      },
+      "step3": {
+        "main": "Imagine that what you are imagining is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it appears. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "imagine([choice])",
+          "image(construct)",
+          "detail(add)",
+          "space(render)",
+          "scene(hold)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    },
+    "thinking": {
+      "label": "Thinking",
+      "opening": "Direct your attention to",
+      "pills": [
+        "a recurring worry",
+        "tomorrow’s to-do list",
+        "a decision you are weighing",
+        "something someone said"
+      ],
+      "placeholder": "e.g. what if I fail",
+      "step2": {
+        "main": "Direct all your attention on that thought, as clearly as you can",
+        "support": "Keep your attention on the thought, not what it means or what it reminds you of. If a story or explanation starts, gently come back to thinking."
+      },
+      "step3": {
+        "main": "Imagine that that thought is produced by instructions in your brain.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it runs. Do not try to read them. Just see that they are there.",
+        "lines": [
+          "think([choice])",
+          "words(generate)",
+          "argument(repeat)",
+          "conclusion(check)",
+          "loop(continue)",
+          "attention(hold)"
+        ]
+      },
+      "step6": {
+        "question": "Direct your attention to [choice] again. How is it now?",
+        "answers": [
+          "Fainter",
+          "Neutral",
+          "About the same",
+          "Stronger"
+        ]
+      }
+    }
+  },
+  "shared": {
+    "step4": {
+      "label": "Neurons",
+      "main": "Now imagine those instructions are millions of neurons firing.",
+      "support": "A lightning storm in a dark night sky — jagged, flickering light. Let all your attention be absorbed by it."
+    },
+    "step5": {
+      "label": "Zoom out",
+      "main": "Move slowly backwards, away from the flickering light, into darkness.",
+      "support": "Smaller and smaller, until there is one tiny flicker. Then, turn it off."
+    },
+    "afterZoom": "Rest here, in the dark, for as long as you need.",
+    "step7Emotions": {
+      "label": "Repeat?",
+      "main": "Go round again from step 2.",
+      "support": "That is normal, especially early on. If something seems to get in the way — reluctance, or a sense of danger — it may be a layer sitting on top. Neutralize that emotion, then come back to this one."
+    },
+    "step7Advanced": {
+      "label": "Repeat?",
+      "main": "Go round again from step 2.",
+      "support": "Senses can be more stubborn than emotions at first, because we rely on them so constantly. Go slowly, and repeat until you notice a change in a the way you are sensing."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+/* Practice room (Neutralize). Only what Tailwind cannot say: the scrolling instruction lines. */
+@keyframes pr-scroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.pr-scroll { animation: pr-scroll 16s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .pr-scroll { animation: none; }
+}
