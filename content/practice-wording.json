@@ -29,7 +29,7 @@
     },
     "step3": {
       "main": "Imagine that the emotion is produced by instructions in your brain.",
-      "support": "Lines and lines of them, scrolling past, telling your brain exactly how this feels. Do not try to read them. Just see that they are there.",
+      "support": "Lines and lines of them, scrolling past, telling your brain exactly how this feels. Do not try to read them. Just notice that they are there.",
       "lines": [
         "feel([emotion])",
         "chest(tighten)",
@@ -66,7 +66,7 @@
       },
       "step3": {
         "main": "Imagine that the image is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it looks. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it looks. Do not try to read them. Just notice that they are there.",
         "lines": [
           "see([choice])",
           "colour(render)",
@@ -102,7 +102,7 @@
       },
       "step3": {
         "main": "Imagine that the sound is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it sounds. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it sounds. Do not try to read them. Just notice that they are there.",
         "lines": [
           "hear([choice])",
           "pitch(detect)",
@@ -138,7 +138,7 @@
       },
       "step3": {
         "main": "Imagine that the sensation of touch is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels on your skin. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels on your skin. Do not try to read them. Just notice that they are there.",
         "lines": [
           "touch([choice])",
           "pressure(register)",
@@ -174,7 +174,7 @@
       },
       "step3": {
         "main": "Imagine that the taste is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it tastes. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it tastes. Do not try to read them. Just notice that they are there.",
         "lines": [
           "taste([choice])",
           "sweetness(detect)",
@@ -210,7 +210,7 @@
       },
       "step3": {
         "main": "Imagine that the smell is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it smells. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it smells. Do not try to read them. Just notice that they are there.",
         "lines": [
           "smell([choice])",
           "scent(identify)",
@@ -246,7 +246,7 @@
       },
       "step3": {
         "main": "Imagine that the sensation is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels inside your body. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it feels inside your body. Do not try to read them. Just notice that they are there.",
         "lines": [
           "sense([choice])",
           "body(scan)",
@@ -282,7 +282,7 @@
       },
       "step3": {
         "main": "Imagine that the memory is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it is remembered. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it is remembered. Do not try to read them. Just notice that they are there.",
         "lines": [
           "recall([choice])",
           "scene(rebuild)",
@@ -318,7 +318,7 @@
       },
       "step3": {
         "main": "Imagine that what you are imagining is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it appears. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it appears. Do not try to read them. Just notice that they are there.",
         "lines": [
           "imagine([choice])",
           "image(construct)",
@@ -354,7 +354,7 @@
       },
       "step3": {
         "main": "Imagine that that thought is produced by instructions in your brain.",
-        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it runs. Do not try to read them. Just see that they are there.",
+        "support": "Lines and lines of them, scrolling past, telling your brain exactly how it runs. Do not try to read them. Just notice that they are there.",
         "lines": [
           "think([choice])",
           "words(generate)",
